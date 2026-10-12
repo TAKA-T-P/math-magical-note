@@ -9,13 +9,14 @@
 //
 // AIや手作業で作成したデータは、このスクリプトと目視の両方で確認してから登録する。
 
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import katex from 'katex';
 import { KATEX_OPTIONS, keysInTex } from '../src/math/katex-config.js';
 
 const DATA_DIR = new URL('../src/data/', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
-const BLOCK_TYPES = new Set(['text', 'math', 'callout', 'answer', 'pointbox', 'title-card', 'calc']);
+const BLOCK_TYPES = new Set(['text', 'math', 'callout', 'answer', 'pointbox', 'title-card', 'calc', 'image']);
+const PUBLIC_DIR = new URL('../public/', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
 const CONTENT_TYPES = new Set(['title', 'point', 'exercise', 'similar', 'advanced', 'lab']);
 const EMPHASIS_STYLES = new Set(['color', 'box', 'marker', 'strike', 'dim']);
 const COLORS = new Set(['red', 'blue', 'green', 'orange', 'yellow']);
@@ -65,6 +66,10 @@ function checkBlock(where, b, keys, blockIds) {
   if (b.text) checkText(w, b.text, local);
   if (b.title) checkText(w, b.title, local);
   if (b.type === 'answer' && !b.tex && !b.text) err(w, 'answer には tex か text が必要です');
+  if (b.type === 'image') {
+    if (!b.src || !existsSync(join(PUBLIC_DIR, b.src))) err(w, `画像ファイルが public/ にありません: ${b.src}`);
+    if (!b.alt) err(w, '画像には alt（説明文）を付けてください');
+  }
   for (const it of b.items ?? []) {
     checkText(w, it.text, local);
     if (it.key) local.add(it.key);
@@ -212,17 +217,39 @@ function checkContent(file, c, ids, catalog) {
   if (ids.has(idKey)) err(where, 'コンテンツIDと年度の組が重複しています');
   ids.add(idKey);
 
+  const { allBlocks } = checkBody(where, c.statement, c.steps);
+
+  (c.hints ?? []).forEach((h, i) => checkText(`${where} hint${i + 1}`, h, new Set()));
+  const t = c.teacher ?? {};
+  if (t.status && t.status !== 'draft') err(where, `teacher.status は draft のみ指定できます: ${t.status}`);
+  for (const v of [t.aim, ...[].concat(t.notes ?? []), ...(t.questions ?? []), ...(t.pitfalls ?? []), ...(t.commonErrors ?? []), ...(t.procedure ?? [])]) {
+    checkTeacherEntry(`${where} teacher`, v);
+  }
+  if (c.answer?.tex) renderTex(`${where} answer`, c.answer.tex);
+  if (c.edition?.ref) checkText(`${where} ref`, c.edition.ref, new Set());
+
+  if (c.type === 'exercise' && !c.check) err(where, '問題には検算用の check を登録してください');
+  if (c.check) {
+    checkCheck(where, c.check, allBlocks);
+    if (c.answer?.values && JSON.stringify(c.answer.values) !== JSON.stringify(c.check.solution)) {
+      err(where, 'answer.values と check.solution が一致しません');
+    }
+  }
+}
+
+// ブロックとステップの整合性（授業解説・スライド・ミスを見破れ！で共通）
+function checkBody(where, statement = [], steps = []) {
   const keys = new Set();
   const blockIds = new Set();
-  const allBlocks = [...(c.statement ?? []), ...(c.steps ?? []).flatMap((s) => s.add ?? [])];
-  (c.statement ?? []).forEach((b) => checkBlock(where, b, keys, blockIds));
-  (c.steps ?? []).forEach((s) => (s.add ?? []).forEach((b) => checkBlock(`${where} step:${s.id}`, b, keys, blockIds)));
+  const allBlocks = [...statement, ...steps.flatMap((s) => s.add ?? [])];
+  statement.forEach((b) => checkBlock(where, b, keys, blockIds));
+  steps.forEach((s) => (s.add ?? []).forEach((b) => checkBlock(`${where} step:${s.id}`, b, keys, blockIds)));
 
   const hidden = new Set();
   allBlocks.forEach((b) => (b.hide ?? []).forEach((k) => hidden.add(k)));
   const revealed = new Set();
   const stepIds = new Set();
-  (c.steps ?? []).forEach((s, i) => {
+  steps.forEach((s, i) => {
     const w = `${where} step:${s.id ?? i + 1}`;
     if (!s.id) err(w, 'ステップに id がありません');
     if (stepIds.has(s.id)) err(w, 'ステップID重複');
@@ -247,52 +274,43 @@ function checkContent(file, c, ids, catalog) {
   });
   hidden.forEach((k) => { if (!revealed.has(k)) err(where, `hide したキー "${k}" がどのステップでも表示されません`); });
 
-  (c.hints ?? []).forEach((h, i) => checkText(`${where} hint${i + 1}`, h, new Set()));
-  const t = c.teacher ?? {};
-  if (t.status && t.status !== 'draft') err(where, `teacher.status は draft のみ指定できます: ${t.status}`);
-  for (const v of [t.aim, ...[].concat(t.notes ?? []), ...(t.questions ?? []), ...(t.pitfalls ?? []), ...(t.commonErrors ?? []), ...(t.procedure ?? [])]) {
-    checkTeacherEntry(`${where} teacher`, v);
-  }
-  if (c.answer?.tex) renderTex(`${where} answer`, c.answer.tex);
-  if (c.edition?.ref) checkText(`${where} ref`, c.edition.ref, new Set());
+  return { allBlocks, keys };
+}
 
-  if (c.type === 'exercise' && !c.check) err(where, '問題には検算用の check を登録してください');
-  if (c.check) {
-    const sol = c.check.solution;
-    for (const eq of [...(c.check.equations ?? []), ...(c.check.derived ?? [])]) {
+// check：方程式・途中式が解で成り立つか、恒等式、解でない組、画面に表示される式の検算
+function checkCheck(where, check, allBlocks = []) {
+  const sol = check.solution;
+  for (const eq of sol ? [...(check.equations ?? []), ...(check.derived ?? [])] : []) {
+    try {
+      if (!holds(eq, sol)) err(where, `検算NG: ${eq} は解 ${JSON.stringify(sol)} で成り立ちません`);
+    } catch (e) {
+      err(where, `検算式を評価できません: ${eq} (${e.message})`);
+    }
+  }
+  // 解でない組は、いずれかの式が成り立たないこと
+  for (const bad of check.nonSolutions ?? []) {
+    const ok = (check.equations ?? []).every((eq) => holds(eq, bad));
+    if (ok) err(where, `nonSolutions の ${JSON.stringify(bad)} がすべての式を満たしています`);
+  }
+  // 式変形の恒等式：x, y にいろいろな値を入れても成り立つか
+  const names = Object.keys(sol ?? { x: 0, y: 0 });
+  for (const id of check.identities ?? []) {
+    for (let i = 0; i < 6; i++) {
+      const pt = Object.fromEntries(names.map((n) => [n, Math.floor(Math.random() * 19) - 9 || 1]));
       try {
-        if (!holds(eq, sol)) err(where, `検算NG: ${eq} は解 ${JSON.stringify(sol)} で成り立ちません`);
-      } catch (e) {
-        err(where, `検算式を評価できません: ${eq} (${e.message})`);
-      }
-    }
-    // 連立方程式の解が1つに定まること（係数の行列式が0でない）を、解以外の点で式が崩れることで確認
-    for (const bad of c.check.nonSolutions ?? []) {
-      const ok = (c.check.equations ?? []).every((eq) => holds(eq, bad));
-      if (ok) err(where, `nonSolutions の ${JSON.stringify(bad)} がすべての式を満たしています`);
-    }
-    // 式変形の恒等式：x, y にいろいろな値を入れても成り立つか
-    for (const id of c.check.identities ?? []) {
-      for (let i = 0; i < 6; i++) {
-        const pt = Object.fromEntries(Object.keys(sol).map((n) => [n, Math.floor(Math.random() * 19) - 9 || 1]));
-        try {
-          if (!holds(id, pt)) {
-            err(where, `恒等式NG: ${id} は ${JSON.stringify(pt)} で成り立ちません`);
-            break;
-          }
-        } catch (e) {
-          err(where, `恒等式を評価できません: ${id} (${e.message})`);
+        if (!holds(id, pt)) {
+          err(where, `恒等式NG: ${id} は ${JSON.stringify(pt)} で成り立ちません`);
           break;
         }
+      } catch (e) {
+        err(where, `恒等式を評価できません: ${id} (${e.message})`);
+        break;
       }
-      stats.identities++;
     }
-    if (c.answer?.values && JSON.stringify(c.answer.values) !== JSON.stringify(sol)) {
-      err(where, 'answer.values と check.solution が一致しません');
-    }
-    // 画面に表示される式を検算
-    allBlocks.forEach((b) => verifyBlock(where, b, sol));
+    stats.identities++;
   }
+  // 画面に表示される式を検算
+  if (sol) allBlocks.forEach((b) => verifyBlock(where, b, sol));
 }
 
 function walk(dir) {
@@ -316,7 +334,8 @@ for (const g of catalog.grades) {
 }
 
 const ids = new Set();
-const files = walk(DATA_DIR).filter((p) => p.endsWith('.json') && !p.endsWith('catalog.json'));
+const isMini = (p) => /^mini[\\/]/.test(relative(DATA_DIR, p));
+const files = walk(DATA_DIR).filter((p) => p.endsWith('.json') && !p.endsWith('catalog.json') && !isMini(p));
 let count = 0;
 for (const p of files) {
   const rel = relative(DATA_DIR, p).replace(/\\/g, '/');
@@ -338,6 +357,146 @@ for (const p of files) {
 }
 referenced.forEach((k) => err('catalog.json', `データファイル ${k}.json がありません`));
 
+// ---- 授業ミニコンテンツ ----
+// 自動で検証できるのは「構成・参照・数式の構文・check に登録した計算」まで。
+// 〇×や3択の正誤判断・解説文の内容は、講師が確認する（status: "draft" の間は「要確認」と表示される）。
+const MINI_TYPES = { choice3: 'quiz', mistake: 'quiz', truefalse: 'quiz', column: 'slide', introduction: 'slide' };
+const ERROR_TYPES = new Set(['sign', 'calc', 'formula', 'transpose', 'distribute', 'other']);
+const miniIds = new Set();
+const miniStats = { files: 0, autoChecked: 0, manual: [] };
+
+function checkQuestionCheck(where, q) {
+  const ch = q.check;
+  if (!ch) return false;
+  if (ch.values) {
+    // 3択：正解の選択肢だけが、すべての式を満たすこと
+    for (const [cid, vals] of Object.entries(ch.values)) {
+      if (!q.choices?.some((c) => c.id === cid)) err(where, `check.values の選択肢 "${cid}" がありません`);
+      const ok = (ch.equations ?? []).every((eq) => holds(eq, vals));
+      if (cid === q.answer && !ok) err(where, `正解の選択肢 "${cid}" ${JSON.stringify(vals)} が式を満たしません`);
+      if (cid !== q.answer && ok) err(where, `不正解の選択肢 "${cid}" ${JSON.stringify(vals)} も式を満たしています`);
+    }
+  }
+  checkCheck(where, ch, []);
+  return true;
+}
+
+function checkMini(rel, m) {
+  const where = `${rel} ${m.id ?? '(id無し)'}`;
+  for (const f of ['id', 'type', 'title', 'unit', 'minutes']) if (m[f] === undefined) err(where, `必須項目 ${f} がありません`);
+  const engine = MINI_TYPES[m.type];
+  if (!engine) return err(where, `不正なコンテンツ種類: ${m.type}`);
+  if (miniIds.has(m.id)) err(where, 'コンテンツIDが重複しています');
+  miniIds.add(m.id);
+  // 置き場所 mini/<学年>/<章>/<節>/<ID>.json と、unit・id が一致すること
+  const [, g, c, s, file] = rel.split('/');
+  if (file !== `${m.id}.json`) err(where, `ファイル名を ${m.id}.json にしてください`);
+  if (m.unit && (m.unit.grade !== g || m.unit.chapter !== c || m.unit.section !== s)) err(where, `unit が置き場所 ${g}/${c}/${s} と一致しません`);
+  const sec = catalog.grades.find((x) => x.id === g)?.chapters.find((x) => x.id === c)?.sections.find((x) => x.id === s);
+  if (!sec) err(where, `catalog.json に存在しない単元です: ${g}/${c}/${s}`);
+  if (typeof m.minutes !== 'number' || m.minutes <= 0) err(where, 'minutes（想定所要時間・分）を数値で指定してください');
+  if (m.difficulty !== undefined && ![1, 2, 3].includes(m.difficulty)) err(where, 'difficulty は 1〜3 で指定してください');
+  if (m.status && m.status !== 'draft') err(where, `status は draft のみ指定できます: ${m.status}`);
+  if (m.description) checkText(where, m.description, new Set());
+  const t = m.teacher ?? {};
+  for (const v of [t.aim, ...[].concat(t.notes ?? []), ...(t.questions ?? [])]) checkTeacherEntry(`${where} teacher`, v);
+
+  if (engine === 'quiz') {
+    if (!Array.isArray(m.questions) || !m.questions.length) return err(where, 'questions がありません');
+    if (m.type !== 'mistake' && (m.questions.length < 3 || m.questions.length > 5)) err(where, `1セット3〜5問にしてください（${m.questions.length}問）`);
+    const qids = new Set();
+    m.questions.forEach((q, i) => {
+      const w = `${where} q:${q.id ?? i + 1}`;
+      if (!q.id) err(w, '問題に id がありません');
+      if (qids.has(q.id)) err(w, '問題IDが重複しています');
+      qids.add(q.id);
+      if (!q.prompt) err(w, '問題文（prompt）がありません');
+      else checkText(w, q.prompt, new Set());
+      if (q.tex) renderTex(w, q.tex);
+      for (const n of [].concat(q.teacherNote ?? [])) checkTeacherEntry(w, n);
+      let auto = false;
+      if (m.type === 'choice3') {
+        if (!Array.isArray(q.choices) || q.choices.length !== 3) err(w, '選択肢はちょうど3つにしてください');
+        const cids = new Set((q.choices ?? []).map((c) => c.id));
+        if (cids.size !== (q.choices ?? []).length) err(w, '選択肢IDが重複しています');
+        (q.choices ?? []).forEach((c) => {
+          if (!c.id || !c.text) err(w, '選択肢には id と text が必要です');
+          else checkText(w, c.text, new Set());
+        });
+        if (!cids.has(q.answer)) err(w, `正解ID "${q.answer}" が選択肢にありません`);
+        auto = checkQuestionCheck(w, q);
+      } else if (m.type === 'truefalse') {
+        if (!['o', 'x'].includes(q.answer)) err(w, `〇×クイズの answer は "o" か "x" にしてください: ${q.answer}`);
+        auto = checkQuestionCheck(w, q);
+      } else {
+        // ミスを見破れ！：誤答・正答の筆算、誤りの位置（キー）、理由
+        if (!ERROR_TYPES.has(q.errorType)) err(w, `不明な誤りの種類: ${q.errorType}`);
+        if (!q.reason) err(w, '誤りの理由（reason）がありません');
+        else checkText(w, q.reason, new Set());
+        if (q.note) checkText(w, q.note, new Set());
+        const wrong = { id: 'wrong', type: 'calc', rows: q.wrong?.rows ?? [] };
+        const correct = { id: 'correct', type: 'calc', rows: q.correct?.rows ?? [] };
+        const wk = new Set();
+        const ck = new Set();
+        checkBlock(w, wrong, wk, new Set());
+        checkBlock(w, correct, ck, new Set());
+        if (!q.errorKeys?.length) err(w, '誤りの位置（errorKeys）がありません');
+        for (const k of q.errorKeys ?? []) if (!wk.has(k)) err(w, `誤りの位置のキー "${k}" が誤答の式にありません`);
+        for (const k of q.correctKeys ?? []) if (!ck.has(k)) err(w, `correctKeys のキー "${k}" が正しい式にありません`);
+        for (const k of wk) if (ck.has(k)) err(w, `キー "${k}" が誤答と正答の両方にあります（別のキーにしてください）`);
+        if (!q.check?.solution) err(w, 'ミスを見破れ！には check.solution（正しい解）が必要です');
+        else {
+          // 正しい解き方の式はすべて成り立ち、誤答の式は少なくとも1行が成り立たないこと
+          checkCheck(w, q.check, [correct, ...(q.tex ? [{ id: 'problem', type: 'math', tex: q.tex }] : [])]);
+          const before = errors.length;
+          verifyBlock(w, wrong, q.check.solution);
+          const failed = errors.length - before;
+          errors.length = before;
+          if (!failed) err(w, '誤答の式がすべて正しい解で成り立っています（誤りが含まれていません）');
+          auto = true;
+        }
+      }
+      if (!q.explanation && m.type !== 'mistake') err(w, '解説（explanation）がありません');
+      else if (q.explanation) checkText(w, q.explanation, new Set());
+      if (auto) miniStats.autoChecked++;
+      else miniStats.manual.push(`${m.id} ${q.id}`);
+    });
+  } else {
+    if (!Array.isArray(m.slides) || !m.slides.length) return err(where, 'slides がありません');
+    if (m.slides.length < 3 || m.slides.length > 6) err(where, `スライドは3〜6枚程度にしてください（${m.slides.length}枚）`);
+    const sids = new Set();
+    m.slides.forEach((sl, i) => {
+      const w = `${where} slide:${sl.id ?? i + 1}`;
+      if (!sl.id) err(w, 'スライドに id がありません');
+      if (sids.has(sl.id)) err(w, 'スライドIDが重複しています');
+      sids.add(sl.id);
+      if (!sl.title) err(w, 'スライドに title がありません');
+      else checkText(w, sl.title, new Set());
+      if (!(sl.blocks ?? []).length) err(w, 'スライドに blocks がありません');
+      const { allBlocks } = checkBody(w, sl.blocks ?? [], sl.steps ?? []);
+      for (const v of [...[].concat(sl.teacher?.notes ?? []), ...(sl.teacher?.questions ?? [])]) checkTeacherEntry(w, v);
+      if (sl.check) {
+        checkCheck(w, sl.check, allBlocks);
+        miniStats.autoChecked++;
+      }
+    });
+    miniStats.manual.push(`${m.id}（スライドの文章）`);
+  }
+}
+
+for (const p of walk(DATA_DIR).filter((x) => x.endsWith('.json') && isMini(x))) {
+  const rel = relative(DATA_DIR, p).replace(/\\/g, '/');
+  let m;
+  try {
+    m = JSON.parse(readFileSync(p, 'utf8'));
+  } catch (e) {
+    err(rel, `JSON構文エラー: ${e.message}`);
+    continue;
+  }
+  checkMini(rel, m);
+  miniStats.files++;
+}
+
 if (stats.unparsed.length) {
   console.log(`\n自動検算できなかった表示式（目視で確認してください）: ${stats.unparsed.length} 件`);
   stats.unparsed.forEach((u) => console.log(' - ' + u));
@@ -348,5 +507,9 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  `教材データ検証OK（${files.length} ファイル / ${count} コンテンツ / 表示式の検算 ${stats.rows} 行 / 恒等式 ${stats.identities} 件）`,
+  `教材データ検証OK（${files.length} ファイル / ${count} コンテンツ）　表示式の検算 ${stats.rows} 行・恒等式 ${stats.identities} 件（ミニコンテンツを含む）`,
 );
+console.log(
+  `ミニコンテンツ検証OK（${miniStats.files} 件 / 計算を自動検算した問題・スライド ${miniStats.autoChecked} / 講師の確認が必要 ${miniStats.manual.length}）`,
+);
+if (miniStats.manual.length) console.log('  講師の確認が必要（自動検算の対象外）: ' + miniStats.manual.join('、'));

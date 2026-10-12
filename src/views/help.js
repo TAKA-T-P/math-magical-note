@@ -1,5 +1,7 @@
 import { icon } from '../ui/icons.js';
 
+const TIMER_LABEL = '10秒';
+
 const KEYS = [
   ['→ / Space / PageDown', '次のステップ'],
   ['← / PageUp', '前のステップ'],
@@ -33,6 +35,16 @@ export function mountHelp(root) {
         ${KEYS.map(([k, d]) => `<tr><th>${k.split(' / ').map((x) => `<kbd>${x}</kbd>`).join(' ')}</th><td>${d}</td></tr>`).join('')}
       </table>
       <p class="muted">手書き中や入力欄の編集中は、キー操作は反応しません。プレゼン用リモコン（PageUp/PageDown）でも操作できます。</p>
+    </section>
+    <section class="panel">
+      <h2>授業ミニコンテンツ</h2>
+      <ol class="help-list">
+        <li>ホームの「授業ミニコンテンツ」から種類や単元を選ぶか、章の一覧・授業画面の「ミニ」ボタンから開きます。</li>
+        <li>クイズでは、→ で次の問題へ進んでも正解は表示されません。正解は「正解発表」ボタンか <kbd>Enter</kbd> で発表します（<kbd>Backspace</kbd> で1つ戻す）。</li>
+        <li>「${TIMER_LABEL}」ボタンで考える時間のカウントダウンを表示できます（時間がきても正解は自動で出ません）。</li>
+        <li>スライドは → / ← で、段階表示とスライドを順に進めます。</li>
+        <li>「終了」を押すと、授業画面から開いた場合はその問題の同じステップに戻ります。</li>
+      </ol>
     </section>
   `;
   page.querySelector('[data-action="back"]').addEventListener('click', () =>

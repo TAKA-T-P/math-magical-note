@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "id": "column-where-used-1",
+  "type": "column",
+  "title": "連立方程式はどんなところで役立つ？",
+  "description": "わからない数が2つあるとき、条件を2つそろえると答えが決まる――身近な例と活用場面を紹介します。",
+  "unit": { "grade": "g2", "chapter": "c2", "section": "s1" },
+  "minutes": 5,
+  "status": "draft",
+  "teacher": {
+    "aim": "連立方程式が「わからない数が複数あるとき、条件を組み合わせて答えを決める道具」であることを、身近な例で感じさせる。",
+    "notes": ["単元の導入後や、加減法の練習の合間の気分転換に使う。"]
+  },
+  "slides": [
+    {
+      "id": "s1",
+      "title": "わからない数が2つあるとき",
+      "blocks": [
+        { "id": "t1", "type": "text", "area": "top", "text": "わからない数が **2つ** あるとき，条件（式）が1つだけでは，答えが1つに決まらない。" }
+      ],
+      "steps": [
+        {
+          "id": "two",
+          "title": "条件が2つそろうと",
+          "add": [
+            { "id": "t2", "type": "callout", "area": "top", "tone": "point", "text": "条件が **2つ** そろうと，答えが決まる。\nそのときに使うのが **連立方程式**。" }
+          ]
+        }
+      ],
+      "teacher": {
+        "notes": ["ポイント「連立方程式」の ※「方程式が1つの場合，解が1つに確定しない」と結びつける。"],
+        "questions": ["$x+y=5$ だけだと，$x$ と $y$ は決まる？"]
+      }
+    },
+    {
+      "id": "s2",
+      "title": "例：くだものの値段",
+      "blocks": [
+        { "id": "c1", "type": "text", "area": "left", "text": "りんご1個とみかん1個で **150円**" }
+      ],
+      "steps": [
+        {
+          "id": "cond2",
+          "title": "条件をもう1つ",
+          "add": [{ "id": "c2", "type": "text", "area": "left", "text": "りんご1個とみかん3個で **250円**" }],
+          "comment": "条件が2つそろった。りんごとみかんは，それぞれいくら？"
+        },
+        {
+          "id": "eq",
+          "title": "式にする",
+          "add": [
+            { "id": "eq-label", "type": "text", "area": "right", "text": "りんごを $x$ 円，みかんを $y$ 円とすると" },
+            { "id": "eq", "type": "math", "area": "right", "size": "l", "tex": "\\begin{cases} x+y=150 \\\\ x+3y=250 \\end{cases}" }
+          ]
+        },
+        {
+          "id": "ans",
+          "title": "答え",
+          "add": [{ "id": "a", "type": "callout", "area": "right", "tone": "point", "text": "2つの式をひくと $2y=100$\n→ みかん **50円**，りんご **100円**" }],
+          "comment": "確かめ：$100+50=150$，$100+3\\times50=250$"
+        }
+      ],
+      "check": { "solution": { "x": 100, "y": 50 }, "identities": ["(x+3*y)-(x+y)=2*y"] },
+      "teacher": {
+        "notes": ["式を立てる前に，「みかん2個分の差が100円」と言葉で考えさせてもよい。"],
+        "questions": ["2つの条件を比べると，何がちがう？"]
+      }
+    },
+    {
+      "id": "s3",
+      "title": "こんなところでも",
+      "blocks": [
+        { "id": "u0", "type": "text", "area": "top", "text": "たくさんの条件を同時に満たす数を求める計算は，いろいろな場面で使われている。" }
+      ],
+      "steps": [
+        { "id": "u1", "title": "ゲーム・アニメ", "add": [{ "id": "b1", "type": "text", "area": "left", "text": "ゲームやアニメのCG\n（キャラクターの位置や動きの計算）" }] },
+        { "id": "u2", "title": "建物・橋", "add": [{ "id": "b2", "type": "text", "area": "right", "text": "建物や橋の設計\n（力のつり合いを調べる計算）" }] },
+        { "id": "u3", "title": "お店・会社", "add": [{ "id": "b3", "type": "text", "area": "left", "text": "お店や会社の計画\n（仕入れる量や値段を決める計算）" }] },
+        {
+          "id": "big",
+          "title": "コンピュータで",
+          "comment": "実際には，文字が何百・何千もある大きな連立方程式を，コンピュータで解いている。"
+        }
+      ],
+      "teacher": {
+        "notes": ["細かい仕組みには立ち入らず，「条件を式にして同時に解く」という考え方が共通していることを伝える。"]
+      }
+    },
+    {
+      "id": "s4",
+      "title": "まとめ",
+      "blocks": [
+        { "id": "m1", "type": "callout", "area": "top", "tone": "point", "text": "わからない数が2つ　→　条件（式）を2つ作る　→　**連立方程式** で解く" }
+      ],
+      "steps": [
+        { "id": "next", "title": "次は", "add": [{ "id": "m2", "type": "text", "area": "top", "text": "連立方程式の解き方「**加減法**」を使えるようになろう！" }] }
+      ]
+    }
+  ]
+}

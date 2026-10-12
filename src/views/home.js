@@ -2,6 +2,7 @@ import { catalog, getGrade, pageOf } from '../app/catalog.js';
 import { getSettings, updateSettings } from '../app/settings.js';
 import { navigate } from '../app/router.js';
 import { icon } from '../ui/icons.js';
+import { miniAll } from '../mini/mini-catalog.js';
 
 export function mountHome(root) {
   const page = document.createElement('div');
@@ -25,9 +26,24 @@ export function mountHome(root) {
         </nav>
       </header>
 
-      <section class="home-start">
-        <button class="btn btn-primary btn-xl" data-action="start">${icon('play')}授業モード開始</button>
-        <p class="muted">${s.last ? `前回：${esc(s.last.sub)} ${esc(s.last.label)}` : '学年と章を選んで始めます'}</p>
+      <section class="home-menu">
+        <div class="menu-card menu-note">
+          <span class="menu-icon">${icon('book', 44)}</span>
+          <div class="menu-text">
+            <h2>魔法のノート</h2>
+            <p>教材の問題・ポイントを、段階的に解説します。</p>
+            <button class="btn btn-primary btn-xl" data-action="start">${icon('play')}授業モード開始</button>
+            <p class="muted">${s.last ? `前回：${esc(s.last.sub)} ${esc(s.last.label)}` : '下の一覧から学年と章を選んで始めます'}</p>
+          </div>
+        </div>
+        <a class="menu-card menu-mini" href="#/mini">
+          <span class="menu-icon">${icon('sparkle', 44)}</span>
+          <div class="menu-text">
+            <h2>授業ミニコンテンツ</h2>
+            <p>3択ウォームアップ・ミスを見破れ！・数学〇×クイズ・数学ミニコラム・導入トーク</p>
+            <span class="btn btn-xl menu-open">${icon('next')}開く（${miniAll().length}件）</span>
+          </div>
+        </a>
       </section>
 
       <section class="panel">

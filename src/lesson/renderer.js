@@ -10,6 +10,11 @@ const BLOCK_BUILDERS = {
   answer: (b) =>
     `<span class="answer-label">答</span>${b.tex ? texToHtml(b.tex, true) : `<span class="answer-text">${inlineToHtml(b.text)}</span>`}`,
   calc: buildCalc,
+  // 画像は public/ 以下に置き、相対パスで指定する（GitHub Pages のサブパスでも動くよう先頭に ./ を付ける）
+  image: (b) =>
+    `<figure><img src="./${encodeURI(b.src)}" alt="${(b.alt ?? '').replace(/"/g, '&quot;')}"${b.height ? ` style="height:${Number(b.height)}px"` : ''}>${
+      b.caption ? `<figcaption>${inlineToHtml(b.caption)}</figcaption>` : ''
+    }</figure>`,
   pointbox: (b) => `
     <div class="pointbox-legend"><span class="pointbox-tag">ポイント</span>${inlineToHtml(b.title)}</div>
     <ul>

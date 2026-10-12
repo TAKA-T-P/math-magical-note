@@ -2,6 +2,8 @@ import { getChapter, getGrade, loadSection, pageOf, TYPE_LABELS, contentLabel } 
 import { getSettings } from '../app/settings.js';
 import { inlineToHtml } from '../math/render.js';
 import { icon } from '../ui/icons.js';
+import { miniByUnit } from '../mini/mini-catalog.js';
+import { miniCardHtml } from '../mini/mini-card.js';
 
 // 章 → 節 → 教材（ポイント・問題）の選択画面
 export async function mountUnits(root, { grade: gradeId, chapter: chapterId }) {
@@ -29,14 +31,15 @@ export async function mountUnits(root, { grade: gradeId, chapter: chapterId }) {
       ${chapter.sections
         .map(
           (s) => `
-        <li class="section-item ${s.data ? '' : 'is-disabled'}" data-section="${s.id}">
+        <li class="section-item ${s.data || miniByUnit(gradeId, chapterId, s.id).length ? '' : 'is-disabled'}" data-section="${s.id}">
           <div class="section-head">
             <span class="section-num">${s.number}</span>
             <span class="section-title">${s.title}</span>
             <span class="page-badge">p.${pageOf(s, edition) ?? '-'}</span>
             ${s.data ? '' : '<span class="muted">準備中</span>'}
           </div>
-          ${s.data ? '<div class="content-grid"><p class="muted">読み込み中…</p></div>' : ''}
+          ${s.data ? `<h3 class="group-label">${icon('book', 20)}魔法のノート</h3><div class="content-grid"><p class="muted">読み込み中…</p></div>` : ''}
+          ${miniGroup(gradeId, chapterId, s.id)}
         </li>`,
         )
         .join('')}
@@ -68,4 +71,12 @@ export async function mountUnits(root, { grade: gradeId, chapter: chapterId }) {
       grid.innerHTML = `<p class="error">読み込みに失敗しました：${e.message}</p>`;
     }
   }
+}
+
+// この節に登録された授業ミニコンテンツ（ここから直接起動できる）
+function miniGroup(gradeId, chapterId, sectionId) {
+  const items = miniByUnit(gradeId, chapterId, sectionId);
+  if (!items.length) return '';
+  return `<h3 class="group-label">${icon('sparkle', 20)}授業ミニコンテンツ</h3>
+    <div class="mini-card-grid">${items.map((c) => miniCardHtml(c, { showUnit: false })).join('')}</div>`;
 }

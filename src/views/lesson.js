@@ -1,17 +1,21 @@
 import { getGrade, getChapter, getSection, loadSection, contentLabel } from '../app/catalog.js';
-import { getSettings, updateSettings, recordOpened, onSettingsChange, ANIM_MS } from '../app/settings.js';
+import { getSettings, updateSettings, recordOpened } from '../app/settings.js';
+import { navigate } from '../app/router.js';
+import { saveLessonState, loadLessonState, consumeResume, launchFromLesson } from '../app/session.js';
 import { inlineToHtml } from '../math/render.js';
 import { icon } from '../ui/icons.js';
 import { choose } from '../ui/dialog.js';
-import { toggleFullscreen, isFullscreen } from '../ui/fullscreen.js';
-import { initialState, reduce, canGo, computeView, availableModes, progressOf } from '../lesson/state.js';
+import { toggleFullscreen } from '../ui/fullscreen.js';
+import { attachStage, keyAllowed, STAGE_W, STAGE_H } from '../ui/stage.js';
+import { teacherEntry, teacherSection, teacherPanelHtml, hasDraft } from '../ui/teacher.js';
+import { initialState, reduce, canGo, computeView, availableModes, progressOf, MODES } from '../lesson/state.js';
 import { LessonRenderer } from '../lesson/renderer.js';
-import { InkLayer, inkStore, inkIsEmpty, resetInk, PEN_COLORS, STAGE_W, STAGE_H } from '../lesson/ink.js';
+import { InkLayer, inkStore, inkIsEmpty, resetInk, PEN_COLORS } from '../lesson/ink.js';
+import { miniByUnit, MINI_TYPES } from '../mini/mini-catalog.js';
 
 const MODE_LABELS = { problem: '問題', hint: 'ヒント', explain: '解説', all: '全解答' };
 const COLOR_LABELS = { red: '赤', blue: '青', green: '緑', black: '黒', yellow: '黄' };
 const WIDTH_LABELS = { s: '細', m: '中', l: '太' };
-const AUTO_HIDE_MS = 2500;
 
 export async function mountLesson(root, params) {
   const id = decodeURIComponent(params.id);
@@ -42,6 +46,11 @@ export async function mountLesson(root, params) {
   const nextContent = contents[index + 1];
   const contentHref = (c) => `#/lesson/${params.grade}/${params.chapter}/${params.section}/${encodeURIComponent(c.id)}`;
   const t = content.teacher;
+  const minis = miniByUnit(params.grade, params.chapter, params.section);
+  const teacherDraft = hasDraft(
+    [t?.aim, ...[].concat(t?.notes ?? []), ...['questions', 'pitfalls', 'commonErrors', 'procedure'].flatMap((k) => t?.[k] ?? []), ...content.steps.map((s) => s.teacherNote)],
+    t,
+  );
 
   // ---- DOM ----
   const viewport = document.createElement('div');
@@ -91,25 +100,17 @@ export async function mountLesson(root, params) {
         </div>
       </div>
 
-      <aside class="teacher-panel" hidden aria-label="講師用情報">
-        <div class="teacher-head">
-          <strong>講師用メモ</strong><span class="muted">（生徒に見せない）</span>
-          ${hasDraft(content) ? '<span class="tag tag-warn">要確認あり</span>' : ''}
-          <button class="hbtn" data-action="teacher" aria-label="閉じる">${icon('close', 20)}</button>
-        </div>
-        <p class="teacher-legend"><span class="src src-material">教材</span>本編・指導書に記載　<span class="src src-draft">提案</span>教材にない補足（下書き）</p>
-        <div class="teacher-step"></div>
-        <div class="teacher-body">
-          ${content.edition.ref ? `<section><h3>対応する問題</h3><p>${inlineToHtml(content.edition.ref)}</p></section>` : ''}
+      ${teacherPanelHtml(
+        `${content.edition.ref ? `<section><h3>対応する問題</h3><p>${inlineToHtml(content.edition.ref)}</p></section>` : ''}
           ${teacherSection('指導のねらい', t?.aim, t)}
           ${teacherSection('発問例', t?.questions, t)}
           ${teacherSection('つまずきやすいポイント', t?.pitfalls, t)}
           ${teacherSection('よくある誤答', t?.commonErrors, t)}
           ${teacherSection('補足説明', t?.notes, t)}
           ${teacherSection('推奨する解説手順', t?.procedure, t, true)}
-          ${t ? '' : '<p class="muted">この教材には講師用情報が登録されていません。</p>'}
-        </div>
-      </aside>
+          ${t ? '' : '<p class="muted">この教材には講師用情報が登録されていません。</p>'}`,
+        { draft: teacherDraft },
+      )}
 
       <footer class="toolbar">
         <div class="tb-group">
@@ -124,6 +125,7 @@ export async function mountLesson(root, params) {
         </div>
         <div class="tb-group">
           <button class="tbtn" data-action="ink" title="手書き">${icon('pen')}<span>手書き</span></button>
+          ${minis.length ? `<button class="tbtn" data-action="mini" title="この単元の授業ミニコンテンツ">${icon('sparkle')}<span>ミニ</span></button>` : ''}
           <button class="tbtn" data-action="teacher" title="講師用メモ">${icon('teacher')}<span>講師</span></button>
           <button class="tbtn" data-action="fullscreen" title="全画面 (F)">${icon('expand')}<span>全画面</span></button>
           <a class="tbtn" href="#/settings" title="設定">${icon('settings')}<span>設定</span></a>
@@ -140,30 +142,20 @@ export async function mountLesson(root, params) {
   const palette = $('.ink-palette');
   const teacherPanel = $('.teacher-panel');
 
-  // ---- 16:9 ステージを画面に合わせて拡大縮小 ----
-  let scale = 1;
-  const ink = new InkLayer($('.ink-canvas'), $('.ink-live'), { onChange: syncInkButtons });
-  function fit() {
-    const w = viewport.clientWidth, h = viewport.clientHeight;
-    scale = Math.min(w / STAGE_W, h / STAGE_H);
-    stage.style.transform = `translate(${(w - STAGE_W * scale) / 2}px, ${(h - STAGE_H * scale) / 2}px) scale(${scale})`;
-    ink.resize(scale);
-    renderer.drawArrows();
-  }
-
-  function applySettings(s) {
-    stage.style.setProperty('--zoom', s.zoom / 100);
-    stage.style.setProperty('--anim', `${ANIM_MS[s.animSpeed] ?? 380}ms`);
-    stage.classList.toggle('no-anim', s.animSpeed === 'none');
-    stage.classList.toggle('toolbar-auto', s.toolbar === 'auto');
-  }
-  applySettings(settings);
-
   // ---- 解説の表示 ----
+  const ink = new InkLayer($('.ink-canvas'), $('.ink-live'), { onChange: syncInkButtons });
   const renderer = new LessonRenderer(body, { chapter, edition: settings.edition });
   let st = initialState();
+  // ミニコンテンツから戻ってきたときは、前の表示モード・ステップを復元する
+  if (consumeResume(path)) {
+    const saved = loadLessonState(path);
+    if (saved && MODES.includes(saved.mode) && saved.step <= content.steps.length && saved.hint <= (content.hints ?? []).length) {
+      st = { ...st, ...saved };
+    }
+  }
 
   function update(forward) {
+    saveLessonState(path, st);
     const view = computeView(content, st);
     renderer.update(view, { forward, animate: getSettings().animSpeed !== 'none' });
 
@@ -239,12 +231,27 @@ export async function mountLesson(root, params) {
     else if (d.action === 'ink') setInkMode(!ink.enabled);
     else if (d.action === 'teacher') setTeacher(teacherPanel.hidden);
     else if (d.action === 'fullscreen') toggleFullscreen();
+    else if (d.action === 'mini') openMini();
   });
 
+  // この単元のミニコンテンツを選んで起動する（終了すると、この画面のこのステップに戻る）
+  async function openMini() {
+    const picked = await choose({
+      title: '授業ミニコンテンツ',
+      message: 'この単元のミニコンテンツを開きます。終了すると、この画面の今のステップに戻ります。',
+      buttons: [
+        ...minis.map((m) => ({ label: `${MINI_TYPES[m.type].label}：${m.title}`, value: m })),
+        { label: 'キャンセル', value: null },
+      ],
+      vertical: true,
+    });
+    if (!picked) return;
+    launchFromLesson(path, picked.path);
+    navigate('/mini/play/' + picked.path);
+  }
+
   function onKey(e) {
-    if (document.querySelector('dialog[open]')) return;
-    if (e.target.closest?.('input, textarea, select, [contenteditable="true"]')) return;
-    if (ink.isDrawing || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (!keyAllowed(e) || ink.isDrawing) return;
     const map = {
       ArrowRight: 'next', ' ': 'next', PageDown: 'next',
       ArrowLeft: 'prev', PageUp: 'prev',
@@ -262,38 +269,16 @@ export async function mountLesson(root, params) {
     }
   }
 
-  // 操作ボタンの自動非表示
-  let idleTimer = 0;
-  function wake() {
-    toolbar.classList.remove('is-idle');
-    clearTimeout(idleTimer);
-    if (getSettings().toolbar === 'auto') {
-      idleTimer = setTimeout(() => {
-        if (!ink.enabled && teacherPanel.hidden && !toolbar.matches(':hover')) toolbar.classList.add('is-idle');
-      }, AUTO_HIDE_MS);
-    }
-  }
-
-  function onFullscreen() {
-    const btn = toolbar.querySelector('[data-action="fullscreen"]');
-    btn.innerHTML = isFullscreen() ? `${icon('shrink')}<span>全画面解除</span>` : `${icon('expand')}<span>全画面</span>`;
-  }
-
-  const ro = new ResizeObserver(fit);
-  ro.observe(viewport);
   window.addEventListener('keydown', onKey);
-  viewport.addEventListener('pointermove', wake);
-  viewport.addEventListener('pointerdown', wake);
-  document.addEventListener('fullscreenchange', onFullscreen);
-  const offSettings = onSettingsChange((s) => {
-    applySettings(s);
-    wake();
+  const stageCtl = attachStage(viewport, stage, {
+    onResize: (scale) => {
+      ink.resize(scale);
+      renderer.drawArrows();
+    },
+    canIdle: () => !ink.enabled && teacherPanel.hidden,
   });
 
-  fit();
   update(false);
-  onFullscreen();
-  wake();
   syncInkButtons();
 
   // 別の問題の手書きが残っている場合の扱い
@@ -319,43 +304,8 @@ export async function mountLesson(root, params) {
   }
 
   return () => {
-    ro.disconnect();
+    stageCtl.destroy();
     ink.destroy();
-    clearTimeout(idleTimer);
     window.removeEventListener('keydown', onKey);
-    document.removeEventListener('fullscreenchange', onFullscreen);
-    offSettings();
   };
 }
-
-// 講師向け情報の1項目。文字列、または { text, source: "material" | "draft" }。
-// source を省略した項目は teacher.status に従う（status: "draft" なら提案扱い）。
-function sourceOf(entry, t) {
-  return (typeof entry === 'object' && entry.source) || (t?.status === 'draft' ? 'draft' : 'material');
-}
-
-function teacherEntry(entry, t) {
-  const text = typeof entry === 'object' ? entry.text : entry;
-  const src = sourceOf(entry, t);
-  return `<span class="src src-${src}">${src === 'material' ? '教材' : '提案'}</span>${inlineToHtml(text)}`;
-}
-
-function hasDraft(content) {
-  const t = content.teacher;
-  const entries = [
-    ...['aim', 'notes'].map((k) => t?.[k]),
-    ...['questions', 'pitfalls', 'commonErrors', 'procedure'].flatMap((k) => t?.[k] ?? []),
-    ...content.steps.map((s) => s.teacherNote),
-  ].filter(Boolean);
-  return entries.some((e) => sourceOf(e, t) === 'draft');
-}
-
-function teacherSection(title, value, t, ordered = false) {
-  if (!value || (Array.isArray(value) && !value.length)) return '';
-  const tag = ordered ? 'ol' : 'ul';
-  const inner = Array.isArray(value)
-    ? `<${tag}>${value.map((v) => `<li>${teacherEntry(v, t)}</li>`).join('')}</${tag}>`
-    : `<p>${teacherEntry(value, t)}</p>`;
-  return `<section><h3>${title}</h3>${inner}</section>`;
-}
-

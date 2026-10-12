@@ -125,6 +125,7 @@
 .has-rule { border-bottom: 3px solid currentColor; padding-bottom: 6px; }
 /* 行全体のマーカーがセルの境目で重ならないようにする */
 .calc-grid > .em-marker::before { inset: 0; border-radius: 0; }
+.calc-grid > .em-marker:empty::before { display: none; }
 .calc-grid .is-note { font-size: 0.7em; color: var(--c-orange); font-weight: 700; text-align: center; }
 .calc-grid .is-note .katex { font-size: 1.1em; }
 .answer-text { font-size: 1.3em; font-weight: 800; padding: 0 0.3em; }

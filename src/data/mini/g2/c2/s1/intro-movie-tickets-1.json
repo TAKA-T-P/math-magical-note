@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "id": "intro-movie-tickets-1",
+  "type": "introduction",
+  "title": "映画のチケット代を当てよう！",
+  "description": "2つの条件から大人と子どものチケット代を当て、連立方程式の学習につなげます。",
+  "unit": { "grade": "g2", "chapter": "c2", "section": "s1" },
+  "minutes": 7,
+  "status": "draft",
+  "teacher": {
+    "aim": "2つの条件を同時に使うと、わからない2つの数が決まることを体験させ、連立方程式を学ぶ必要性につなげる。",
+    "notes": [
+      "金額は授業導入用の架空の設定であることを伝える。",
+      "答えを急がず、まず予想させてから条件を1つずつ出す。"
+    ]
+  },
+  "slides": [
+    {
+      "id": "s1",
+      "title": "映画のチケット代を当てよう！",
+      "blocks": [
+        { "id": "img", "type": "image", "area": "right", "src": "mini-assets/movie-tickets.svg", "alt": "大人用と子ども用の映画チケットのイラスト" },
+        { "id": "t1", "type": "text", "area": "left", "text": "映画館のチケットは，**大人** と **子ども** で料金がちがう。" },
+        { "id": "t2", "type": "text", "area": "left", "text": "大人1人，子ども1人の料金は，それぞれいくらだろう？" },
+        { "id": "note", "type": "text", "area": "left", "size": "s", "text": "※この金額は授業導入用の架空の設定です。" }
+      ],
+      "teacher": { "questions": ["映画のチケット，大人と子どもでいくらくらいだと思う？"] }
+    },
+    {
+      "id": "s2",
+      "title": "ヒント① ある家族の場合",
+      "blocks": [
+        { "id": "c1", "type": "text", "area": "top", "size": "l", "text": "大人 **2人** ＋ 子ども **1人** ＝ [[p1|3,400円]]" }
+      ],
+      "steps": [
+        {
+          "id": "guess",
+          "title": "予想しよう",
+          "emphasis": [{ "key": "p1", "style": "marker", "color": "yellow" }],
+          "comment": "大人と子ども，それぞれいくらだと思う？ この条件だけで決められるかな？"
+        }
+      ],
+      "teacher": {
+        "notes": ["「大人1,500円・子ども400円」「大人1,200円・子ども1,000円」など，いろいろな組み合わせが出てよい。"],
+        "questions": ["この条件だけで，料金は1つに決まる？"]
+      }
+    },
+    {
+      "id": "s3",
+      "title": "ヒント② 別の家族の場合",
+      "blocks": [
+        { "id": "c1", "type": "text", "area": "top", "size": "l", "text": "大人 **2人** ＋ 子ども **1人** ＝ 3,400円" }
+      ],
+      "steps": [
+        {
+          "id": "cond2",
+          "title": "条件をもう1つ",
+          "add": [{ "id": "c2", "type": "text", "area": "top", "size": "l", "text": "大人 **1人** ＋ 子ども **2人** ＝ [[p2|2,900円]]" }],
+          "emphasis": [{ "key": "p2", "style": "marker", "color": "yellow" }],
+          "comment": "条件が2つそろった！ これで料金は決まるかな？"
+        }
+      ],
+      "teacher": { "notes": ["2つ目の条件で、さっきの予想が合っているか確かめさせてもよい。"] }
+    },
+    {
+      "id": "s4",
+      "title": "考えてみよう",
+      "blocks": [
+        {
+          "id": "sum", "type": "calc", "area": "left", "size": "l",
+          "hide": ["r3", "r4"],
+          "rows": [
+            { "label": "ヒント①", "cells": [{ "text": "大人2人" }, { "text": "＋子ども1人" }, "=", "3{,}400"] },
+            { "label": "ヒント②", "op": "+)", "cells": [{ "text": "大人1人" }, { "text": "＋子ども2人" }, "=", "2{,}900"], "rule": true },
+            { "key": "r3", "cells": [{ "text": "大人3人" }, { "text": "＋子ども3人" }, "=", "6{,}300"] },
+            { "key": "r4", "label": "÷3", "cells": [{ "text": "大人1人" }, { "text": "＋子ども1人" }, "=", "2{,}100"] }
+          ]
+        }
+      ],
+      "steps": [
+        { "id": "add", "title": "2つの条件をたす", "reveal": ["r3"], "emphasis": [{ "key": "r3", "style": "color", "color": "blue" }], "comment": "2つの家族の人数と料金を合わせると……" },
+        { "id": "div", "title": "3でわる", "reveal": ["r4"], "emphasis": [{ "key": "r4", "style": "marker", "color": "yellow" }], "comment": "大人1人と子ども1人のセットが 2,100円 とわかった。" },
+        {
+          "id": "adult",
+          "title": "大人1人分",
+          "add": [
+            { "id": "hint", "type": "callout", "area": "right", "tone": "point", "text": "ヒント①は，セット（大人1人＋子ども1人）より\n**大人1人** 多い\n→ 大人1人は $3400-2100=1300$（円）" }
+          ]
+        }
+      ],
+      "check": { "identities": ["3400+2900=6300", "6300/3=2100", "3400-2100=1300"] },
+      "teacher": {
+        "notes": ["ほかの考え方（予想して確かめる，表にする など）が出たら認める。"],
+        "questions": ["2つの条件をたすと，人数はどうなる？"]
+      }
+    },
+    {
+      "id": "s5",
+      "title": "答え",
+      "blocks": [
+        { "id": "ans", "type": "answer", "area": "left", "text": "大人 1,300円，子ども 800円" }
+      ],
+      "steps": [
+        {
+          "id": "check",
+          "title": "確かめ",
+          "comment": "確かめ：$2\\times1300+800=3400$，$1300+2\\times800=2900$"
+        },
+        {
+          "id": "link",
+          "title": "連立方程式へ",
+          "add": [
+            { "id": "eq-label", "type": "text", "area": "right", "text": "大人を $x$ 円，子どもを $y$ 円とすると" },
+            { "id": "eq", "type": "math", "area": "right", "size": "l", "tex": "\\begin{cases} 2x+y=3400 \\\\ x+2y=2900 \\end{cases}" },
+            { "id": "msg", "type": "callout", "area": "right", "tone": "point", "text": "2つの条件を **同時に** 使う → **連立方程式**\n今日は，その解き方「加減法」を学ぼう！" }
+          ]
+        }
+      ],
+      "check": { "solution": { "x": 1300, "y": 800 }, "identities": ["2100-1300=800"] },
+      "teacher": { "notes": ["スライド4の「たす」考え方が，加減法そのものであることにふれる。"] }
+    }
+  ]
+}

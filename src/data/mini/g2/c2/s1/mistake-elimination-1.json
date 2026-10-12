@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "id": "mistake-elimination-1",
+  "type": "mistake",
+  "title": "加減法のミスを見破れ！",
+  "description": "ひき算の符号と、式を何倍かするときによくあるミスを探します。",
+  "unit": { "grade": "g2", "chapter": "c2", "section": "s1" },
+  "minutes": 8,
+  "difficulty": 2,
+  "status": "draft",
+  "teacher": {
+    "aim": "よくある誤答を題材に、ひく式の符号の扱いと、式全体を何倍かする手順を確認する。",
+    "notes": [
+      "まず「どこがおかしい？」と考えさせ、何人かに指で示させてから「ミス発見」を押す。",
+      "答えが出たら元の式に代入すると、まちがいに気づけることも伝える。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "prompt": "連立方程式を加減法で解きました。この解き方には **まちがい** があります。どこでまちがえたでしょう？",
+      "tex": "\\begin{cases} 2x+3y=7 \\cdots\\!\\cdots\\text{①} \\\\ 2x-y=3 \\cdots\\!\\cdots\\text{②} \\end{cases}",
+      "wrong": {
+        "rows": [
+          { "label": "①", "cells": ["2x", "{}+3y", "=", "7"] },
+          { "label": "②", "op": "−)", "cells": ["2x", "{}-y", "=", "3"], "rule": true },
+          { "cells": ["", "\\hl{e1}{2y}", "=", "4"] },
+          { "cells": ["", "y", "=", "2"] }
+        ]
+      },
+      "errorKeys": ["e1"],
+      "errorType": "sign",
+      "correct": {
+        "rows": [
+          { "label": "①", "cells": ["2x", "{}+3y", "=", "7"] },
+          { "label": "②", "op": "−)", "cells": ["2x", "{}-y", "=", "3"], "rule": true },
+          { "cells": ["", "\\hl{f1}{4y}", "=", "4"] },
+          { "cells": ["", "y", "=", "1"] }
+        ]
+      },
+      "correctKeys": ["f1"],
+      "reason": "②の $-y$ をひくので，$3y-(-y)=3y+y=4y$ になる。$3y-y=2y$ と計算したのが符号ミス。",
+      "note": "正しくは $4y=4$ より $y=1$。①に代入して $2x+3=7$，$x=2$。",
+      "check": {
+        "equations": ["2*x+3*y=7", "2*x-y=3"],
+        "solution": { "x": 2, "y": 1 },
+        "identities": ["3*y-(-y)=4*y"]
+      },
+      "teacherNote": "まちがった $y=2$ を②に代入すると $x=2.5$ になるが，①に代入すると $2\\times2.5+3\\times2=11$ で $7$ にならない。検算でまちがいに気づけることを伝えてもよい。"
+    },
+    {
+      "id": "q2",
+      "prompt": "$y$ の係数をそろえて解きました。この解き方には **まちがい** があります。どこでまちがえたでしょう？",
+      "tex": "\\begin{cases} x+2y=4 \\cdots\\!\\cdots\\text{①} \\\\ 3x-y=5 \\cdots\\!\\cdots\\text{②} \\end{cases}",
+      "wrong": {
+        "rows": [
+          { "label": "①", "cells": ["x", "{}+2y", "=", "4"] },
+          { "label": "②×2", "op": "+)", "cells": ["6x", "{}-2y", "=", "\\hl{e1}{5}"], "rule": true },
+          { "cells": ["7x", "", "=", "9"] },
+          { "cells": ["x", "", "=", "\\frac{9}{7}"] }
+        ]
+      },
+      "errorKeys": ["e1"],
+      "errorType": "other",
+      "errorLabel": "右辺のかけ忘れ",
+      "correct": {
+        "rows": [
+          { "label": "①", "cells": ["x", "{}+2y", "=", "4"] },
+          { "label": "②×2", "op": "+)", "cells": ["6x", "{}-2y", "=", "\\hl{f1}{10}"], "rule": true },
+          { "cells": ["7x", "", "=", "14"] },
+          { "cells": ["x", "", "=", "2"] }
+        ]
+      },
+      "correctKeys": ["f1"],
+      "reason": "式全体を2倍するときは，右辺の $5$ にも $2$ をかけて $10$ にする。左辺だけを2倍すると，等式が成り立たなくなる。",
+      "note": "正しくは $7x=14$ より $x=2$。①に代入して $2+2y=4$，$y=1$。",
+      "check": {
+        "equations": ["x+2*y=4", "3*x-y=5"],
+        "solution": { "x": 2, "y": 1 },
+        "identities": ["2*(3*x-y)=6*x-2*y", "(x+2*y)+(6*x-2*y)=7*x"]
+      },
+      "teacherNote": "分数の答えが出たら「計算ミスを疑う」習慣にもつなげられる（ただし答えが分数になる問題もある）。"
+    }
+  ]
+}
