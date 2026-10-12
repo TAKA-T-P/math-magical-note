@@ -1,0 +1,94 @@
+import { catalog, getGrade, pageOf } from '../app/catalog.js';
+import { getSettings, updateSettings } from '../app/settings.js';
+import { navigate } from '../app/router.js';
+import { icon } from '../ui/icons.js';
+
+export function mountHome(root) {
+  const page = document.createElement('div');
+  page.className = 'page home';
+  root.append(page);
+
+  function render() {
+    const s = getSettings();
+    const grade = getGrade(s.grade)?.enabled ? getGrade(s.grade) : catalog.grades.find((g) => g.enabled);
+
+    page.innerHTML = `
+      <header class="home-hero">
+        <img class="home-logo" src="./icon.svg" alt="">
+        <div>
+          <p class="home-sub">KECゼミナール 数学科 授業支援</p>
+          <h1>動く魔法のノート</h1>
+        </div>
+        <nav class="home-links">
+          <a class="btn btn-ghost" href="#/settings">${icon('settings')}設定</a>
+          <a class="btn btn-ghost" href="#/help">${icon('help')}ヘルプ</a>
+        </nav>
+      </header>
+
+      <section class="home-start">
+        <button class="btn btn-primary btn-xl" data-action="start">${icon('play')}授業モード開始</button>
+        <p class="muted">${s.last ? `前回：${esc(s.last.sub)} ${esc(s.last.label)}` : '学年と章を選んで始めます'}</p>
+      </section>
+
+      <section class="panel">
+        <h2>学年を選ぶ</h2>
+        <div class="grade-tabs" role="tablist">
+          ${catalog.grades
+            .map(
+              (g) => `<button role="tab" class="grade-tab ${g.id === grade.id ? 'is-active' : ''}" data-grade="${g.id}"
+                ${g.enabled ? '' : 'disabled'} aria-selected="${g.id === grade.id}">${g.label}${g.enabled ? '' : '<small>準備中</small>'}</button>`,
+            )
+            .join('')}
+        </div>
+        <h2>章を選ぶ <small class="muted">${grade.title}（${s.edition}年度版）</small></h2>
+        <div class="chapter-grid">
+          ${grade.chapters
+            .map((ch) => {
+              const ready = ch.sections.some((sec) => sec.data);
+              return `<a class="chapter-card ${ready ? '' : 'is-disabled'}" ${ready ? `href="#/units/${grade.id}/${ch.id}"` : 'aria-disabled="true"'}>
+                <span class="chapter-num">${ch.number}</span>
+                <span class="chapter-title">${ch.title}</span>
+                <span class="chapter-meta">p.${pageOf(ch, s.edition) ?? '-'}〜 ${ready ? '' : '・準備中'}</span>
+              </a>`;
+            })
+            .join('')}
+        </div>
+      </section>
+
+      ${
+        s.recent.length
+          ? `<section class="panel">
+              <h2>最近開いた単元</h2>
+              <ul class="recent-list">
+                ${s.recent.map((r) => `<li><a href="#/lesson/${r.path}"><span class="muted">${esc(r.sub)}</span> ${esc(r.label)}</a></li>`).join('')}
+              </ul>
+            </section>`
+          : ''
+      }
+    `;
+  }
+
+  page.addEventListener('click', (e) => {
+    const tab = e.target.closest('[data-grade]');
+    if (tab) {
+      updateSettings({ grade: tab.dataset.grade });
+      render();
+      return;
+    }
+    if (e.target.closest('[data-action="start"]')) {
+      const s = getSettings();
+      if (s.last) return navigate('/lesson/' + s.last.path);
+      const g = catalog.grades.find((x) => x.enabled);
+      const ch = g.chapters.find((c) => c.sections.some((sec) => sec.data));
+      navigate(`/units/${g.id}/${ch.id}`);
+    }
+  });
+
+  render();
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s ?? '';
+  return d.innerHTML;
+}

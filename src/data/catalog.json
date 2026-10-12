@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "editions": ["2026"],
+  "defaultEdition": "2026",
+  "grades": [
+    { "id": "g1", "label": "中1", "title": "中1数学", "enabled": false, "chapters": [] },
+    {
+      "id": "g2",
+      "label": "中2",
+      "title": "中2数学",
+      "enabled": true,
+      "chapters": [
+        {
+          "id": "c1", "number": "第1章", "title": "文字式の計算", "pages": { "2026": 6 },
+          "sections": [
+            { "id": "s1", "number": "第1節", "title": "単項式・多項式", "pages": { "2026": 6 } },
+            { "id": "s2", "number": "第2節", "title": "単項式の乗法と除法", "pages": { "2026": 8 } },
+            { "id": "s3", "number": "第3節", "title": "単項式の加法と減法", "pages": { "2026": 10 } },
+            { "id": "s4", "number": "第4節", "title": "式の値", "pages": { "2026": 13 } },
+            { "id": "s5", "number": "第5節", "title": "等式の変形", "pages": { "2026": 14 } },
+            { "id": "s6", "number": "第6節", "title": "文字を使った説明", "pages": { "2026": 16 } },
+            { "id": "s7", "number": "第7節", "title": "図形への利用", "pages": { "2026": 19 } },
+            { "id": "ex", "number": "類題", "title": "【第1章】文字式の計算", "pages": { "2026": 20 } }
+          ]
+        },
+        {
+          "id": "c2", "number": "第2章", "title": "連立方程式", "pages": { "2026": 24 },
+          "sections": [
+            { "id": "s1", "number": "第1節", "title": "加減法による解き方", "pages": { "2026": 24 }, "data": "g2/c2/s1" },
+            { "id": "s2", "number": "第2節", "title": "代入法による解き方", "pages": { "2026": 26 } },
+            { "id": "s3", "number": "第3節", "title": "いろいろな連立方程式の解き方", "pages": { "2026": 27 } },
+            { "id": "s4", "number": "第4節", "title": "連立方程式の解と係数", "pages": { "2026": 30 } },
+            { "id": "s5", "number": "第5節", "title": "連立方程式の利用", "pages": { "2026": 31 } },
+            { "id": "s6", "number": "第6節", "title": "整数に関する問題", "pages": { "2026": 33 } },
+            { "id": "s7", "number": "第7節", "title": "速さに関する問題", "pages": { "2026": 34 } },
+            { "id": "s8", "number": "第8節", "title": "割合に関する問題", "pages": { "2026": 36 } },
+            { "id": "ex", "number": "類題", "title": "【第2章】連立方程式", "pages": { "2026": 38 } }
+          ]
+        },
+        {
+          "id": "c3", "number": "第3章", "title": "1次関数", "pages": { "2026": 42 },
+          "sections": [
+            { "id": "s1", "number": "第1節", "title": "1次関数とその特徴", "pages": { "2026": 42 } },
+            { "id": "s2", "number": "第2節", "title": "1次関数の変化の割合", "pages": { "2026": 44 } },
+            { "id": "s3", "number": "第3節", "title": "1次関数のグラフ", "pages": { "2026": 46 } },
+            { "id": "s4", "number": "第4節", "title": "グラフと変域", "pages": { "2026": 50 } },
+            { "id": "s5", "number": "第5節", "title": "1次関数の求め方", "pages": { "2026": 51 } },
+            { "id": "s6", "number": "第6節", "title": "2元1次方程式とグラフ", "pages": { "2026": 55 } },
+            { "id": "s7", "number": "第7節", "title": "連立方程式の解とグラフ", "pages": { "2026": 56 } },
+            { "id": "s8", "number": "第8節", "title": "関数と図形", "pages": { "2026": 58 } },
+            { "id": "s9", "number": "第9節", "title": "1次関数の利用", "pages": { "2026": 60 } },
+            { "id": "ex", "number": "類題", "title": "【第3章】1次関数", "pages": { "2026": 64 } }
+          ]
+        },
+        {
+          "id": "c4", "number": "第4章", "title": "平行と合同", "pages": { "2026": 72 },
+          "sections": [
+            { "id": "s1", "number": "第1節", "title": "対頂角・同位角・錯角", "pages": { "2026": 72 } },
+            { "id": "s2", "number": "第2節", "title": "三角形の角の性質", "pages": { "2026": 74 } },
+            { "id": "s3", "number": "第3節", "title": "多角形の角", "pages": { "2026": 75 } },
+            { "id": "s4", "number": "第4節", "title": "いろいろな角の問題", "pages": { "2026": 76 } },
+            { "id": "s5", "number": "第5節", "title": "合同な図形", "pages": { "2026": 79 } },
+            { "id": "s6", "number": "第6節", "title": "合同の証明", "pages": { "2026": 81 } },
+            { "id": "ex", "number": "類題", "title": "【第4章】平行と合同", "pages": { "2026": 86 } }
+          ]
+        },
+        {
+          "id": "c5", "number": "第5章", "title": "三角形と四角形", "pages": { "2026": 90 },
+          "sections": [
+            { "id": "s1", "number": "第1節", "title": "二等辺三角形", "pages": { "2026": 90 } },
+            { "id": "s2", "number": "第2節", "title": "直角三角形", "pages": { "2026": 94 } },
+            { "id": "s3", "number": "第3節", "title": "平行四辺形とその性質", "pages": { "2026": 97 } },
+            { "id": "s4", "number": "第4節", "title": "平行四辺形になるための条件", "pages": { "2026": 99 } },
+            { "id": "s5", "number": "第5節", "title": "特別な平行四辺形", "pages": { "2026": 101 } },
+            { "id": "s6", "number": "第6節", "title": "平行線と面積", "pages": { "2026": 104 } },
+            { "id": "s7", "number": "第7節", "title": "1次関数への応用", "pages": { "2026": 106 } },
+            { "id": "ex", "number": "類題", "title": "【第5章】三角形と四角形", "pages": { "2026": 108 } }
+          ]
+        },
+        {
+          "id": "c6", "number": "第6章", "title": "データの分布，確率", "pages": { "2026": 114 },
+          "sections": [
+            { "id": "s1", "number": "第1節", "title": "データの分布", "pages": { "2026": 114 } },
+            { "id": "s2", "number": "第2節", "title": "確率", "pages": { "2026": 116 } },
+            { "id": "s3", "number": "第3節", "title": "場合の数", "pages": { "2026": 117 } },
+            { "id": "s4", "number": "第4節", "title": "樹形図をかいて考える問題", "pages": { "2026": 119 } },
+            { "id": "s5", "number": "第5節", "title": "表をかいて考える問題", "pages": { "2026": 122 } },
+            { "id": "ex", "number": "類題", "title": "【第6章】データの分布，確率", "pages": { "2026": 124 } }
+          ]
+        }
+      ]
+    },
+    { "id": "g3", "label": "中3", "title": "中3数学", "enabled": false, "chapters": [] }
+  ]
+}
