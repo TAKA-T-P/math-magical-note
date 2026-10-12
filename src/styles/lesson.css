@@ -231,11 +231,17 @@
 }
 
 .em-color { color: var(--em); }
-.em-box {
-  color: var(--em);
+/* 囲み枠：上下は少し外側に、左右は文字のすぐ外側に描き、隣り合う項の枠が重ならないようにする */
+.em-box { color: var(--em); position: relative; }
+/* 枠は outline で描く（表示領域の高さに影響しない）。左右だけ内側に寄せ、文字の外側 0.5px に収める */
+.em-box::after {
+  content: '';
+  position: absolute;
+  inset: 0 6px;
   outline: 3.5px solid var(--em);
   outline-offset: 3px;
-  border-radius: 8px;
+  border-radius: 6px;
+  pointer-events: none;
 }
 .em-marker { position: relative; z-index: 0; }
 .em-marker::before {
@@ -261,13 +267,13 @@
 }
 .em-dim { opacity: 0.25; }
 
-.em-anim.em-box { animation: em-box-in var(--anim) ease-out; }
+.em-anim.em-box::after { animation: em-box-in var(--anim) ease-out; }
 .em-anim.em-color { animation: em-color-in var(--anim) ease-out; }
 .em-anim.em-marker::before { animation: em-draw var(--anim) ease-out; }
 .em-anim.em-strike::after { animation: em-strike-in var(--anim) ease-out; }
 .em-anim.em-dim { animation: em-dim-in var(--anim) ease-out; }
 
-@keyframes em-box-in { from { outline-offset: 22px; outline-color: transparent; } }
+@keyframes em-box-in { from { outline-offset: 18px; outline-color: transparent; } }
 @keyframes em-color-in { from { color: inherit; } }
 @keyframes em-draw { from { transform: scaleX(0); } }
 @keyframes em-strike-in { from { transform: rotate(-14deg) scaleX(0); } }
