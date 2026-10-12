@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 160">
+  <!-- 文章題用の自作イラスト（大根）。外部素材は使用していない -->
+  <path d="M30 40 C18 18 8 10 4 2 C16 6 24 16 30 30 C34 14 42 4 52 0 C48 12 40 22 34 40 Z" fill="#3ea34f"/>
+  <path d="M30 34 C27 20 24 10 26 0 C32 10 34 22 33 34 Z" fill="#2c8a3e"/>
+  <path d="M14 46 Q14 36 30 36 Q46 36 46 46 L42 120 Q38 156 30 158 Q22 156 18 120 Z" fill="#fbfbf6" stroke="#9aa3ad" stroke-width="2.5"/>
+  <path d="M15 46 Q15 38 30 38 Q45 38 45 46 L44.5 56 Q30 50 15.5 56 Z" fill="#cfe8b8"/>
+  <path d="M21 74 h8 M33 92 h7 M22 110 h7" stroke="#c4cad1" stroke-width="2" stroke-linecap="round"/>
+</svg>

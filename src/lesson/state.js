@@ -85,9 +85,11 @@ export function computeView(content, st) {
   for (const { block } of blocks.values()) for (const k of block.hide ?? []) if (!revealed.has(k)) hidden.add(k);
 
   // 後に書いたものが優先されるよう、キーごとに最後の指定を採用する
+  // keys: [...] で、文章・表・式の複数のキーに同じ強調をまとめて指定できる
   const emphasis = new Map();
-  for (const e of persistent) emphasis.set(e.key, e);
-  if (current) for (const e of current.emphasis ?? []) emphasis.set(e.key, e);
+  const put = (e) => (e.keys ?? [e.key]).forEach((k) => emphasis.set(k, e));
+  persistent.forEach(put);
+  if (current) (current.emphasis ?? []).forEach(put);
 
   return {
     mode: st.mode,

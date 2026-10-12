@@ -132,6 +132,12 @@
 .calc-grid > .em-box:empty::after { display: none; }
 .calc-grid .is-note { font-size: 0.7em; color: var(--c-orange); font-weight: 700; text-align: center; }
 .calc-grid .is-note .katex { font-size: 1.1em; }
+.calc-grid .is-head { font-size: 0.7em; font-weight: 700; color: #555; text-align: center; align-self: end; }
+/* 文章題の品物ごとの色（\tc マクロ・表の列・イラストで共通） */
+.tc-blue { color: var(--c-blue); }
+.tc-orange { color: var(--c-orange); }
+.tc-green { color: var(--c-green); }
+.tc-red { color: var(--c-red); }
 .answer-text { font-size: 1.3em; font-weight: 800; padding: 0 0.3em; }
 .mark-ok { color: var(--c-blue); }
 .mark-ng { color: var(--c-red); }
@@ -156,6 +162,48 @@
   color: #fff;
   font-weight: 800;
 }
+
+/* 情報整理テーブル（table ブロック） */
+.blk-table table { border-collapse: collapse; background: #fff; }
+.blk-table th, .blk-table td { border: 2px solid #8d97a5; padding: 4px 22px; text-align: center; white-space: nowrap; }
+.blk-table thead th { background: #eef1f5; font-weight: 800; }
+.blk-table .tbl-corner { background: transparent; border-top-color: transparent; border-left-color: transparent; }
+.blk-table .tbl-rowhead { background: #f6f7f9; font-size: 0.8em; font-weight: 700; text-align: left; padding: 4px 16px; }
+/* 列の色（品物ごとの色）。色だけに頼らないよう、見出しの文字（大根・鉛筆など）と組み合わせる */
+.blk-table th.col-blue { color: var(--c-blue); box-shadow: inset 0 6px 0 var(--c-blue); }
+.blk-table th.col-orange { color: var(--c-orange); box-shadow: inset 0 6px 0 var(--c-orange); }
+.blk-table th.col-green { color: var(--c-green); box-shadow: inset 0 6px 0 var(--c-green); }
+.blk-table th.col-red { color: var(--c-red); box-shadow: inset 0 6px 0 var(--c-red); }
+/* 隠した行・セルは、枠と行見出しを残して中身だけ隠す（穴あきの表） */
+.blk-table .is-hidden { visibility: visible; }
+.blk-table tr.is-hidden > td > .cell-in,
+.blk-table td.is-hidden > .cell-in { visibility: hidden; }
+.blk-table .reveal-in { animation: none; }
+.blk-table tr.reveal-in > td > .cell-in,
+.blk-table td.reveal-in > .cell-in { display: inline-block; animation: fade-in var(--anim) ease-out both; }
+/* 行の強調：行全体に色を付ける／枠で囲む */
+.blk-table tr.em-marker::before,
+.blk-table tr.em-box::after { display: none; }
+.blk-table tr.em-marker > * { background: color-mix(in srgb, var(--em) 38%, #fff); }
+.blk-table tr.em-box { outline: 4px solid var(--em); outline-offset: -2px; }
+.blk-table td.em-marker::before { inset: 0; border-radius: 0; }
+.blk-table td.em-box::after { inset: 3px; outline-offset: 0; }
+
+/* イメージイラスト（illust ブロック） */
+.il-row { display: flex; align-items: flex-end; gap: 18px; }
+.il-item { --ic: #667085; display: grid; justify-items: center; gap: 2px; padding: 6px 10px 4px; border-radius: 12px; }
+.il-item.c-blue { --ic: var(--c-blue); }
+.il-item.c-orange { --ic: var(--c-orange); }
+.il-item.c-green { --ic: var(--c-green); }
+.il-item.c-red { --ic: var(--c-red); }
+.il-pics { display: flex; align-items: flex-end; gap: 4px; }
+.il-pics img { display: block; width: auto; }
+.il-times { margin-left: 6px; font-size: 1.15em; font-weight: 800; color: var(--ic); }
+.il-name { padding: 0 14px; border-radius: 99px; background: var(--ic); color: #fff; font-weight: 800; font-size: 0.85em; line-height: 1.5; }
+.il-line { font-size: 0.8em; font-weight: 700; line-height: 1.35; white-space: nowrap; }
+.il-sep { align-self: center; font-size: 1.2em; font-weight: 800; white-space: nowrap; }
+.il-item.em-box::after { inset: 0; outline-offset: 0; border-radius: 12px; }
+.il-item.em-marker::before { inset: 0; border-radius: 12px; }
 
 /* ポイント枠（教材の「ポイント」囲みを再現） */
 .blk-pointbox {
@@ -269,6 +317,22 @@
 .em-dim { opacity: 0.25; }
 
 .em-box.em-narrow::after { inset: 0 1px; }
+/* 文章中の語句（[[key|…]]）の囲みは、枠の線が語句の外周にくるようにする（最初・最後の文字にも、隣の文字にもかかりにくい） */
+.kspan.em-box:not(.em-narrow)::after { inset: 0 3px; }
+/* 行をまたぐ語句：疑似要素では1つの四角になってしまうため、行ごとに背景・枠を付ける */
+.em-multi.em-marker::before,
+.em-multi.em-box::after { display: none; }
+.em-multi.em-marker {
+  background: color-mix(in srgb, var(--em) 50%, transparent);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.em-multi.em-box {
+  border-radius: 6px;
+  box-shadow: 0 0 0 3.5px var(--em);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
 .em-anim.em-box::after { animation: em-box-in var(--anim) ease-out; }
 .em-anim.em-color { animation: em-color-in var(--anim) ease-out; }
 .em-anim.em-marker::before { animation: em-draw var(--anim) ease-out; }
@@ -464,3 +528,7 @@
   touch-action: manipulation;
 }
 .mode-tab.is-active { background: #fff; color: var(--navy); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15); }
+
+/* イラストの文字・答えの枠の中の式は、斜体の文字（x など）に枠がかからないよう少し外側に囲む */
+.il-item .em-box::after,
+.blk-answer .em-box::after { inset: 0 -2px; }

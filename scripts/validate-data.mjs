@@ -15,7 +15,7 @@ import katex from 'katex';
 import { KATEX_OPTIONS, keysInTex } from '../src/math/katex-config.js';
 
 const DATA_DIR = new URL('../src/data/', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
-const BLOCK_TYPES = new Set(['text', 'math', 'callout', 'answer', 'pointbox', 'title-card', 'calc', 'image']);
+const BLOCK_TYPES = new Set(['text', 'math', 'callout', 'answer', 'pointbox', 'title-card', 'calc', 'image', 'table', 'illust']);
 const PUBLIC_DIR = new URL('../public/', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
 const CONTENT_TYPES = new Set(['title', 'point', 'exercise', 'similar', 'advanced', 'lab']);
 const EMPHASIS_STYLES = new Set(['color', 'box', 'marker', 'strike', 'dim']);
@@ -56,6 +56,8 @@ function checkText(where, text, keys) {
   if (opensKw !== (outside.match(/\}\}/g) ?? []).length) err(where, `{{ }} の対応がとれていません: ${s}`);
   if (opensK !== (outside.match(/\]\]/g) ?? []).length) err(where, `[[ ]] の対応がとれていません: ${s}`);
   if ((outside.match(/\*\*/g) ?? []).length % 2) err(where, `** の対応がとれていません: ${s}`);
+  // 改行は JSON で "\n"。"\\n" と書くと「\n」の文字のまま表示される
+  if (/\\n(?![a-z])/.test(outside)) err(where, `文章に「\\n」の文字が入っています。改行は JSON で "\\n"（バックスラッシュ1つ）と書きます: ${s}`);
   if ((outside.match(/__/g) ?? []).length % 2) err(where, `__ の対応がとれていません: ${s}`);
   parts.forEach((p, i) => {
     if (i % 2 === 1) {
@@ -83,9 +85,41 @@ function checkBlock(where, b, keys, blockIds) {
     if (!b.src || !existsSync(join(PUBLIC_DIR, b.src))) err(w, `画像ファイルが public/ にありません: ${b.src}`);
     if (!b.alt) err(w, '画像には alt（説明文）を付けてください');
   }
-  for (const it of b.items ?? []) {
-    checkText(w, it.text, local);
-    if (it.key) local.add(it.key);
+  if (b.width !== undefined && !(Number(b.width) > 0)) err(w, `width は数値（px）で指定してください: ${b.width}`);
+  if (b.type === 'illust') {
+    if (!Array.isArray(b.items) || !b.items.length) err(w, 'illust には items が必要です');
+    for (const it of b.items ?? []) {
+      if (it.key) local.add(it.key);
+      if (it.sep !== undefined) { checkText(w, it.sep, local); continue; }
+      if (!it.asset || !existsSync(join(PUBLIC_DIR, 'illust', `${it.asset}.svg`))) err(w, `イラスト素材が public/illust/ にありません: ${it.asset}`);
+      if (!it.name) err(w, 'イラストには name（品物の名前。画像の説明にもなる）を付けてください');
+      else checkText(w, it.name, local);
+      if (it.count !== undefined && !(Number.isInteger(it.count) && it.count > 0)) err(w, `count は1以上の整数にしてください: ${it.count}`);
+      if (it.color && !COLORS.has(it.color)) err(w, `不明な色: ${it.color}`);
+      for (const l of it.lines ?? []) checkText(w, l, local);
+    }
+  } else {
+    for (const it of b.items ?? []) {
+      checkText(w, it.text, local);
+      if (it.key) local.add(it.key);
+    }
+  }
+  if (b.type === 'table') {
+    if (!Array.isArray(b.rows) || !b.rows.length) err(w, 'table には rows が必要です');
+    const width = b.head?.length ?? b.rows?.[0]?.cells?.length;
+    const cellText = (c) => {
+      const o = c && typeof c === 'object' ? c : { text: c ?? '' };
+      if (o.key) local.add(o.key);
+      if (o.color && !COLORS.has(o.color)) err(w, `不明な色: ${o.color}`);
+      checkText(w, o.text, local);
+    };
+    (b.head ?? []).forEach(cellText);
+    for (const r of b.rows ?? []) {
+      if (!Array.isArray(r.cells)) { err(w, 'table の行に cells がありません'); continue; }
+      if (r.cells.length !== width) err(w, `table の列の数がそろっていません（${r.cells.length} / ${width}）`);
+      if (r.key) local.add(r.key);
+      r.cells.forEach(cellText);
+    }
   }
   if (b.type === 'calc') {
     if (!Array.isArray(b.rows) || !b.rows.length) err(w, 'calc には rows が必要です');
@@ -139,6 +173,7 @@ function unwrap(s, cmd, transform) {
 export function texToExpr(tex) {
   let s = String(tex);
   s = unwrap(s, '\\hl', (_k, x) => x);
+  s = unwrap(s, '\\tc', (_c, x) => x);
   s = unwrap(s, '\\text', (_x) => '');
   for (const f of ['\\dfrac', '\\tfrac', '\\frac']) s = unwrap(s, f, (a, b) => `((${a})/(${b}))`);
   s = s
@@ -195,7 +230,8 @@ function verifyBlock(where, b, sol) {
     let prevLhs = null;
     for (const r of b.rows) {
       if (r.note || r.head) continue;
-      const cells = r.cells.map((c) => (typeof c === 'string' ? c : ''));
+      // 文章のセル（例「代金」）は、value（検算用の式。例 "80x"）があればその値として検算する
+      const cells = r.cells.map((c) => (typeof c === 'string' ? c : c?.value ?? ''));
       const eq = cells.indexOf('=');
       // 「=」だけのセルがある行は1つの式、そうでなければセルごとの式として扱う。
       // 左辺が空の行（「　= …」と前の行から続く等式）は、前の行の左辺を引き継いで検算する。
@@ -282,7 +318,8 @@ function checkBody(where, statement = [], steps = []) {
     if (s.comment) checkText(w, s.comment, new Set());
     if (s.teacherNote) checkTeacherEntry(w, s.teacherNote);
     for (const e of s.emphasis ?? []) {
-      if (!keys.has(e.key)) err(w, `強調キー "${e.key}" がどの数式・文章にもありません`);
+      if (!e.key === !e.keys) err(w, '強調には key か keys のどちらか一方を指定してください');
+      for (const k of e.keys ?? [e.key]) if (!keys.has(k)) err(w, `強調キー "${k}" がどの数式・文章にもありません`);
       if (!EMPHASIS_STYLES.has(e.style)) err(w, `不明な強調スタイル: ${e.style}`);
       if (e.color && !COLORS.has(e.color)) err(w, `不明な色: ${e.color}`);
     }

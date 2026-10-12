@@ -74,7 +74,7 @@ function markKeyedSpans(src) {
       const m = /^(\{\{|\[\[)([A-Za-z0-9_-]+)\|/.exec(src.slice(i, i + 80));
       if (m) {
         const kw = m[1] === '{{';
-        out += open(`<span class="${kw ? 'kw ' : ''}k-${m[2]}">`);
+        out += open(`<span class="kspan ${kw ? 'kw ' : ''}k-${m[2]}">`);
         closers.push(kw ? '}}' : ']]');
         i += m[0].length;
         continue;

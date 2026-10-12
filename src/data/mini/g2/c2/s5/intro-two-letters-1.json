@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "id": "intro-two-letters-1",
+  "type": "introduction",
+  "title": "文字が2つあると何が便利？",
+  "description": "2種類の品物を買う場面で、わからない数量を x・y の2文字で表すと、条件をそのまま2つの方程式にできることを体験します。",
+  "unit": { "grade": "g2", "chapter": "c2", "section": "s5" },
+  "minutes": 6,
+  "status": "draft",
+  "teacher": {
+    "aim": "わからない数量が2つあるとき、2つの文字を使うと条件をそのまま式にできること、そのかわり方程式が2つ必要になることに気づかせ、問5.1 につなげる。",
+    "notes": [
+      "値段・個数は授業導入用の架空の設定。問5.1 と同じ形の問題だが、数値を変えてある。",
+      "このスライドでは方程式を解かない（答えは出さない）。解き方は問5.1 で扱う。"
+    ]
+  },
+  "slides": [
+    {
+      "id": "s1",
+      "title": "2種類のくだものを買う",
+      "blocks": [
+        { "id": "t1", "type": "text", "area": "top", "size": "l", "text": "りんごとみかんを買いに行きました。" },
+        {
+          "id": "il", "type": "illust", "area": "top", "height": 130,
+          "items": [
+            { "asset": "apple", "name": "りんご", "color": "blue", "lines": ["1個 100円"] },
+            { "asset": "mikan", "name": "みかん", "color": "orange", "lines": ["1個 60円"] }
+          ]
+        }
+      ],
+      "steps": [
+        { "id": "ask", "title": "何個ずつ？", "comment": "りんごとみかんを，それぞれ何個買ったのかな？ 手がかりを1つずつ見ていこう。" }
+      ],
+      "teacher": { "questions": ["何がわかれば，それぞれの個数がわかるかな？"] }
+    },
+    {
+      "id": "s2",
+      "title": "手がかり① 個数",
+      "blocks": [
+        { "id": "c1", "type": "text", "area": "top", "size": "l", "text": "りんごとみかんを [[n10|合わせて10個]] 買った。" },
+        {
+          "id": "tbl", "type": "table", "area": "top", "hide": ["r1"],
+          "head": ["", { "text": "りんご", "color": "blue" }, { "text": "みかん", "color": "orange" }],
+          "rows": [
+            { "key": "r1", "cells": ["考えられる組", "1個，2個，3個，…", "9個，8個，7個，…"] }
+          ]
+        }
+      ],
+      "steps": [
+        { "id": "mark", "title": "条件にマーク", "emphasis": [{ "key": "n10", "style": "marker", "color": "yellow" }] },
+        { "id": "many", "title": "いろいろ考えられる", "reveal": ["r1"], "emphasis": [{ "key": "n10", "style": "marker", "color": "yellow" }], "comment": "この手がかりだけでは，個数の組は1つに決まらない。" }
+      ],
+      "teacher": { "questions": ["合わせて10個になる組は，ほかにもある？"] }
+    },
+    {
+      "id": "s3",
+      "title": "手がかり② 代金",
+      "blocks": [
+        { "id": "c1", "type": "text", "area": "top", "size": "l", "text": "りんごとみかんを合わせて10個買った。" },
+        { "id": "c2", "type": "text", "area": "top", "size": "l", "hide": ["p760"], "text": "[[p760|代金は760円だった。]]" }
+      ],
+      "steps": [
+        { "id": "cost", "title": "もう1つの手がかり", "reveal": ["p760"], "emphasis": [{ "key": "p760", "style": "marker", "color": "yellow" }], "comment": "手がかりが2つそろうと，個数の組が1つに決まる。" }
+      ],
+      "teacher": { "notes": ["ここで個数を当てさせてもよいが，答えは確認せずに次のスライドへ進む（問5.1 で解き方を学ぶ）。"] }
+    },
+    {
+      "id": "s4",
+      "title": "わからないものを x・y で表す",
+      "blocks": [
+        { "id": "let", "type": "text", "area": "top", "text": "りんごを [[lx|$\\tc{blue}{x}$ 個]]，みかんを [[ly|$\\tc{orange}{y}$ 個]] 買ったとすると" },
+        {
+          "id": "tbl", "type": "table", "area": "left", "hide": ["r2", "r3"],
+          "head": ["", { "text": "りんご", "color": "blue" }, { "text": "みかん", "color": "orange" }, "合計"],
+          "rows": [
+            { "cells": ["1個の値段", "100円", "60円", "—"] },
+            { "key": "r2", "cells": ["個数", "$\\tc{blue}{x}$ 個", "$\\tc{orange}{y}$ 個", "10個"] },
+            { "key": "r3", "cells": ["代金", "$\\tc{blue}{100x}$ 円", "$\\tc{orange}{60y}$ 円", "760円"] }
+          ]
+        },
+        {
+          "id": "eqs", "type": "calc", "area": "right", "size": "l", "hide": ["e1", "e2"],
+          "rows": [
+            { "key": "e1", "label": "個数", "cells": ["\\tc{blue}{x}+\\tc{orange}{y}", "=", "10"] },
+            { "key": "e2", "label": "代金", "cells": ["\\tc{blue}{100x}+\\tc{orange}{60y}", "=", "760"] }
+          ]
+        }
+      ],
+      "steps": [
+        { "id": "count", "title": "個数の式", "reveal": ["r2", "e1"], "emphasis": [{ "keys": ["r2", "e1"], "style": "marker", "color": "yellow" }], "comment": "手がかり①「合わせて10個」→ $x+y=10$" },
+        { "id": "cost", "title": "代金の式", "reveal": ["r3", "e2"], "emphasis": [{ "keys": ["r3", "e2"], "style": "marker", "color": "yellow" }], "comment": "手がかり②「代金760円」→ $100x+60y=760$" }
+      ],
+      "check": { "solution": { "x": 4, "y": 6 } },
+      "teacher": { "questions": ["りんご $x$ 個の代金は，どう表せる？"] }
+    },
+    {
+      "id": "s5",
+      "title": "文字が2つあると何が便利？",
+      "blocks": [
+        {
+          "id": "cmp", "type": "table", "area": "top", "hide": ["c2"],
+          "head": ["", "文字を1つだけ使う", "文字を2つ使う"],
+          "rows": [
+            { "cells": ["みかんの個数", "$(10-x)$ 個 と考える", "そのまま $\\tc{orange}{y}$ 個"] },
+            { "key": "c2", "cells": ["方程式の数", "1つ", "2つ必要"] }
+          ]
+        },
+        { "id": "msg", "type": "callout", "area": "top", "tone": "point", "hide": ["m1"], "text": "文字を2つ使うと，**手がかりをそのまま式にできる**。\n[[m1|ただし，文字が2つなら方程式も2つ必要 → **連立方程式**]]" }
+      ],
+      "steps": [
+        { "id": "count", "title": "方程式はいくつ？", "reveal": ["c2"], "comment": "わからないものが2つなら，手がかり（等しい関係）も2つ必要。" },
+        { "id": "summary", "title": "まとめ", "reveal": ["m1"], "emphasis": [{ "key": "m1", "style": "marker", "color": "yellow" }], "comment": "このあと，問5.1（大根と人参）で連立方程式を立てて解いてみよう！" }
+      ],
+      "teacher": { "notes": ["本編 p.31 の「文字を多くおいた方が方程式を立てやすい場合が多い。ただし，文字を2種類おくと，方程式も2つ必要になる。」につなげる。"] }
+    }
+  ]
+}

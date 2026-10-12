@@ -10,6 +10,8 @@ const BLOCK_BUILDERS = {
   answer: (b) =>
     `<span class="answer-label">答</span>${b.tex ? texToHtml(b.tex, true) : `<span class="answer-text">${inlineToHtml(b.text)}</span>`}`,
   calc: buildCalc,
+  table: buildTable,
+  illust: buildIllust,
   // 画像は public/ 以下に置き、相対パスで指定する（GitHub Pages のサブパスでも動くよう先頭に ./ を付ける）
   image: (b) =>
     `<figure><img src="./${encodeURI(b.src)}" alt="${(b.alt ?? '').replace(/"/g, '&quot;')}"${b.height ? ` style="height:${Number(b.height)}px"` : ''}>${
@@ -41,8 +43,8 @@ const BLOCK_BUILDERS = {
 
 // 筆算・表（calc）：行ごとに「ラベル」「演算記号」「セル…」を格子状に並べる。
 // 同じ列の項・等号が縦にそろい、横線（rule）はラベル列を除いた部分にだけ引かれる。
-//   rows[]: { label, op, cells[], key, rule, note }
-//     cells の要素は数式（文字列）か { text }（文章）。key を付けると行全体が段階表示・強調の対象になる。
+//   rows[]: { label, op, cells[], key, rule, note, head }（head: 言葉の式などの見出し行。小さい文字で、検算しない）
+//     cells の要素は数式（文字列）か { text, value }（文章。value は検算用の式で、表示には使わない）。key を付けると行全体が段階表示・強調の対象になる。
 //   align: 列ごとの寄せ "r" | "c" | "l"（省略時は "=" の列を中央、それ以外を右寄せ）
 function buildCalc(b) {
   const hasLabel = b.rows.some((r) => r.label);
@@ -55,7 +57,7 @@ function buildCalc(b) {
   const cell = (c) => (c == null || c === '' ? '' : typeof c === 'object' ? inlineToHtml(c.text) : texToHtml(c));
   const html = b.rows
     .map((r) => {
-      const common = [r.key && 'k-' + r.key, r.note && 'is-note'].filter(Boolean).join(' ');
+      const common = [r.key && 'k-' + r.key, r.note && 'is-note', r.head && 'is-head'].filter(Boolean).join(' ');
       const ruled = r.rule ? ' has-rule' : '';
       return [
         hasLabel && `<div class="calc-label ${common}">${r.label ? inlineToHtml(r.label) : ''}</div>`,
@@ -67,6 +69,47 @@ function buildCalc(b) {
     })
     .join('');
   return `<div class="calc-grid" style="grid-template-columns:${cols}">${html}</div>`;
+}
+
+// 情報整理テーブル（table）：文章題の数量を表に整理する。
+//   head[]: 見出し行のセル。{ text, color } で列の色（例：x の品物は青）を付けられる
+//   rows[]: { key, cells[] }。cells の先頭は行見出し。セルは文章（$…$ で数式）か { text, key }
+//   キーを付けた行・セルを hide すると、表の枠と行見出しは残して中身だけを隠す（穴あきの表）
+function buildTable(b) {
+  const cell = (c, tag, extra = '') => {
+    const o = c && typeof c === 'object' ? c : { text: c ?? '' };
+    const cls = [extra, o.key && 'k-' + o.key, o.color && 'col-' + o.color].filter(Boolean).join(' ');
+    return `<${tag} class="${cls}"><span class="cell-in">${inlineToHtml(o.text)}</span></${tag}>`;
+  };
+  const head = b.head
+    ? `<thead><tr>${b.head.map((c, i) => cell(c, 'th', i === 0 ? 'tbl-corner' : '')).join('')}</tr></thead>`
+    : '';
+  const body = b.rows
+    .map((r) => `<tr class="${r.key ? 'k-' + r.key : ''}">${r.cells.map((c, i) => cell(c, i === 0 ? 'th' : 'td', i === 0 ? 'tbl-rowhead' : '')).join('')}</tr>`)
+    .join('');
+  return `<table>${head}<tbody>${body}</tbody></table>`;
+}
+
+// イメージイラスト（illust）：品物の絵・名前・数量などを並べる。絵は public/illust/<asset>.svg（データと分けて管理）。
+//   items[]: { asset, name, count, times, color, key, lines[] } または { sep, key }（＋・＝などの記号や文章）
+//     count：絵の数（既定 1）。times: true または maxRepeat（既定 8）を超えると、絵1つに「×count」を添える
+//     lines：絵の下に出す文章（値段・「何本？」など。[[key|…]] で段階表示・強調できる）
+//   height：絵の高さ（px、既定 120）
+function buildIllust(b) {
+  const h = Number(b.height ?? 120);
+  const item = (it) => {
+    if (it.sep !== undefined) return `<div class="il-sep${it.key ? ' k-' + it.key : ''}">${inlineToHtml(it.sep)}</div>`;
+    const n = it.count ?? 1;
+    const img = `<img src="./illust/${encodeURI(it.asset)}.svg" alt="${(it.name ?? '').replace(/"/g, '&quot;')}" style="height:${h}px">`;
+    const pics = it.times || n > (b.maxRepeat ?? 8) ? `${img}<span class="il-times">×${n}</span>` : img.repeat(n);
+    const cls = ['il-item', it.color && 'c-' + it.color, it.key && 'k-' + it.key].filter(Boolean).join(' ');
+    return `<div class="${cls}">
+      <div class="il-pics">${pics}</div>
+      ${it.name ? `<div class="il-name">${inlineToHtml(it.name)}</div>` : ''}
+      ${(it.lines ?? []).map((l) => `<div class="il-line">${inlineToHtml(l)}</div>`).join('')}
+    </div>`;
+  };
+  return `<div class="il-row">${b.items.map(item).join('')}</div>`;
 }
 
 const keyClasses = (el) => [...el.classList].filter((c) => c.startsWith('k-')).map((c) => c.slice(2));
@@ -95,6 +138,8 @@ export class LessonRenderer {
     const el = document.createElement('div');
     el.className = `blk blk-${b.type} size-${b.size ?? 'm'}${b.tone ? ' tone-' + b.tone : ''}${b.inline ? ' is-inline' : ''}`;
     el.dataset.block = b.id;
+    // width：横に並べる（inline）ブロックの幅（px）。問題文の横にイラストを置くときなど
+    if (b.width) el.style.width = `${Number(b.width)}px`;
     el.innerHTML = (BLOCK_BUILDERS[b.type] ?? (() => `<p class="error">未対応のブロック: ${b.type}</p>`))(b, this.ctx);
     return el;
   }
@@ -137,12 +182,14 @@ export class LessonRenderer {
         el.classList.add('reveal-in');
       }
 
-      el.classList.remove('em', 'em-color', 'em-box', 'em-marker', 'em-strike', 'em-dim', 'em-anim', 'em-narrow');
+      el.classList.remove('em', 'em-color', 'em-box', 'em-marker', 'em-strike', 'em-dim', 'em-anim', 'em-narrow', 'em-multi');
       const e = keys.map((k) => view.emphasis.get(k)).find(Boolean);
       if (e && !hidden) {
         el.classList.add('em', 'em-' + e.style);
         // 1文字程度の狭い要素は、囲み枠が文字に重ならないよう左右に余裕を持たせる
         if (e.style === 'box' && el.offsetWidth && el.offsetWidth < 40) el.classList.add('em-narrow');
+        // 文章題の長い語句など、行をまたぐ文章は行ごとに塗る・囲む
+        if (el.classList.contains('kspan') && el.getClientRects().length > 1) el.classList.add('em-multi');
         el.style.setProperty('--em', `var(--c-${e.color ?? 'red'})`);
         const before = keys.map((k) => this.prevEmphasis.get(k)).find(Boolean);
         if (play && (!before || before.style !== e.style || before.color !== e.color)) el.classList.add('em-anim');

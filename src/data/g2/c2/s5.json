@@ -1,0 +1,743 @@
+{
+  "schema": 1,
+  "unit": { "grade": "g2", "chapter": "c2", "section": "s5" },
+  "contents": [
+    {
+      "id": "g2.simul.apply.point",
+      "rev": 1,
+      "editions": { "2026": { "page": 31, "number": "ポイント" }},
+      "type": "point",
+      "title": "方程式を用いた文章題の解法",
+      "statement": [
+        {
+          "id": "box",
+          "type": "pointbox",
+          "area": "top",
+          "title": "方程式を用いた文章題の解法",
+          "hide": ["p1", "p2", "p3", "p4", "p5"],
+          "items": [
+            { "key": "p1", "bullet": false, "text": "① [[org|文章題の情報を，図や表などをかいて整理する。]] **※ [[mark|大事な部分はマーキング！]]**" },
+            { "key": "p2", "bullet": false, "text": "② [[rel|等しい数量関係をつかむ。]]" },
+            { "key": "p3", "bullet": false, "text": "③ [[let|分からないものを $x$，$y$ とおき，方程式をつくる。]]" },
+            { "key": "p4", "bullet": false, "text": "④ 方程式を解く。" },
+            { "key": "p5", "bullet": false, "text": "⑤ [[chk|問題文を読み返し，解が問題に適しているか確認する。]]" }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "organize",
+          "title": "① 情報を整理する",
+          "reveal": ["p1"],
+          "emphasis": [{ "key": "mark", "style": "marker", "color": "yellow" } ],
+          "comment": "問題文を読みながら，数量に線を引く（マーキング）。図や表に整理すると，関係が見えやすくなる。"
+        },
+        {
+          "id": "relation",
+          "title": "② 等しい数量関係をつかむ",
+          "reveal": ["p2"],
+          "emphasis": [{ "key": "rel", "style": "marker", "color": "yellow" } ],
+          "comment": "「合わせて○本」「代金が○円」のように，**等しい** といえる数量の組を見つける。"
+        },
+        {
+          "id": "equation",
+          "title": "③ 文字をおいて方程式をつくる",
+          "reveal": ["p3"],
+          "emphasis": [{ "key": "let", "style": "marker", "color": "yellow" } ],
+          "comment": "わからないものが2つなら $x$，$y$ の2つの文字をおく。等しい数量関係1つにつき，方程式が1つできる。"
+        },
+        { "id": "solve", "title": "④ 方程式を解く", "reveal": ["p4"], "comment": "ここは，これまでに学んだ加減法・代入法で解く。" },
+        {
+          "id": "check",
+          "title": "⑤ 答えを確かめる",
+          "reveal": ["p5"],
+          "emphasis": [{ "key": "chk", "style": "marker", "color": "yellow" } ],
+          "comment": "求めた答えで，問題文の条件がすべて成り立つか確かめる。本数・人数などは自然数になっているかも確認する。"
+        },
+        {
+          "id": "key-steps",
+          "title": "文章題でいちばん大切なところ",
+          "emphasis": [{ "keys": ["org", "rel", "let"], "style": "box", "color": "red" } ],
+          "comment": "文章題では，計算（④）よりも，**①〜③の「式を立てるまで」** が大切。",
+          "teacherNote": "「何を $x$，$y$ とおく？」「どの数量とどの数量が等しい？」の2つを，毎回発問する。"
+        }
+      ],
+      "teacher": {
+        "status": "draft",
+        "aim": "文章題を方程式で解く手順を確認し，特に「何を $x$，$y$ とおくか」「どの数量が等しいか」を考えて式を立てる過程が大切であることを理解する。",
+        "questions": ["この問題で，わからないものは何？それを何とおく？", "どの数量とどの数量が等しいといえる？", "求めた答えは，問題に合っている？（本数がマイナスや小数になっていない？）"],
+        "notes": ["計算の速さよりも，問題文から式を立てる過程に時間をかける。問5.1・問5.2 で，表に整理してから式を立てる流れを繰り返す。"]
+      }
+    },
+    {
+      "id": "g2.simul.apply.q-vegetables-1",
+      "rev": 1,
+      "editions": { "2026": { "page": 31, "number": "問5.1", "tags": ["定期"], "ref": "Ⓢp.48[3]" }},
+      "type": "exercise",
+      "title": "大根と人参の本数と代金",
+      "statement": [
+        {
+          "id": "q-text",
+          "type": "text",
+          "area": "top",
+          "inline": true,
+          "width": 1050,
+          "text": "[[pd|1本120円の大根]]と，[[pn|1本70円の人参]]を[[p7|合わせて7本]]買ったら，[[p590|代金が590円]]になった。[[px|大根を $x$ 本]]，[[py|人参を $y$ 本]]買ったとして，次の問いに答えなさい。\n[[sq1|(1) 本数の合計が7本であることに注目し，方程式を立てなさい。]]\n[[sq2|(2) 代金の合計が590円であることに注目し，方程式を立てなさい。]]\n[[sq3|(3) 大根と人参をそれぞれ何本買いましたか。]]"
+        },
+        {
+          "id": "illust",
+          "type": "illust",
+          "area": "top",
+          "inline": true,
+          "height": 110,
+          "items": [
+            { "asset": "daikon", "name": "大根", "color": "blue", "key": "il-d", "lines": ["1本 120円", "何本？"]},
+            { "asset": "carrot", "name": "人参", "color": "orange", "key": "il-n", "lines": ["1本 70円", "何本？"]}
+          ]
+        }
+      ],
+      "answer": { "text": "(1) $x+y=7$　(2) $120x+70y=590$　(3) 大根2本，人参5本", "values": { "x": 2, "y": 5}},
+      "check": {
+        "equations": ["x+y=7", "120*x+70*y=590"],
+        "solution": { "x": 2, "y": 5},
+        "derived": ["7*x+7*y=49", "12*x+7*y=59", "-5*x=-10", "2+y=7"],
+        "identities": ["7*(x+y)=7*x+7*y", "(120*x+70*y)/10=12*x+7*y", "(7*x+7*y)-(12*x+7*y)=-5*x", "49-59=-10", "120*2+70*5=590"],
+        "nonSolutions": [{ "x": 5, "y": 2}, { "x": 3, "y": 4} ]
+      },
+      "hints": ["わからないものは，大根の本数と人参の本数。問題文で $x$ 本，$y$ 本とおいてある。", "代金は（1本の値段）×（本数）。大根 $x$ 本の代金は $120x$ 円。", "(2) の式は，両辺を $10$ でわると係数が小さくなって計算しやすい。"],
+      "steps": [
+        {
+          "id": "letters",
+          "title": "わからないものを $x$，$y$ とおく",
+          "remove": ["illust"],
+          "add": [
+            {
+              "id": "illust-x",
+              "type": "illust",
+              "area": "top",
+              "inline": true,
+              "height": 110,
+              "anim": "none",
+              "items": [
+                { "asset": "daikon", "name": "大根", "color": "blue", "key": "il-d", "lines": ["1本 120円", "[[il-dx|$\\tc{blue}{x}$ 本]]"]},
+                { "asset": "carrot", "name": "人参", "color": "orange", "key": "il-n", "lines": ["1本 70円", "[[il-ny|$\\tc{orange}{y}$ 本]]"]}
+              ]
+            }
+          ],
+          "emphasis": [
+            { "key": "px", "style": "marker", "color": "blue" },
+            { "key": "py", "style": "marker", "color": "orange" },
+            { "key": "il-dx", "style": "box", "color": "blue" },
+            { "key": "il-ny", "style": "box", "color": "orange" }
+          ],
+          "comment": "わからないものは「大根の本数」と「人参の本数」。この問題では，大根を $x$ 本，人参を $y$ 本とおいてある。",
+          "teacherNote": "「この問題で，わからないものは何？」と発問してから表示する。"
+        },
+        {
+          "id": "cond-count",
+          "title": "(1) 本数の条件を見つける",
+          "add": [
+            {
+              "id": "table",
+              "type": "table",
+              "area": "left",
+              "hide": ["tr-price", "tr-num", "tcx", "tcy", "t590"],
+              "head": ["", { "text": "大根", "color": "blue" }, { "text": "人参", "color": "orange" }, "合計"],
+              "rows": [
+                { "key": "tr-price", "cells": ["1本の値段", "120円", "70円", "—"]},
+                { "key": "tr-num", "cells": ["本数", "$\\tc{blue}{x}$ 本", "$\\tc{orange}{y}$ 本", { "text": "7本", "key": "t7" } ]},
+                {
+                  "cells": [
+                    "代金",
+                    { "text": "$\\tc{blue}{120x}$ 円", "key": "tcx" },
+                    { "text": "$\\tc{orange}{70y}$ 円", "key": "tcy" },
+                    { "text": "590円", "key": "t590" }
+                  ]
+                }
+              ]
+            }
+          ],
+          "reveal": ["tr-num"],
+          "emphasis": [{ "keys": ["p7", "t7"], "style": "marker", "color": "yellow" }, { "keys": ["sq2", "sq3"], "style": "dim" } ],
+          "comment": "「合わせて7本」→ 大根と人参の **本数の合計** が7本。表の「本数」の行に整理する。",
+          "teacherNote": "表は空欄のまま見せ，「本数の行には何が入る？」と生徒に答えさせてから埋めてもよい。"
+        },
+        {
+          "id": "eq1",
+          "title": "(1) 本数の式を立てる",
+          "add": [
+            {
+              "id": "ans",
+              "type": "answer",
+              "area": "right",
+              "hide": ["a2"],
+              "tex": "\\begin{aligned} &\\text{(1)}\\quad \\hl{e1}{x+y=7} \\\\ &\\hl{a2}{\\text{(2)}\\quad \\hl{e2}{120x+70y=590}} \\end{aligned}"
+            },
+            {
+              "id": "word1",
+              "type": "calc",
+              "area": "right",
+              "rows": [
+                { "head": true, "cells": [{ "text": "大根の本数" }, "", { "text": "人参の本数" }, "", { "text": "合計" } ]},
+                { "cells": ["\\tc{blue}{x}", "+", "\\tc{orange}{y}", "=", "7"]}
+              ],
+              "align": ["c", "c", "c", "c", "c"]
+            }
+          ],
+          "emphasis": [{ "key": "tr-num", "style": "marker", "color": "yellow" }, { "keys": ["sq2", "sq3"], "style": "dim" } ],
+          "comment": "（大根の本数）＋（人参の本数）＝（合計の本数）を，そのまま文字で書く。"
+        },
+        {
+          "id": "cond-cost",
+          "title": "(2) 代金の条件を見つける",
+          "remove": ["word1"],
+          "reveal": ["tr-price", "t590"],
+          "emphasis": [
+            { "keys": ["pd", "pn", "p590", "tr-price", "t590"], "style": "marker", "color": "yellow" },
+            { "keys": ["sq1", "sq3"], "style": "dim" }
+          ],
+          "comment": "「1本120円」「1本70円」「代金が590円」に線を引き，表の「1本の値段」と「代金」の合計に整理する。"
+        },
+        {
+          "id": "cost-rel",
+          "title": "(2) それぞれの代金を文字で表す",
+          "add": [
+            {
+              "id": "cost-calc",
+              "type": "calc",
+              "area": "right",
+              "rows": [
+                { "head": true, "cells": [{ "text": "1本の値段" }, "", { "text": "本数" }, "", { "text": "代金" } ]},
+                { "label": "大根", "cells": ["120", "\\times", "\\tc{blue}{x}", "=", "\\hl{cx}{\\tc{blue}{120x}}"]},
+                { "label": "人参", "cells": ["70", "\\times", "\\tc{orange}{y}", "=", "\\hl{cy}{\\tc{orange}{70y}}"]}
+              ]
+            }
+          ],
+          "reveal": ["tcx", "tcy"],
+          "emphasis": [
+            { "keys": ["cx", "tcx"], "style": "box", "color": "blue" },
+            { "keys": ["cy", "tcy"], "style": "box", "color": "orange" },
+            { "keys": ["sq1", "sq3"], "style": "dim" }
+          ],
+          "comment": "代金 ＝（1本の値段）×（本数）。大根 $x$ 本の代金は $120\\times x=120x$（円）。",
+          "teacherNote": "「1本120円の大根を3本買ったら？ $x$ 本なら？」と，具体的な数から文字へ進めると理解しやすい。"
+        },
+        {
+          "id": "eq2",
+          "title": "(2) 代金の式を立てる",
+          "add": [
+            {
+              "id": "word2",
+              "type": "calc",
+              "area": "right",
+              "rows": [
+                { "head": true, "cells": [{ "text": "大根の代金" }, "", { "text": "人参の代金" }, "", { "text": "合計" } ]},
+                { "cells": ["\\tc{blue}{120x}", "+", "\\tc{orange}{70y}", "=", "590"]}
+              ],
+              "align": ["c", "c", "c", "c", "c"]
+            }
+          ],
+          "emphasis": [{ "keys": ["tcx", "tcy", "t590"], "style": "marker", "color": "yellow" }, { "keys": ["sq1", "sq3"], "style": "dim" } ],
+          "comment": "（大根の代金）＋（人参の代金）＝（代金の合計）。右辺は本数の $7$ ではなく，代金の $590$。",
+          "remove": ["cost-calc"],
+          "reveal": ["a2"]
+        },
+        {
+          "id": "system",
+          "title": "(3) 2つの式を連立方程式として解く",
+          "remove": ["table", "word2"],
+          "add": [
+            {
+              "id": "plan",
+              "type": "callout",
+              "area": "left",
+              "tone": "point",
+              "text": "(2) は係数が大きいので **両辺を 10 でわる**。\n(1) を **7倍** して，$y$ の係数をそろえる。"
+            }
+          ],
+          "emphasis": [{ "keys": ["e1", "e2"], "style": "box", "color": "green" }, { "keys": ["sq1", "sq2"], "style": "dim" } ],
+          "comment": "(1) と (2) の式を組にすると連立方程式になる。ここからは加減法で解く。",
+          "teacherNote": { "text": "指導書の解答例では，(1)×7 と (2)÷10 で $y$ の係数を $7$ にそろえて加減法で解いている。", "source": "material" }
+        },
+        {
+          "id": "align",
+          "title": "$y$ の係数をそろえる",
+          "remove": ["plan"],
+          "add": [
+            {
+              "id": "el",
+              "type": "calc",
+              "area": "left",
+              "hide": ["r3", "r4"],
+              "rows": [
+                { "label": "(1)×7", "cells": ["7x", "\\hl{y1}{{}+7y}", "=", "49"]},
+                { "label": "(2)÷10", "op": "[[op|−)]]", "cells": ["12x", "\\hl{y2}{{}+7y}", "=", "59"], "rule": true},
+                { "key": "r3", "cells": ["-5x", "", "=", "-10"]},
+                { "key": "r4", "cells": ["\\hl{xv}{x}", "", "=", "\\hl{xv2}{2}"]}
+              ]
+            }
+          ],
+          "emphasis": [{ "keys": ["y1", "y2"], "style": "box", "color": "red" }, { "keys": ["sq1", "sq2"], "style": "dim" } ],
+          "comment": "(1) を7倍，(2) を10でわると，どちらも $y$ の係数が $7$ になる。"
+        },
+        {
+          "id": "subtract",
+          "title": "ひいて $y$ を消す",
+          "reveal": ["r3"],
+          "emphasis": [
+            { "keys": ["y1", "y2"], "style": "strike", "color": "blue", "persist": true},
+            { "key": "op", "style": "color", "color": "blue" },
+            { "keys": ["sq1", "sq2"], "style": "dim" }
+          ],
+          "comment": "$y$ の係数が同じなので，上の式から下の式をひくと $y$ が消える。"
+        },
+        {
+          "id": "x-value",
+          "title": "$x$ を求める",
+          "reveal": ["r4"],
+          "emphasis": [{ "key": "r4", "style": "marker", "color": "yellow" }, { "keys": ["sq1", "sq2"], "style": "dim" } ],
+          "comment": "$-5x=-10$ の両辺を $-5$ でわって，$x=2$。"
+        },
+        {
+          "id": "y-value",
+          "title": "(1) に代入して $y$ を求める",
+          "add": [
+            {
+              "id": "sub",
+              "type": "calc",
+              "area": "left",
+              "rows": [{ "label": "(1)に代入して", "cells": ["\\hl{s2}{2}+y", "=", "7"]}, { "cells": ["y", "=", "5"]} ]
+            }
+          ],
+          "emphasis": [{ "keys": ["xv2", "s2"], "style": "box", "color": "green" }, { "keys": ["sq1", "sq2"], "style": "dim" } ],
+          "comment": "$x=2$ を (1) の $x+y=7$ に代入すると，$2+y=7$ より $y=5$。"
+        },
+        {
+          "id": "answer",
+          "title": "答えを書く",
+          "remove": ["illust-x"],
+          "add": [
+            {
+              "id": "illust-ans",
+              "type": "illust",
+              "area": "top",
+              "inline": true,
+              "height": 84,
+              "anim": "none",
+              "items": [
+                { "asset": "daikon", "name": "大根", "color": "blue", "count": 2, "lines": ["1本 120円", "**2本**"]},
+                { "asset": "carrot", "name": "人参", "color": "orange", "count": 5, "lines": ["1本 70円", "**5本**"]}
+              ]
+            },
+            { "id": "ans3", "type": "answer", "area": "right", "text": "(3)　大根 2本，人参 5本" }
+          ],
+          "comment": "問題は「何本買ったか」なので，$x=2$，$y=5$ のままにせず，**大根2本，人参5本** と答える。"
+        },
+        {
+          "id": "verify",
+          "title": "問題文を読み返して確かめる",
+          "add": [
+            {
+              "id": "chk",
+              "type": "calc",
+              "area": "right",
+              "align": ["r", "c", "l", "l"],
+              "rows": [
+                { "label": "本数", "cells": ["2+5", "=", "7", "\\ok"]},
+                { "label": "代金", "cells": ["120\\times2+70\\times5", "=", "590", "\\ok"]}
+              ],
+              "size": "s"
+            }
+          ],
+          "emphasis": [{ "keys": ["p7", "p590"], "style": "marker", "color": "yellow" } ],
+          "comment": "「合わせて7本」「代金が590円」の両方の条件に合っている。本数は自然数なので，問題に適している。"
+        }
+      ],
+      "teacher": {
+        "status": "draft",
+        "aim": "問題文の条件（本数・代金）を表に整理し，それぞれの条件から方程式を1つずつ立てる過程を理解する。",
+        "questions": ["わからない数量は何？", "「合わせて7本」から，どんな式が作れる？", "1本120円の大根を3本買うと何円？ $x$ 本なら？"],
+        "pitfalls": ["代金を $120+x$ のように，値段と本数を足して表してしまう。", "(2) の右辺を本数の $7$ にしてしまう（本数と代金の混同）。", "(3) で $x=2$，$y=5$ と書いて終わり，「何本」で答えていない。"],
+        "notes": [
+          { "text": "指導書の解答例：(1) $x+y=7$，(2) $120x+70y=590$，(3) (1)×7，(2)÷10 の加減法で $x=2$，(1)に代入して $y=5$。大根2本，人参5本。", "source": "material" },
+          "1元1次方程式で解く方法（本編の●の説明）は，別の項目「問5.1 補足」で扱う。"
+        ]
+      }
+    },
+    {
+      "id": "g2.simul.apply.q-vegetables-one-var-1",
+      "rev": 1,
+      "editions": { "2026": { "page": 31, "number": "問5.1 補足" }},
+      "type": "exercise",
+      "title": "1元1次方程式でも解ける",
+      "statement": [
+        { "id": "intro", "type": "text", "area": "top", "text": "● この問題（問5.1）は，中1で学習した **1元1次方程式** でも解くことが出来る。" },
+        {
+          "id": "illust",
+          "type": "illust",
+          "area": "top",
+          "height": 90,
+          "items": [
+            { "asset": "daikon", "name": "大根", "color": "blue", "lines": ["1本 120円"]},
+            { "sep": "＋" },
+            { "asset": "carrot", "name": "人参", "color": "orange", "lines": ["1本 70円"]},
+            { "sep": "＝ 合わせて7本，代金590円" }
+          ]
+        }
+      ],
+      "answer": { "text": "大根2本，人参5本", "values": { "x": 2}},
+      "check": {
+        "equations": ["120*x+70*(7-x)=590"],
+        "solution": { "x": 2},
+        "derived": ["50*x=100"],
+        "identities": ["120*x+70*(7-x)=50*x+490", "590-490=100"]
+      },
+      "steps": [
+        {
+          "id": "one-letter",
+          "title": "大根の本数だけを $x$ とおく",
+          "add": [{ "id": "let", "type": "text", "area": "left", "text": "大根の本数を [[lx|$\\tc{blue}{x}$ 本]] とすると，\n人参の本数は [[l7|$(7-x)$ 本]] となる。" } ],
+          "emphasis": [{ "key": "lx", "style": "box", "color": "blue" }, { "key": "l7", "style": "box", "color": "orange" } ],
+          "comment": "合わせて7本なので，人参の本数は「7本から大根の本数をひいた数」。",
+          "teacherNote": "大根が1本なら人参は6本，2本なら5本…と具体的な数で確かめると，$7-x$ が理解しやすい。"
+        },
+        {
+          "id": "equation",
+          "title": "代金の方程式を立てる",
+          "add": [{ "id": "eq", "type": "math", "area": "left", "size": "l", "tex": "\\tc{blue}{120x}+\\tc{orange}{70(7-x)}=590" } ],
+          "comment": "大根の代金 $120x$ 円と，人参の代金 $70(7-x)$ 円の和が590円。"
+        },
+        {
+          "id": "solve",
+          "title": "方程式を解く",
+          "add": [
+            {
+              "id": "calc",
+              "type": "calc",
+              "area": "right",
+              "size": "l",
+              "rows": [{ "cells": ["120x+490-70x", "=", "590"]}, { "cells": ["50x", "=", "100"]}, { "cells": ["x", "=", "2"]} ]
+            }
+          ],
+          "comment": "かっこをはずして整理すると $50x=100$，$x=2$。"
+        },
+        {
+          "id": "answer",
+          "title": "人参の本数を求めて答える",
+          "add": [
+            { "id": "rest", "type": "math", "area": "right", "tex": "7-2=5" },
+            { "id": "ans", "type": "answer", "area": "right", "text": "大根 2本，人参 5本" }
+          ],
+          "comment": "人参は $7-2=5$（本）。連立方程式で解いたときと同じ答えになる。"
+        },
+        {
+          "id": "compare",
+          "title": "2つの方法を比べる",
+          "remove": ["illust", "let", "eq", "calc", "rest", "ans"],
+          "add": [
+            {
+              "id": "cmp",
+              "type": "table",
+              "area": "full",
+              "head": ["", { "text": "連立方程式（問5.1）" }, { "text": "1元1次方程式" } ],
+              "rows": [
+                { "key": "c1", "cells": ["おく文字", "$\\tc{blue}{x}$，$\\tc{orange}{y}$ の2種類", "$\\tc{blue}{x}$ の1種類"]},
+                { "key": "c2", "cells": ["人参の本数", "$\\tc{orange}{y}$ 本", "$(7-x)$ 本"]},
+                { "key": "c3", "cells": ["必要な方程式", "2つ", "1つ"]}
+              ]
+            },
+            {
+              "id": "msg",
+              "type": "callout",
+              "area": "full",
+              "tone": "point",
+              "text": "どちらの方法でも解けるが，**文字を多くおいた方が方程式を立てやすい場合が多い。**\nただし，文字を2種類おくと，方程式も2つ必要になる。"
+            }
+          ],
+          "emphasis": [{ "keys": ["c1", "c3"], "style": "marker", "color": "yellow" } ],
+          "comment": "連立方程式では，人参の本数を $7-x$ と考えなくても，そのまま $y$ とおける。",
+          "teacherNote": { "text": "本編：「どちらの方法でも解けるが，文字を多くおいた方が方程式を立てやすい場合が多い。ただし，文字を2種類おくと，方程式も2つ必要になる。」", "source": "material" }
+        }
+      ],
+      "teacher": {
+        "status": "draft",
+        "aim": "連立方程式と1元1次方程式の両方で解けることを確認し，文字を2つおくと立式しやすい一方で，方程式も2つ必要になることを理解する。",
+        "questions": ["文字を1つだけにすると，人参の本数はどう表せる？", "2つの方法，どちらが式を立てやすかった？"],
+        "notes": [
+          { "text": "本編の解答：$120x+70(7-x)=590 \\to x=2$，$7-2=5$ より，大根2本，人参5本。", "source": "material" },
+          "途中式 $120x+490-70x=590$，$50x=100$ は本編にはなく，計算の確認用に追加したもの。"
+        ]
+      }
+    },
+    {
+      "id": "g2.simul.apply.q-stationery-1",
+      "rev": 1,
+      "editions": { "2026": { "page": 32, "number": "問5.2", "tags": ["定期"], "ref": "Ⓢp.49[4]" }},
+      "type": "exercise",
+      "title": "鉛筆とボールペンの値段",
+      "statement": [
+        {
+          "id": "q-text",
+          "type": "text",
+          "area": "top",
+          "inline": true,
+          "width": 1040,
+          "text": "[[pa|鉛筆を6本とボールペンを4本買うと880円]]，[[pb|鉛筆を5本とボールペンを2本買うと600円]]になる。[[qx|鉛筆1本の値段]]，[[qy|ボールペン1本の値段]]はそれぞれ何円か求めなさい。"
+        },
+        {
+          "id": "illust",
+          "type": "illust",
+          "area": "top",
+          "inline": true,
+          "height": 100,
+          "items": [
+            { "asset": "pencil", "name": "鉛筆", "color": "blue", "lines": ["1本 ？円"]},
+            { "asset": "ballpen", "name": "ボールペン", "color": "orange", "lines": ["1本 ？円"]}
+          ]
+        }
+      ],
+      "answer": { "text": "鉛筆1本80円，ボールペン1本100円", "values": { "x": 80, "y": 100}},
+      "check": {
+        "equations": ["6*x+4*y=880", "5*x+2*y=600"],
+        "solution": { "x": 80, "y": 100},
+        "derived": ["10*x+4*y=1200", "-4*x=-320", "400+2*y=600"],
+        "identities": ["2*(5*x+2*y)=10*x+4*y", "(6*x+4*y)-(10*x+4*y)=-4*x", "880-1200=-320", "5*80=400"],
+        "nonSolutions": [{ "x": 100, "y": 80} ]
+      },
+      "hints": ["わからないものは，鉛筆1本の値段とボールペン1本の値段。それぞれ $x$ 円，$y$ 円とおく。", "鉛筆6本の代金は $6x$ 円。買い方が2通りあるので，方程式も2つできる。", "$y$ の係数を $4$ にそろえると，ひいて $y$ を消せる。"],
+      "steps": [
+        {
+          "id": "letters",
+          "title": "わからないものを $x$，$y$ とおく",
+          "remove": ["illust"],
+          "add": [
+            {
+              "id": "illust-x",
+              "type": "illust",
+              "area": "top",
+              "inline": true,
+              "height": 100,
+              "anim": "none",
+              "items": [
+                { "asset": "pencil", "name": "鉛筆", "color": "blue", "lines": ["[[il-x|1本 $\\tc{blue}{x}$ 円]]"]},
+                { "asset": "ballpen", "name": "ボールペン", "color": "orange", "lines": ["[[il-y|1本 $\\tc{orange}{y}$ 円]]"]}
+              ]
+            },
+            {
+              "id": "let",
+              "type": "text",
+              "area": "left",
+              "text": "[[lx|鉛筆1本を $\\tc{blue}{x}$ 円]]，[[ly|ボールペン1本を $\\tc{orange}{y}$ 円]]とする。"
+            },
+            {
+              "id": "table",
+              "type": "table",
+              "area": "right",
+              "hide": ["tr-a", "tr-b"],
+              "head": ["", { "text": "鉛筆", "color": "blue" }, { "text": "ボールペン", "color": "orange" }, "合計金額"],
+              "rows": [
+                { "key": "tr-p", "cells": ["1本の値段", "$\\tc{blue}{x}$ 円", "$\\tc{orange}{y}$ 円", "—"]},
+                { "key": "tr-a", "cells": ["購入A", "6本", "4本", "880円"]},
+                { "key": "tr-b", "cells": ["購入B", "5本", "2本", "600円"]}
+              ]
+            }
+          ],
+          "emphasis": [
+            { "keys": ["qx", "lx", "il-x"], "style": "box", "color": "blue" },
+            { "keys": ["qy", "ly", "il-y"], "style": "box", "color": "orange" }
+          ],
+          "comment": "求めるのは「鉛筆1本の値段」と「ボールペン1本の値段」。これを $x$ 円，$y$ 円とおく。",
+          "teacherNote": "「この問題で，わからないものは何？」と発問してから表示する。"
+        },
+        {
+          "id": "cond-a",
+          "title": "購入Aの条件を整理する",
+          "add": [
+            {
+              "id": "illust-a",
+              "type": "illust",
+              "area": "left",
+              "height": 76,
+              "items": [
+                { "sep": "購入A" },
+                { "asset": "pencil", "name": "鉛筆", "color": "blue", "count": 6, "lines": ["6本"]},
+                { "sep": "＋" },
+                { "asset": "ballpen", "name": "ボールペン", "color": "orange", "count": 4, "lines": ["4本"]},
+                { "sep": "＝ 880円" }
+              ]
+            }
+          ],
+          "reveal": ["tr-a"],
+          "emphasis": [{ "keys": ["pa", "tr-a"], "style": "marker", "color": "yellow" } ],
+          "comment": "1つ目の買い方：鉛筆 **6本** とボールペン **4本** で **880円**。"
+        },
+        {
+          "id": "eq-a",
+          "title": "購入Aの式を立てる",
+          "add": [
+            {
+              "id": "eqs",
+              "type": "calc",
+              "area": "right",
+              "size": "l",
+              "hide": ["e2"],
+              "align": ["r", "c", "r", "c", "l", "l"],
+              "rows": [
+                { "key": "e1", "cells": ["6\\tc{blue}{x}", "+", "4\\tc{orange}{y}", "=", "880", { "text": "……①" } ]},
+                { "key": "e2", "cells": ["5\\tc{blue}{x}", "+", "2\\tc{orange}{y}", "=", "600", { "text": "……②" } ]}
+              ]
+            }
+          ],
+          "emphasis": [{ "keys": ["tr-a", "e1"], "style": "marker", "color": "yellow" } ],
+          "comment": "鉛筆6本の代金は $6\\times x=6x$（円），ボールペン4本の代金は $4\\times y=4y$（円）。合わせて880円。"
+        },
+        {
+          "id": "cond-b",
+          "title": "購入Bの条件を整理する",
+          "add": [
+            {
+              "id": "illust-b",
+              "type": "illust",
+              "area": "left",
+              "height": 76,
+              "items": [
+                { "sep": "購入B" },
+                { "asset": "pencil", "name": "鉛筆", "color": "blue", "count": 5, "lines": ["5本"]},
+                { "sep": "＋" },
+                { "asset": "ballpen", "name": "ボールペン", "color": "orange", "count": 2, "lines": ["2本"]},
+                { "sep": "＝ 600円" }
+              ]
+            }
+          ],
+          "reveal": ["tr-b"],
+          "emphasis": [{ "keys": ["pb", "tr-b"], "style": "marker", "color": "yellow" }, { "key": "pa", "style": "dim" } ],
+          "comment": "2つ目の買い方：鉛筆 **5本** とボールペン **2本** で **600円**。"
+        },
+        {
+          "id": "eq-b",
+          "title": "購入Bの式を立てる",
+          "reveal": ["e2"],
+          "emphasis": [{ "keys": ["tr-b", "e2"], "style": "marker", "color": "yellow" }, { "key": "pa", "style": "dim" } ],
+          "comment": "鉛筆5本で $5x$ 円，ボールペン2本で $2y$ 円。合わせて600円。"
+        },
+        {
+          "id": "system",
+          "title": "連立方程式にまとめる",
+          "remove": ["illust-a", "illust-b", "table", "eqs"],
+          "add": [
+            {
+              "id": "sys",
+              "type": "math",
+              "area": "left",
+              "tex": "\\begin{cases} 6\\tc{blue}{x}+4\\tc{orange}{y}=880 \\cdots\\!\\cdots\\text{①} \\\\ 5\\tc{blue}{x}+2\\tc{orange}{y}=600 \\cdots\\!\\cdots\\text{②} \\end{cases}"
+            }
+          ],
+          "comment": "2つの買い方から，2つの方程式ができた。これを連立方程式として解く。"
+        },
+        {
+          "id": "align",
+          "title": "②を2倍して $y$ の係数をそろえる",
+          "add": [
+            {
+              "id": "el",
+              "type": "calc",
+              "area": "right",
+              "hide": ["r3", "r4"],
+              "rows": [
+                { "label": "①", "cells": ["6x", "\\hl{y1}{{}+4y}", "=", "880"]},
+                { "label": "②×2", "op": "[[op|−)]]", "cells": ["10x", "\\hl{y2}{{}+4y}", "=", "1200"], "rule": true},
+                { "key": "r3", "cells": ["-4x", "", "=", "-320"]},
+                { "key": "r4", "cells": ["x", "", "=", "\\hl{xv}{80}"]}
+              ]
+            }
+          ],
+          "emphasis": [{ "keys": ["y1", "y2"], "style": "box", "color": "red" } ],
+          "comment": "②の両辺を2倍すると $10x+4y=1200$。①と $y$ の係数が $4$ でそろう。"
+        },
+        {
+          "id": "subtract",
+          "title": "ひいて $y$ を消す",
+          "reveal": ["r3"],
+          "emphasis": [
+            { "keys": ["y1", "y2"], "style": "strike", "color": "blue", "persist": true},
+            { "key": "op", "style": "color", "color": "blue" }
+          ],
+          "comment": "①から ②×2 をひくと，$y$ が消えて $-4x=-320$。"
+        },
+        {
+          "id": "x-value",
+          "title": "$x$ を求める",
+          "reveal": ["r4"],
+          "emphasis": [{ "key": "r4", "style": "marker", "color": "yellow" } ],
+          "comment": "両辺を $-4$ でわって，$x=80$。"
+        },
+        {
+          "id": "y-value",
+          "title": "②に代入して $y$ を求める",
+          "add": [
+            {
+              "id": "sub",
+              "type": "calc",
+              "area": "left",
+              "rows": [{ "label": "②に代入して", "cells": ["\\hl{s1}{400}+2y", "=", "600"]}, { "cells": ["y", "=", "100"]} ]
+            }
+          ],
+          "emphasis": [{ "keys": ["xv", "s1"], "style": "box", "color": "green" } ],
+          "comment": "$x=80$ を②に代入すると，$5\\times80=400$ なので $400+2y=600$，$2y=200$，$y=100$。"
+        },
+        {
+          "id": "answer",
+          "title": "答えを書く",
+          "remove": ["illust-x"],
+          "add": [
+            {
+              "id": "illust-ans",
+              "type": "illust",
+              "area": "top",
+              "inline": true,
+              "height": 100,
+              "anim": "none",
+              "items": [
+                { "asset": "pencil", "name": "鉛筆", "color": "blue", "lines": ["**1本 80円**"]},
+                { "asset": "ballpen", "name": "ボールペン", "color": "orange", "lines": ["**1本 100円**"]}
+              ]
+            },
+            { "id": "ans", "type": "answer", "area": "right", "text": "鉛筆 80円，ボールペン 100円" }
+          ],
+          "comment": "問題は「1本の値段は何円か」なので，**鉛筆80円，ボールペン100円** と答える。"
+        },
+        {
+          "id": "verify",
+          "title": "問題文を読み返して確かめる",
+          "add": [
+            {
+              "id": "chk",
+              "type": "calc",
+              "area": "left",
+              "align": ["r", "c", "l", "l"],
+              "rows": [
+                { "label": "購入A", "cells": ["6\\times80+4\\times100", "=", "880", "\\ok"]},
+                { "label": "購入B", "cells": ["5\\times80+2\\times100", "=", "600", "\\ok"]}
+              ]
+            }
+          ],
+          "emphasis": [{ "keys": ["pa", "pb"], "style": "marker", "color": "yellow" } ],
+          "comment": "どちらの買い方でも，問題文の金額と一致する。値段は正の数なので，問題に適している。"
+        }
+      ],
+      "teacher": {
+        "status": "draft",
+        "aim": "2通りの買い方を表に整理し，それぞれから方程式を1つずつ立てて連立方程式をつくる。",
+        "questions": ["わからないものは何？それを何とおく？", "鉛筆1本が $x$ 円なら，6本では何円？", "方程式はいくつ作れる？それはなぜ？"],
+        "pitfalls": ["鉛筆の本数を $x$ とおいてしまう（この問題で $x$，$y$ とおくのは値段）。", "購入Aと購入Bの本数を取りちがえる。"],
+        "notes": [
+          {
+            "text": "指導書の解答例：鉛筆1本を $x$ 円，ボールペン1本を $y$ 円とする。①−②×2 で $-4x=-320$，$x=80$。②に代入して $400+2y=600$，$y=100$。鉛筆80円，ボールペン100円。",
+            "source": "material"
+          },
+          "表・イラスト・式で，鉛筆（$x$）は青，ボールペン（$y$）はオレンジにそろえている。色だけでなく見出し（鉛筆・ボールペン）でも区別できる。"
+        ]
+      }
+    }
+  ]
+}

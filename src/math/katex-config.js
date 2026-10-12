@@ -7,11 +7,13 @@
 // 筆算（calc ブロック）のセルで符号付きの項を書くときは {}-6y のように {} を前に置く
 // （2項演算子として扱われ、符号の前後に通常の空白が入る）。
 //   \ok / \ng        … 判定の ○ / ×
+//   \tc{blue}{x}     … 文字の色（文章題で「x の品物＝青」のように、表・イラストと色をそろえる。強調ではない常時の色）
 
 export const KATEX_MACROS = {
   '\\hl': '\\htmlClass{k-#1}{#2}',
   '\\ok': '\\htmlClass{mark-ok}{\\bigcirc}',
   '\\ng': '\\htmlClass{mark-ng}{\\times}',
+  '\\tc': '\\htmlClass{tc-#1}{#2}',
 };
 
 export const KATEX_OPTIONS = {

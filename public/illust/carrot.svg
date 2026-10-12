@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 160">
+  <!-- 文章題用の自作イラスト（人参）。外部素材は使用していない -->
+  <path d="M30 42 C22 26 12 18 8 6 C20 10 26 20 30 32 C32 16 38 6 48 2 C46 14 38 26 33 42 Z" fill="#3ea34f"/>
+  <path d="M15 48 Q15 40 30 40 Q45 40 45 48 L34 150 Q30 158 26 150 Z" fill="#f08a1c" stroke="#c2620a" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M20 66 h7 M33 84 h6 M23 102 h6 M31 120 h4" stroke="#c2620a" stroke-width="2.2" stroke-linecap="round"/>
+</svg>
