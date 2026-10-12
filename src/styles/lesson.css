@@ -101,6 +101,8 @@
 .stage-body.is-overflow { outline: 6px dashed var(--c-orange); outline-offset: -6px; }
 
 .kw { color: var(--c-red); font-weight: 800; }
+/* 文章中に連立方程式（cases）を置くと、大きな分数などが行からはみ出すため余白を取る */
+.blk-text:has(.mtable) { padding: 0.15em 0 0.5em; }
 
 .blk-callout {
   padding: 14px 22px;
@@ -231,8 +233,8 @@
 .em-color { color: var(--em); }
 .em-box {
   color: var(--em);
-  outline: 4px solid var(--em);
-  outline-offset: 5px;
+  outline: 3.5px solid var(--em);
+  outline-offset: 3px;
   border-radius: 8px;
 }
 .em-marker { position: relative; z-index: 0; }

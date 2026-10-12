@@ -127,7 +127,7 @@ export function texToExpr(tex) {
   let s = String(tex);
   s = unwrap(s, '\\hl', (_k, x) => x);
   s = unwrap(s, '\\text', (_x) => '');
-  s = unwrap(s, '\\frac', (a, b) => `((${a})/(${b}))`);
+  for (const f of ['\\dfrac', '\\tfrac', '\\frac']) s = unwrap(s, f, (a, b) => `((${a})/(${b}))`);
   s = s
     .replace(/\\(ok|ng|cdots|ldots|quad|qquad|downarrow|left|right)\b/g, '')
     .replace(/\\mkern\d+mu/g, '')

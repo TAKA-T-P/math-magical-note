@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "id": "mistake-clear-denominator-1",
+  "type": "mistake",
+  "title": "分母・かっこの計算ミスを発見！",
+  "description": "小数や分数をなくすときに、右辺にかけ忘れるミスを見破ります。",
+  "unit": { "grade": "g2", "chapter": "c2", "section": "s3" },
+  "minutes": 6,
+  "difficulty": 1,
+  "status": "draft",
+  "teacher": { "aim": "両辺に同じ数をかけるとき、左辺のすべての項だけでなく右辺にもかけることを、誤答から確認する。", "notes": ["↓×10 の矢印が右辺に付いていないことに気づかせると、ミスの場所がわかりやすい。"]},
+  "questions": [
+    {
+      "id": "q1",
+      "prompt": "両辺を $10$ 倍して，係数を整数にしました。どこがまちがっているでしょう？",
+      "tex": "0.2x+0.3y=1",
+      "wrong": {
+        "label": "まちがいのある計算",
+        "align": ["c", "c", "c", "c"],
+        "rows": [
+          { "cells": ["0.2x", "{}+0.3y", "=", "1"]},
+          { "note": true, "cells": ["\\downarrow\\times10", "\\downarrow\\times10", "", ""]},
+          { "cells": ["2x", "{}+3y", "=", "\\hl{e1}{1}"]}
+        ]
+      },
+      "errorKeys": ["e1"],
+      "errorType": "other",
+      "errorLabel": "右辺のかけ忘れ",
+      "correct": {
+        "label": "正しい計算",
+        "align": ["c", "c", "c", "c"],
+        "rows": [
+          { "cells": ["0.2x", "{}+0.3y", "=", "1"]},
+          { "note": true, "cells": ["\\downarrow\\times10", "\\downarrow\\times10", "", "\\downarrow\\times10"]},
+          { "cells": ["2x", "{}+3y", "=", "\\hl{f1}{10}"]}
+        ]
+      },
+      "correctKeys": ["f1"],
+      "reason": "両辺を $10$ 倍するときは，右辺の $1$ にも $10$ をかける。左辺だけを $10$ 倍すると，等式が成り立たなくなる。",
+      "note": "問3.1 の「右辺も $10$ 倍すること！」と同じ注意。",
+      "check": { "equations": ["0.2*x+0.3*y=1"], "solution": { "x": 5, "y": 0}, "identities": ["10*(0.2*x+0.3*y)=2*x+3*y"]},
+      "teacherNote": "$x=5,\\ y=0$ はもとの式を満たすが，$2x+3y=1$ には代入すると $10$ になり成り立たない，と確かめることもできる。"
+    },
+    {
+      "id": "q2",
+      "prompt": "両辺を $3$ 倍して，分母をはらいました。どこがまちがっているでしょう？",
+      "wrong": {
+        "label": "まちがいのある計算",
+        "align": ["c", "c", "c"],
+        "rows": [
+          { "cells": ["\\dfrac{x-2}{3}", "=", "4"]},
+          { "note": true, "cells": ["\\downarrow\\times3", "", ""]},
+          { "cells": ["x-2", "=", "\\hl{e1}{4}"]},
+          { "cells": ["x", "=", "6"]}
+        ]
+      },
+      "errorKeys": ["e1"],
+      "errorType": "other",
+      "errorLabel": "右辺のかけ忘れ",
+      "correct": {
+        "label": "正しい計算",
+        "align": ["c", "c", "c"],
+        "rows": [
+          { "cells": ["\\dfrac{x-2}{3}", "=", "4"]},
+          { "note": true, "cells": ["\\downarrow\\times3", "", "\\downarrow\\times3"]},
+          { "cells": ["x-2", "=", "\\hl{f1}{12}"]},
+          { "cells": ["x", "=", "14"]}
+        ]
+      },
+      "correctKeys": ["f1"],
+      "reason": "分母をはらうために両辺を $3$ 倍するときは，右辺の $4$ にも $3$ をかけて $12$ にする。",
+      "note": "正しくは $x-2=12$ より $x=14$。分子 $x-2$ はひとまとまりなので，$3\\times\\frac{x-2}{3}=x-2$ になる。",
+      "check": { "equations": ["(x-2)/3=4"], "solution": { "x": 14}, "identities": ["3*((x-2)/3)=x-2"]},
+      "teacherNote": "まちがった答え $x=6$ をもとの式に代入すると $\\dfrac{4}{3}$ になり，$4$ にならない。"
+    }
+  ]
+}
