@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "id": "intro-swap-digits-1",
+  "type": "introduction",
+  "title": "数字を入れかえると、何が起こる？",
+  "description": "数字カードで2けたの整数をつくり、十の位と一の位を入れかえたときの差を調べて、10a+b の表し方につなげます。",
+  "unit": { "grade": "g2", "chapter": "c2", "section": "s6" },
+  "minutes": 6,
+  "status": "draft",
+  "teacher": {
+    "aim": "位を入れかえた2つの整数の差が9の倍数になることを体験し、「2けたの整数＝10×十の位＋一の位」と文字で表すよさにつなげる。",
+    "notes": ["問6.2 の数値（74，47，27）は使っていない。", "生徒に好きな2けたの数を言わせて、その場で差を計算させてもよい。"]
+  },
+  "slides": [
+    {
+      "id": "s1",
+      "title": "数字カードで2けたの整数",
+      "blocks": [
+        { "id": "t1", "type": "text", "area": "top", "text": "$3$ と $8$ のカードで2けたの整数をつくり，十の位と一の位を入れかえてみよう。" },
+        {
+          "id": "pv",
+          "type": "place",
+          "area": "left",
+          "labels": ["十の位", "一の位"],
+          "cards": [{ "id": "p", "color": "blue" }, { "id": "q", "color": "orange" } ],
+          "states": [
+            { "id": "n", "order": ["p", "q"], "values": { "p": "3", "q": "8" }, "tex": "38" },
+            { "id": "s", "order": ["q", "p"], "values": { "p": "3", "q": "8" }, "tex": "83" }
+          ]
+        }
+      ],
+      "steps": [
+        { "id": "swap", "title": "入れかえる", "set": { "pv": "s" }, "comment": "$38$ の十の位と一の位を入れかえると $83$。" },
+        {
+          "id": "diff",
+          "title": "差は？",
+          "add": [{ "id": "d", "type": "math", "area": "right", "size": "l", "tex": "83-38=\\hl{d1}{45}" } ],
+          "emphasis": [{ "key": "d1", "style": "box", "color": "red" } ],
+          "comment": "大きい方から小さい方をひくと，差は $45$。"
+        }
+      ],
+      "teacher": { "questions": ["入れかえると，数はどれだけ変わる？"]}
+    },
+    {
+      "id": "s2",
+      "title": "ほかの数でも調べよう",
+      "blocks": [
+        {
+          "id": "tbl",
+          "type": "table",
+          "area": "top",
+          "hide": ["r2", "r3"],
+          "head": ["もとの数", "入れかえた数", "差", "9でわると"],
+          "rows": [
+            { "key": "r1", "cells": ["$38$", "$83$", "$83-38=45$", "$45=9\\times5$"]},
+            { "key": "r2", "cells": ["$91$", "$19$", "$91-19=72$", "$72=9\\times8$"]},
+            { "key": "r3", "cells": ["$62$", "$26$", "$62-26=36$", "$36=9\\times4$"]}
+          ]
+        }
+      ],
+      "steps": [
+        { "id": "r2", "title": "91 の場合", "reveal": ["r2"]},
+        { "id": "r3", "title": "62 の場合", "reveal": ["r3"]},
+        { "id": "find", "title": "気づいたこと", "comment": "差はどれも **9の倍数** になっている！" }
+      ],
+      "check": { "identities": ["83-38=45", "91-19=72", "62-26=36", "45=9*5", "72=9*8", "36=9*4"]},
+      "teacher": { "questions": ["差に，何か共通することはある？", "9でわった商（5，8，4）は，何と関係がある？"]}
+    },
+    {
+      "id": "s3",
+      "title": "文字で表して確かめよう",
+      "blocks": [
+        {
+          "id": "pv",
+          "type": "place",
+          "area": "left",
+          "labels": ["十の位", "一の位"],
+          "cards": [{ "id": "a", "label": "a", "color": "blue" }, { "id": "b", "label": "b", "color": "orange" } ],
+          "states": [
+            { "id": "A", "order": ["a", "b"], "tex": "10\\tc{blue}{a}+\\tc{orange}{b}" },
+            { "id": "B", "order": ["b", "a"], "tex": "10\\tc{orange}{b}+\\tc{blue}{a}" }
+          ]
+        },
+        {
+          "id": "c",
+          "type": "calc",
+          "area": "right",
+          "hide": ["k1", "k2", "k3"],
+          "rows": [
+            { "cells": ["(10a+b)-(10b+a)", "=", "10a+b-10b-a"], "key": "k1" },
+            { "key": "k2", "cells": ["", "=", "9a-9b"]},
+            { "key": "k3", "cells": ["", "=", "\\hl{k9}{9}(a-b)"]}
+          ]
+        }
+      ],
+      "steps": [
+        { "id": "swap", "title": "入れかえる", "set": { "pv": "B" }, "comment": "十の位が $a$，一の位が $b$ の整数は $10a+b$。入れかえると $10b+a$。" },
+        {
+          "id": "calc",
+          "title": "差を計算する",
+          "reveal": ["k1", "k2", "k3"],
+          "emphasis": [{ "key": "k9", "style": "box", "color": "red" } ],
+          "comment": "差は $9(a-b)$。だから，いつでも9の倍数になる。"
+        }
+      ],
+      "check": { "solution": { "a": 3, "b": 8}, "identities": ["(10*a+b)-(10*b+a)=9*(a-b)"]},
+      "teacher": { "notes": ["$a-b$ は「位の数の差」。$38$ なら $8-3=5$ で，差は $9\\times5=45$。"]}
+    },
+    {
+      "id": "s4",
+      "title": "まとめ",
+      "blocks": [
+        {
+          "id": "m",
+          "type": "callout",
+          "area": "top",
+          "tone": "point",
+          "text": "十の位が $a$，一の位が $b$ の2けたの整数は **$10a+b$**。\n入れかえた整数は **$10b+a$**。"
+        },
+        { "id": "m2", "type": "text", "area": "top", "hide": ["n1"], "text": "[[n1|このあと，問6.2 で「位を入れかえた整数」の問題を連立方程式で解いてみよう！]]" }
+      ],
+      "steps": [{ "id": "next", "title": "問6.2へ", "reveal": ["n1"]} ],
+      "teacher": { "notes": ["$a+b$ と書いてしまう誤りが多いので，「36 は $3+6$？」と確認してから問題に入る。"]}
+    }
+  ]
+}

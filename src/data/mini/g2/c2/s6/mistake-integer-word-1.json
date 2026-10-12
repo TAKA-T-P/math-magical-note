@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "id": "mistake-integer-word-1",
+  "type": "mistake",
+  "title": "整数の文章題の落とし穴！",
+  "description": "わり算の商とあまりの使い方、2けたの整数の表し方のまちがいを見破ります。",
+  "unit": { "grade": "g2", "chapter": "c2", "section": "s6" },
+  "minutes": 6,
+  "difficulty": 1,
+  "status": "draft",
+  "teacher": {
+    "aim": "「わられる数＝わる数×商＋あまり」「2けたの整数＝10×十の位の数＋一の位の数」を、まちがいの例と比べて確認する。",
+    "notes": ["どちらも計算ミスではなく、数量の表し方（式の立て方）のミス。具体的な数で確かめさせる。"]
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "prompt": "ある数を4でわると，商が6，あまりが2になる。ある数を式で表しました。どこでまちがえたでしょう？",
+      "wrong": {
+        "label": "まちがいのある式",
+        "align": ["l", "c", "l"],
+        "rows": [{ "cells": [{ "text": "ある数", "value": "n" }, "=", "4\\hl{e1}{+}6+2"] }]
+      },
+      "errorKeys": ["e1"],
+      "errorType": "formula",
+      "errorLabel": "わる数と商をたしている",
+      "correct": {
+        "label": "正しい式",
+        "align": ["l", "c", "l", "c", "l"],
+        "rows": [{ "cells": [{ "text": "ある数", "value": "n" }, "=", "4\\hl{f1}{\\times}6+2", "=", "26"] }]
+      },
+      "correctKeys": ["f1"],
+      "reason": "わり算のたしかめの式は「わられる数 ＝ わる数 × 商 ＋ あまり」。わる数と商は **かける**。",
+      "note": "確かめ：$26\\div4=6$ あまり $2$。",
+      "check": { "solution": { "n": 26 }, "identities": ["4*6+2=26"] },
+      "teacherNote": "「4 が 6 つ分と，あまり 2」と言いかえさせると，かけ算になる理由がわかる。"
+    },
+    {
+      "id": "q2",
+      "prompt": "十の位の数が $a$，一の位の数が $b$ の2けたの整数を式で表しました。どこでまちがえたでしょう？",
+      "wrong": {
+        "label": "まちがいのある式",
+        "align": ["l", "c", "l"],
+        "rows": [{ "cells": [{ "text": "2けたの整数", "value": "10a+b" }, "=", "\\hl{e1}{a}+b"] }]
+      },
+      "errorKeys": ["e1"],
+      "errorType": "formula",
+      "errorLabel": "十の位の数を10倍していない",
+      "correct": {
+        "label": "正しい式",
+        "align": ["l", "c", "l"],
+        "rows": [{ "cells": [{ "text": "2けたの整数", "value": "10a+b" }, "=", "\\hl{f1}{10a}+b"] }]
+      },
+      "correctKeys": ["f1"],
+      "reason": "十の位の数 $a$ は「10 が $a$ 個」を表すので $10a$。$a+b$ は2つの位の数の和で，2けたの整数ではない。",
+      "note": "たとえば $a=3$，$b=6$ なら，整数は $36=10\\times3+6$。$a+b=9$ ではない。",
+      "check": { "identity": true, "vars": ["a", "b"], "identities": ["10*3+6=36"] },
+      "teacherNote": "36 や 52 など，具体的な整数で $10a+b$ になることを確かめさせる。"
+    }
+  ]
+}

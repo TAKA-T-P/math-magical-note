@@ -1,5 +1,6 @@
 import { texToHtml, inlineToHtml } from '../math/render.js';
 import { pageOf } from '../app/catalog.js';
+import { STATEFUL, initialState } from './stateful-blocks.js';
 
 // 表示テンプレート（ブロック種別ごと）。新しい種別はここに追加する。
 const BLOCK_BUILDERS = {
@@ -12,6 +13,9 @@ const BLOCK_BUILDERS = {
   calc: buildCalc,
   table: buildTable,
   illust: buildIllust,
+  // 状態を持つブロック（stateful-blocks.js）。中身は update() で状態に合わせて描く
+  place: (b) => STATEFUL.place.build(b),
+  bars: (b) => STATEFUL.bars.build(b),
   // 画像は public/ 以下に置き、相対パスで指定する（GitHub Pages のサブパスでも動くよう先頭に ./ を付ける）
   image: (b) =>
     `<figure><img src="./${encodeURI(b.src)}" alt="${(b.alt ?? '').replace(/"/g, '&quot;')}"${b.height ? ` style="height:${Number(b.height)}px"` : ''}>${
@@ -167,6 +171,16 @@ export class LessonRenderer {
       const host = this.areas[area];
       const anchor = area === 'bottom' ? this.hintPanel : null;
       els.forEach((el) => host.insertBefore(el, anchor));
+    }
+    // 状態を持つブロック：ステップの set で指定された状態で描く（キーの処理より前に行う）
+    for (const [id, { block }] of view.blocks) {
+      if (!block.states) continue;
+      const el = this.cache.get(id);
+      const sid = view.states?.get(id) ?? initialState(block);
+      if (el.dataset.state === sid) continue;
+      const st = block.states.find((s) => s.id === sid) ?? block.states[0];
+      STATEFUL[block.type].apply(el, block, st, play && el.dataset.state !== undefined);
+      el.dataset.state = sid;
     }
     this.body.classList.toggle('has-columns', perArea.left.length + perArea.right.length + perArea.full.length > 0);
 

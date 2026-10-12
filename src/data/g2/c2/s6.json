@@ -1,0 +1,485 @@
+{
+  "schema": 1,
+  "unit": { "grade": "g2", "chapter": "c2", "section": "s6" },
+  "contents": [
+    {
+      "id": "g2.simul.integer.q-quotient-remainder-1",
+      "rev": 1,
+      "editions": { "2026": { "page": 33, "number": "問6.1", "ref": "Ⓢp.48[1](1)(2)" }},
+      "type": "exercise",
+      "title": "大小2つの整数（商とあまり）",
+      "statement": [
+        {
+          "id": "q-text",
+          "type": "text",
+          "area": "top",
+          "text": "大小2つの整数がある。[[c1|大きい数は小さい数より48大きい]]。また，[[c2|大きい数を小さい数でわると]]，[[q3|商が3]]になり，[[r8|あまりが8]]となる。これら2つの整数を答えなさい。"
+        }
+      ],
+      "answer": { "text": "大きい数 68，小さい数 20", "values": { "x": 68, "y": 20}},
+      "check": {
+        "equations": ["x=y+48", "x=3*y+8"],
+        "solution": { "x": 68, "y": 20},
+        "derived": ["y+48=3*y+8", "-2*y=-40"],
+        "identities": ["68-20=48", "20*3+8=68", "(y+48)-(3*y+8)=-2*y+40"],
+        "nonSolutions": [{ "x": 44, "y": 12}, { "x": 56, "y": 8} ]
+      },
+      "hints": [
+        "わり算のたしかめの式を利用する。$A\\div B=C\\cdots D \\to A=B\\times C+D$",
+        "大きい数を $x$，小さい数を $y$ とすると，$x\\div y=3\\cdots8$。",
+        "$x\\div y=3\\cdots8$ は，$x$ が「$y$ が3つ分と，あまり8」ということ。"
+      ],
+      "steps": [
+        {
+          "id": "letters",
+          "title": "わからないものを $x$，$y$ とおく",
+          "add": [{ "id": "let", "type": "text", "area": "left", "text": "[[lx|大きい数を $\\tc{blue}{x}$]]，[[ly|小さい数を $\\tc{orange}{y}$]] とする。" } ],
+          "emphasis": [{ "key": "lx", "style": "marker", "color": "blue" }, { "key": "ly", "style": "marker", "color": "orange" } ],
+          "comment": "わからない2つの整数を，大きい数 $x$，小さい数 $y$ とおく。",
+          "teacherNote": "「この問題で，わからないものは何？」と発問してから表示する。"
+        },
+        {
+          "id": "cond1",
+          "title": "1つ目の条件を見つける",
+          "emphasis": [{ "key": "c1", "style": "marker", "color": "yellow" } ],
+          "comment": "「大きい数は小さい数より48大きい」→（大きい数）＝（小さい数）＋48"
+        },
+        {
+          "id": "eq1",
+          "title": "1つ目の式を立てる",
+          "add": [
+            {
+              "id": "eq1",
+              "type": "calc",
+              "area": "left",
+              "size": "l",
+              "align": ["c", "c", "c", "l"],
+              "rows": [
+                { "head": true, "cells": [{ "text": "大きい数" }, "", { "text": "小さい数＋48" }, ""]},
+                { "cells": ["\\tc{blue}{x}", "=", "\\tc{orange}{y}+48", { "text": "……①" } ]}
+              ]
+            }
+          ],
+          "emphasis": [{ "key": "c1", "style": "marker", "color": "yellow" } ],
+          "comment": "大きい数 $x$ は，小さい数 $y$ に48をたした数。"
+        },
+        {
+          "id": "cond2",
+          "title": "2つ目の条件を見つける",
+          "add": [
+            {
+              "id": "hint",
+              "type": "callout",
+              "area": "right",
+              "tone": "point",
+              "title": "ヒント",
+              "text": "わり算のたしかめの式を利用する。\n$A\\div B=C\\cdots D \\to A=B\\times C+D$"
+            }
+          ],
+          "emphasis": [
+            { "key": "c2", "style": "marker", "color": "yellow" },
+            { "key": "q3", "style": "marker", "color": "yellow" },
+            { "key": "r8", "style": "marker", "color": "green" }
+          ],
+          "comment": "大きい数 $x$ を小さい数 $y$ でわると，商が3，あまりが8 → $x\\div y=3\\cdots8$",
+          "teacherNote": "「17÷5 は？」→「3 あまり 2」→「たしかめると $5\\times3+2=17$」と，具体的な数で確認してから文字にする。"
+        },
+        {
+          "id": "relation",
+          "title": "わり算の関係を図で見る",
+          "add": [
+            {
+              "id": "divrel",
+              "type": "math",
+              "area": "right",
+              "verify": false,
+              "tex": "\\tc{blue}{x}\\div\\tc{orange}{y}=\\hl{dq}{3}\\cdots\\hl{dr}{8}"
+            },
+            {
+              "id": "bars",
+              "type": "bars",
+              "area": "right",
+              "total": { "text": "わられる数 $\\tc{blue}{x}$", "key": "bt" },
+              "parts": [
+                { "text": "$y$", "w": 3, "color": "orange", "key": "by1" },
+                { "text": "$y$", "w": 3, "color": "orange", "key": "by2" },
+                { "text": "$y$", "w": 3, "color": "orange", "key": "by3" },
+                { "text": "$8$", "w": 1.4, "color": "green", "key": "b8" }
+              ],
+              "groups": [{ "from": 0, "to": 2, "text": "わる数 $y$ が 3つ（商 3）", "key": "gq" }, { "from": 3, "to": 3, "text": "あまり", "key": "gr" } ],
+              "states": [
+                { "id": "sym" },
+                {
+                  "id": "num",
+                  "total": { "text": "わられる数 $\\tc{blue}{68}$", "key": "bt", "value": 68},
+                  "parts": [
+                    { "text": "$20$", "w": 20, "color": "orange", "key": "by1", "value": 20},
+                    { "text": "$20$", "w": 20, "color": "orange", "key": "by2", "value": 20},
+                    { "text": "$20$", "w": 20, "color": "orange", "key": "by3", "value": 20},
+                    { "text": "$8$", "w": 8, "color": "green", "key": "b8", "value": 8}
+                  ],
+                  "groups": [{ "from": 0, "to": 2, "text": "わる数 $20$ が 3つ（商 3）", "key": "gq" }, { "from": 3, "to": 3, "text": "あまり", "key": "gr" } ]
+                }
+              ]
+            }
+          ],
+          "emphasis": [
+            { "keys": ["q3", "dq", "gq"], "style": "marker", "color": "yellow" },
+            { "keys": ["r8", "dr", "gr", "b8"], "style": "marker", "color": "green" }
+          ],
+          "comment": "$x$ は「$y$ が3つ分」と「あまり8」を合わせた大きさ。",
+          "teacherNote": "「なぜ $3y+8$ になる？」と発問し，図の $y$ が3つ（商）と 8（あまり）を指しながら説明させる。"
+        },
+        {
+          "id": "eq2",
+          "title": "2つ目の式を立てる",
+          "remove": ["hint"],
+          "add": [
+            {
+              "id": "eq2",
+              "type": "calc",
+              "area": "right",
+              "size": "l",
+              "align": ["c", "c", "c", "l"],
+              "rows": [
+                { "head": true, "cells": [{ "text": "わられる数" }, "", { "text": "わる数×商＋あまり" }, ""]},
+                { "cells": ["\\tc{blue}{x}", "=", "\\hl{e3y}{3\\tc{orange}{y}}+\\hl{e8}{8}", { "text": "……②" } ]}
+              ]
+            }
+          ],
+          "emphasis": [{ "keys": ["e3y", "gq"], "style": "box", "color": "red" }, { "keys": ["e8", "gr"], "style": "box", "color": "green" } ],
+          "comment": "$y$ が3つで $3y$，それにあまりの8をたして $x=3y+8$。"
+        },
+        {
+          "id": "system",
+          "title": "連立方程式にまとめる",
+          "remove": ["eq1", "eq2", "divrel"],
+          "add": [
+            {
+              "id": "sys",
+              "type": "math",
+              "area": "left",
+              "size": "l",
+              "tex": "\\begin{cases} \\tc{blue}{x}=\\tc{orange}{y}+48 \\cdots\\!\\cdots\\text{①} \\\\ \\tc{blue}{x}=3\\tc{orange}{y}+8 \\cdots\\!\\cdots\\text{②} \\end{cases}"
+            }
+          ],
+          "comment": "2つの条件から，2つの方程式ができた。どちらも「$x=\\cdots$」の形なので代入法で解く。",
+          "teacherNote": { "text": "指導書の解答例は「$x=y+48$ …①，$x=3y+8$ …②」とし，①を②に代入して解いている。", "source": "material" }
+        },
+        {
+          "id": "substitute",
+          "title": "①を②に代入する",
+          "add": [
+            {
+              "id": "solve",
+              "type": "calc",
+              "area": "left",
+              "hide": ["s2", "s3"],
+              "rows": [
+                { "label": "①を②に代入して", "cells": ["\\hl{sub}{y+48}", "=", "3y+8"]},
+                { "key": "s2", "cells": ["-2y", "=", "-40"]},
+                { "key": "s3", "cells": ["y", "=", "\\hl{yv}{20}"]}
+              ]
+            }
+          ],
+          "emphasis": [{ "key": "sub", "style": "box", "color": "green" } ],
+          "comment": "①の $x$ は $y+48$。これを②の $x$ のところに入れる。"
+        },
+        {
+          "id": "y-value",
+          "title": "$y$ を求める",
+          "reveal": ["s2", "s3"],
+          "emphasis": [{ "key": "s3", "style": "marker", "color": "yellow" } ],
+          "comment": "移項して $y-3y=8-48$，$-2y=-40$，$y=20$。"
+        },
+        {
+          "id": "x-value",
+          "title": "①に代入して $x$ を求める",
+          "add": [
+            {
+              "id": "xv",
+              "type": "calc",
+              "area": "left",
+              "rows": [{ "label": "①に代入して", "cells": ["x", "=", "\\hl{s20}{20}+48"]}, { "cells": ["", "=", "68"]} ]
+            }
+          ],
+          "emphasis": [{ "keys": ["yv", "s20"], "style": "box", "color": "green" } ],
+          "comment": "$y=20$ を①に代入すると，$x=20+48=68$。"
+        },
+        {
+          "id": "answer",
+          "title": "答えを書く",
+          "set": { "bars": "num" },
+          "add": [{ "id": "ans", "type": "answer", "area": "right", "text": "大きい数 68，小さい数 20" } ],
+          "emphasis": [{ "keys": ["gq", "gr"], "style": "marker", "color": "yellow" } ],
+          "comment": "図の $y$ が 20，$x$ が 68 になった。$20$ が3つと，あまり $8$ で $68$。"
+        },
+        {
+          "id": "verify",
+          "title": "問題文を読み返して確かめる",
+          "add": [
+            {
+              "id": "chk",
+              "type": "calc",
+              "area": "right",
+              "size": "s",
+              "align": ["r", "c", "l", "l"],
+              "rows": [
+                { "label": "48大きい", "cells": ["68-20", "=", "48", "\\ok"]},
+                { "label": "商3あまり8", "cells": ["20\\times3+8", "=", "68", "\\ok"]},
+                { "label": "あまり＜わる数", "cells": ["8", "<", "20", "\\ok"]}
+              ]
+            }
+          ],
+          "emphasis": [{ "keys": ["c1", "q3", "r8"], "style": "marker", "color": "yellow" } ],
+          "comment": "どちらの条件にも合っている。あまり8がわる数20より小さいことも確認する（あまりはわる数より小さい）。"
+        }
+      ],
+      "teacher": {
+        "status": "draft",
+        "aim": "「商が3，あまりが8」という条件を，わり算のたしかめの式（わられる数＝わる数×商＋あまり）を使って $x=3y+8$ と表せるようにする。",
+        "questions": ["17÷5 の商とあまりは？たしかめの式は？", "なぜ $3y+8$ になる？図を使って説明しよう。", "求めた答えで，あまりはわる数より小さくなっている？"],
+        "pitfalls": ["$x=3y-8$ や $3x=y+8$ のように，わられる数とわる数を取りちがえる。", "「あまり」を商にたしてしまい，$x=y\\times(3+8)$ のように考える。"],
+        "notes": [
+          { "text": "本編のヒント：わり算のたしかめの式を利用する。$A\\div B=C\\cdots D \\to A=B\\times C+D$", "source": "material" },
+          {
+            "text": "指導書の解答例：大きい数を $x$，小さい数を $y$ とする。$x=y+48$ …①，$x=3y+8$ …②。①を②に代入して $y+48=3y+8$，$-2y=-40$，$y=20$。①に代入して $x=20+48=68$。答え 68 と 20。",
+            "source": "material"
+          }
+        ]
+      }
+    },
+    {
+      "id": "g2.simul.integer.q-swap-digits-1",
+      "rev": 1,
+      "editions": { "2026": { "page": 33, "number": "問6.2", "tags": ["定期"], "ref": "Ⓢp.48[2](1)(3)" }},
+      "type": "exercise",
+      "title": "2けたの整数と位の入れかえ",
+      "statement": [
+        {
+          "id": "q-text",
+          "type": "text",
+          "area": "top",
+          "text": "2けたの整数Aがある。この整数Aは，[[c1|十の位の数の9倍より11大きい]]。また，[[sw|整数Aの十の位の数と一の位の数を入れかえた整数をB]]とすると，[[c2|整数Aは整数Bより27大きい]]。このとき，整数Aの値を求めなさい。"
+        }
+      ],
+      "answer": { "text": "74", "values": { "a": 7, "b": 4, "A": 74, "B": 47}},
+      "check": {
+        "equations": ["10*a+b=9*a+11", "10*a+b=10*b+a+27"],
+        "solution": { "a": 7, "b": 4, "A": 74, "B": 47},
+        "derived": ["a+b=11", "9*a-9*b=27", "a-b=3", "2*a=14", "7+b=11", "A=10*a+b", "B=10*b+a"],
+        "identities": ["(10*a+b)-9*a=a+b", "(10*a+b)-(10*b+a)=9*a-9*b", "(9*a-9*b)/9=a-b", "(a+b)+(a-b)=2*a", "9*7+11=74", "74-47=27", "10*3+6=36"],
+        "nonSolutions": [{ "a": 4, "b": 7, "A": 47, "B": 74} ]
+      },
+      "hints": ["十の位の数が $a$，一の位の数が $b$ である2けたの整数は，$10a+b$ と表せる。", "十の位と一の位を入れかえると，十の位が $b$，一の位が $a$ になる。", "2つの式は，どちらも整理すると $a$，$b$ の簡単な式になる。"],
+      "steps": [
+        {
+          "id": "letters",
+          "title": "十の位の数・一の位の数をおく",
+          "add": [{ "id": "let", "type": "text", "area": "left", "text": "十の位の数を $\\tc{blue}{a}$，一の位の数を $\\tc{orange}{b}$ とする。" } ],
+          "comment": "整数Aそのものではなく，**十の位の数** と **一の位の数** を文字でおく。",
+          "teacherNote": { "text": "指導書の解答例では十の位の数を $x$，一の位の数を $y$ としている。ここでは本編のヒントに合わせて $a$，$b$ を使う。", "source": "draft" }
+        },
+        {
+          "id": "place",
+          "title": "位取り表に入れる",
+          "add": [
+            {
+              "id": "pv",
+              "type": "place",
+              "area": "left",
+              "labels": ["十の位", "一の位"],
+              "cards": [{ "id": "a", "label": "a", "color": "blue", "key": "ca" }, { "id": "b", "label": "b", "color": "orange", "key": "cb" } ],
+              "states": [
+                { "id": "A0", "order": ["a", "b"]},
+                { "id": "A", "order": ["a", "b"], "tex": "A=\\hl{e10a}{10\\tc{blue}{a}}+\\hl{eb}{\\tc{orange}{b}}" },
+                { "id": "B", "order": ["b", "a"], "tex": "B=\\hl{f10b}{10\\tc{orange}{b}}+\\hl{fa}{\\tc{blue}{a}}" },
+                { "id": "A-num", "order": ["a", "b"], "values": { "a": "7", "b": "4" }, "tex": "A=74" },
+                { "id": "B-num", "order": ["b", "a"], "values": { "a": "7", "b": "4" }, "tex": "B=47" }
+              ]
+            },
+            {
+              "id": "ex",
+              "type": "callout",
+              "area": "right",
+              "tone": "blue",
+              "title": "例：36 の場合",
+              "text": "$36$ は「$10$ が $3$ 個」と「$1$ が $6$ 個」\n→ $36=10\\times3+6$\n（$3+6=9$ ではない！）"
+            }
+          ],
+          "emphasis": [{ "key": "ca", "style": "box", "color": "blue" }, { "key": "cb", "style": "box", "color": "orange" } ],
+          "comment": "十の位に $a$，一の位に $b$ を入れる。この2けたの整数を，$a$，$b$ を使ってどう表す？",
+          "teacherNote": "「$a+b$ でいい？」と発問し，右の例（36）で確かめさせる。"
+        },
+        {
+          "id": "expr-a",
+          "title": "整数Aを式で表す",
+          "set": { "pv": "A" },
+          "add": [
+            {
+              "id": "ab",
+              "type": "calc",
+              "area": "right",
+              "size": "l",
+              "hide": ["rB"],
+              "rows": [
+                { "key": "rA", "cells": ["A", "=", "10\\tc{blue}{a}+\\tc{orange}{b}"]},
+                { "key": "rB", "cells": ["B", "=", "10\\tc{orange}{b}+\\tc{blue}{a}"]}
+              ]
+            }
+          ],
+          "emphasis": [{ "keys": ["ca", "e10a"], "style": "box", "color": "blue" }, { "keys": ["cb", "eb"], "style": "box", "color": "orange" } ],
+          "comment": "十の位の $a$ は「$10$ が $a$ 個」なので $10a$。一の位の $b$ はそのまま $b$。→ $A=10a+b$",
+          "teacherNote": { "text": "本編のヒント：十の位の数が $a$，一の位の数が $b$ である2けたの整数は，$10a+b$ と表せる。", "source": "material" }
+        },
+        {
+          "id": "swap",
+          "title": "位を入れかえて整数Bをつくる",
+          "set": { "pv": "B" },
+          "reveal": ["rB"],
+          "emphasis": [
+            { "key": "sw", "style": "marker", "color": "yellow" },
+            { "keys": ["cb", "f10b"], "style": "box", "color": "orange" },
+            { "keys": ["ca", "fa"], "style": "box", "color": "blue" }
+          ],
+          "comment": "入れかえると，十の位が $b$，一の位が $a$。→ $B=10b+a$"
+        },
+        {
+          "id": "cond1",
+          "title": "1つ目の条件を見つける",
+          "remove": ["ex"],
+          "emphasis": [{ "key": "c1", "style": "marker", "color": "yellow" }, { "key": "rA", "style": "marker", "color": "yellow" } ],
+          "comment": "「整数Aは，十の位の数の9倍より11大きい」→ $A=9a+11$"
+        },
+        {
+          "id": "eq1",
+          "title": "1つ目の方程式をつくって整理する",
+          "add": [
+            {
+              "id": "eqA",
+              "type": "calc",
+              "area": "right",
+              "rows": [{ "label": "①", "cells": ["10a+b", "=", "9a+11"]}, { "label": "①より", "cells": ["a+b", "=", "11", { "text": "……①'" } ]} ],
+              "align": ["r", "c", "l", "l"]
+            }
+          ],
+          "emphasis": [{ "key": "c1", "style": "marker", "color": "yellow" } ],
+          "comment": "$A=10a+b$ なので $10a+b=9a+11$。$9a$ を移項して $a+b=11$。"
+        },
+        {
+          "id": "cond2",
+          "title": "2つ目の条件を見つける",
+          "emphasis": [{ "key": "c2", "style": "marker", "color": "yellow" }, { "keys": ["rA", "rB"], "style": "marker", "color": "yellow" } ],
+          "comment": "「整数Aは整数Bより27大きい」→ $A=B+27$"
+        },
+        {
+          "id": "eq2",
+          "title": "2つ目の方程式をつくって整理する",
+          "add": [
+            {
+              "id": "eqB",
+              "type": "calc",
+              "area": "right",
+              "rows": [
+                { "label": "②", "cells": ["10a+b", "=", "10b+a+27"]},
+                { "label": "②より", "cells": ["9a-9b", "=", "27"]},
+                { "label": "÷9", "cells": ["a-b", "=", "3", { "text": "……②'" } ]}
+              ],
+              "align": ["r", "c", "l", "l"]
+            }
+          ],
+          "emphasis": [{ "key": "c2", "style": "marker", "color": "yellow" } ],
+          "comment": "$10a+b=10b+a+27$。文字を左辺に集めて $9a-9b=27$，両辺を9でわって $a-b=3$。"
+        },
+        {
+          "id": "system",
+          "title": "連立方程式にまとめる",
+          "remove": ["ab", "eqA", "eqB"],
+          "add": [
+            {
+              "id": "sys",
+              "type": "math",
+              "area": "right",
+              "size": "l",
+              "tex": "\\begin{cases} \\tc{blue}{a}+\\tc{orange}{b}=11 \\cdots\\!\\cdots\\text{①'} \\\\ \\tc{blue}{a}-\\tc{orange}{b}=3 \\cdots\\!\\cdots\\text{②'} \\end{cases}"
+            }
+          ],
+          "comment": "整理した ①' と ②' を連立方程式として解く。$b$ の係数が $+1$ と $-1$ なので，たすと $b$ が消える。"
+        },
+        {
+          "id": "a-value",
+          "title": "$a$ を求める",
+          "add": [
+            {
+              "id": "solveA",
+              "type": "calc",
+              "area": "right",
+              "rows": [{ "label": "①'+②'より", "cells": ["2a", "=", "14"]}, { "cells": ["a", "=", "\\hl{av}{7}"]} ]
+            }
+          ],
+          "comment": "①'＋②' で $2a=14$，$a=7$。"
+        },
+        {
+          "id": "b-value",
+          "title": "$b$ を求める",
+          "add": [
+            {
+              "id": "solveB",
+              "type": "calc",
+              "area": "right",
+              "rows": [{ "label": "①'に代入して", "cells": ["\\hl{a7}{7}+b", "=", "11"]}, { "cells": ["b", "=", "4"]} ]
+            }
+          ],
+          "emphasis": [{ "keys": ["av", "a7"], "style": "box", "color": "green" } ],
+          "comment": "$a=7$ を①'に代入して $7+b=11$，$b=4$。"
+        },
+        {
+          "id": "place-num",
+          "title": "位取り表に数を入れる",
+          "set": { "pv": "A-num" },
+          "emphasis": [{ "key": "ca", "style": "box", "color": "blue" }, { "key": "cb", "style": "box", "color": "orange" } ],
+          "comment": "十の位が $7$，一の位が $4$ → 整数Aは $74$。"
+        },
+        { "id": "swap-num", "title": "入れかえた整数Bを確かめる", "set": { "pv": "B-num" }, "comment": "カードを入れかえると $47$。これが整数B。" },
+        {
+          "id": "verify",
+          "title": "問題文を読み返して確かめる",
+          "add": [
+            {
+              "id": "chk",
+              "type": "calc",
+              "area": "left",
+              "size": "s",
+              "align": ["r", "c", "l", "l"],
+              "rows": [
+                { "label": "9倍より11大きい", "cells": ["9\\times7+11", "=", "74", "\\ok"]},
+                { "label": "Bより27大きい", "cells": ["74-47", "=", "27", "\\ok"]}
+              ]
+            }
+          ],
+          "emphasis": [{ "keys": ["c1", "c2"], "style": "marker", "color": "yellow" } ],
+          "comment": "2つの条件をどちらも満たしている。"
+        },
+        {
+          "id": "answer",
+          "title": "答えを書く",
+          "add": [{ "id": "ans", "type": "answer", "area": "right", "text": "整数A は 74" } ],
+          "comment": "表を整数Aの並び（74）に戻す。問題は「整数Aの値」なので，$a=7$，$b=4$ ではなく **74** と答える。",
+          "set": { "pv": "A-num" }
+        }
+      ],
+      "teacher": {
+        "status": "draft",
+        "aim": "十の位の数 $a$，一の位の数 $b$ の2けたの整数を $10a+b$ と表し，位を入れかえた整数を $10b+a$ と表せるようにする。",
+        "questions": ["十の位が $a$，一の位が $b$ の整数は $a+b$ でいい？（36 で確かめよう）", "十の位と一の位を入れかえると，どんな式になる？", "求めた $a=7$，$b=4$ のとき，整数Aは？"],
+        "pitfalls": ["2けたの整数を $a+b$ や $ab$ と表してしまう。", "答えを $a=7$，$b=4$ のままにして，整数Aの値（74）を答えない。"],
+        "notes": [
+          {
+            "text": "指導書の解答例：Aの十の位の数を $x$，一の位の数を $y$ とすると，$A=10x+y$，$B=10y+x$。$10x+y=9x+11$ …①，$10x+y=10y+x+27$ …②。①より $x+y=11$ …①'，②より $9x-9y=27$，$x-y=3$ …②'。①'+②'より $2x=14$，$x=7$。①'に代入して $y=4$。答え 74。",
+            "source": "material"
+          }
+        ]
+      }
+    }
+  ]
+}

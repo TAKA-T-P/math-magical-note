@@ -532,3 +532,82 @@
 /* イラストの文字・答えの枠の中の式は、斜体の文字（x など）に枠がかからないよう少し外側に囲む */
 .il-item .em-box::after,
 .blk-answer .em-box::after { inset: 0 -2px; }
+
+/* 位取り表・数字カード（place ブロック） */
+.blk-place { display: inline-grid; justify-items: center; gap: 10px; }
+.pv-grid { display: grid; border: 3px solid #4a5363; border-radius: 10px; overflow: visible; background: #fff; }
+.pv-head { padding: 4px 18px; background: #eef1f5; border-bottom: 3px solid #4a5363; font-size: 0.8em; font-weight: 800; text-align: center; }
+.pv-head + .pv-head, .pv-slot + .pv-slot { border-left: 3px dashed #9aa4b2; }
+.pv-slot { display: grid; place-items: center; min-height: 128px; padding: 10px 18px; }
+.pv-card {
+  --ic: #4a5363;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 104px;
+  height: 104px;
+  border: 4px solid var(--ic);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--ic) 45%, #fff);
+  color: var(--ic);
+  font-size: 1.9em;
+  font-weight: 800;
+  line-height: 1;
+}
+.pv-card.c-blue { --ic: var(--c-blue); }
+.pv-card.c-orange { --ic: var(--c-orange); }
+.pv-card.c-green { --ic: var(--c-green); }
+.pv-card.c-red { --ic: var(--c-red); }
+.pv-card .katex { font-size: 1em; }
+.pv-tag { position: absolute; top: 4px; left: 8px; font-size: 0.4em; }
+.pv-expr { font-size: 1.15em; min-height: 1.6em; }
+.pv-card.em-box::after { inset: -6px; outline-offset: 2px; border-radius: 18px; }
+.pv-card.em-marker::before { inset: -6px; border-radius: 18px; }
+
+/* ブロック図（bars ブロック）：上の かっこ＝全体、下の かっこ＝まとまり（商・あまり など） */
+.bars-grid { display: grid; row-gap: 6px; column-gap: 0; min-width: 560px; }
+.bars-grid[data-play] { transition: grid-template-columns calc(var(--anim) * 2) ease-in-out; }
+.bars-total { grid-row: 1; position: relative; text-align: center; padding-bottom: 14px; font-weight: 800; }
+.bars-total .br-top {
+  content: '';
+  position: absolute;
+  left: 2px; right: 2px; bottom: 2px;
+  height: 12px;
+  border: 3px solid currentColor;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+}
+.bars-seg {
+  --ic: #4a5363;
+  grid-row: 2;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  height: 68px;
+  border: 3px solid var(--ic);
+  margin-left: -3px;
+  background: color-mix(in srgb, var(--ic) 14%, #fff);
+  color: var(--ic);
+  font-weight: 800;
+  white-space: nowrap;
+}
+.bars-seg:first-of-type { margin-left: 0; }
+.bars-seg.c-blue { --ic: var(--c-blue); }
+.bars-seg.c-orange { --ic: var(--c-orange); }
+.bars-seg.c-green { --ic: var(--c-green); }
+.bars-seg.c-red { --ic: var(--c-red); }
+.bars-group { grid-row: 3; position: relative; text-align: center; padding-top: 14px; font-size: 0.8em; font-weight: 700; white-space: nowrap; }
+.bars-group .br-bot {
+  content: '';
+  position: absolute;
+  left: 4px; right: 4px; top: 2px;
+  height: 10px;
+  border: 3px solid currentColor;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+}
+.bars-seg.em-box::after { inset: 2px; outline-offset: 0; border-radius: 4px; }
+.bars-seg.em-marker::before { inset: 0; border-radius: 0; }
+.bars-total.em-box::after, .bars-group.em-box::after { inset: 0; outline-offset: 2px; }
+.bars-total.em-box::after, .bars-group.em-box::after { inset: 0 2px; outline-offset: 0; }

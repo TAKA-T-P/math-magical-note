@@ -15,7 +15,7 @@ import katex from 'katex';
 import { KATEX_OPTIONS, keysInTex } from '../src/math/katex-config.js';
 
 const DATA_DIR = new URL('../src/data/', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
-const BLOCK_TYPES = new Set(['text', 'math', 'callout', 'answer', 'pointbox', 'title-card', 'calc', 'image', 'table', 'illust']);
+const BLOCK_TYPES = new Set(['text', 'math', 'callout', 'answer', 'pointbox', 'title-card', 'calc', 'image', 'table', 'illust', 'place', 'bars']);
 const PUBLIC_DIR = new URL('../public/', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
 const CONTENT_TYPES = new Set(['title', 'point', 'exercise', 'similar', 'advanced', 'lab']);
 const EMPHASIS_STYLES = new Set(['color', 'box', 'marker', 'strike', 'dim']);
@@ -104,6 +104,73 @@ function checkBlock(where, b, keys, blockIds) {
       if (it.key) local.add(it.key);
     }
   }
+  if (b.states !== undefined) {
+    if (!['place', 'bars'].includes(b.type)) err(w, `states を持てるのは place / bars ブロックだけです`);
+    if (!Array.isArray(b.states) || !b.states.length) err(w, 'states が空です');
+    const sids = new Set();
+    for (const st of b.states ?? []) {
+      if (!st.id || sids.has(st.id)) err(w, `状態の id がないか重複しています: ${st.id}`);
+      sids.add(st.id);
+    }
+    if (b.state !== undefined && !sids.has(b.state)) err(w, `最初の状態 "${b.state}" が states にありません`);
+  }
+  if (b.type === 'place') {
+    // 位取り表：位の数・カード・状態ごとの並び（入れかえ）と、表示する数・式の整合性
+    const n = b.labels?.length ?? 0;
+    if (!n) err(w, 'place には labels（位の名前）が必要です');
+    (b.labels ?? []).forEach((l) => checkText(w, l, local));
+    const cardIds = new Set((b.cards ?? []).map((c) => c.id));
+    if (cardIds.size !== n || (b.cards ?? []).length !== n) err(w, `数字カードの数（${b.cards?.length}）が位の数（${n}）と一致しないか、id が重複しています`);
+    for (const c of b.cards ?? []) {
+      // label（文字）がないカードは、すべての状態で数（values）を持つこと
+      if (c.label) renderTex(w, c.label);
+      else if (!(b.states ?? []).every((st) => st.values?.[c.id] !== undefined)) err(w, `数字カード "${c.id}" に label も数（values）もない状態があります`);
+      if (c.key) local.add(c.key);
+      if (c.color && !COLORS.has(c.color)) err(w, `不明な色: ${c.color}`);
+    }
+    if (!b.states) err(w, 'place には states（カードの並びと式）が必要です');
+    for (const st of b.states ?? []) {
+      const ws = `${w} state:${st.id}`;
+      if (!Array.isArray(st.order) || st.order.length !== n || new Set(st.order).size !== n || st.order.some((id) => !cardIds.has(id))) {
+        err(ws, `order はカードの id を位の数だけ並べてください: ${JSON.stringify(st.order)}`);
+        continue;
+      }
+      for (const [id, v] of Object.entries(st.values ?? {})) {
+        if (!cardIds.has(id)) err(ws, `values のカード "${id}" がありません`);
+        if (!/^[0-9]$/.test(String(v))) err(ws, `カードに入れる数は 0〜9 の1文字にしてください: ${v}`);
+      }
+      if (st.tex) {
+        renderTex(ws, st.tex);
+        keysInTex(st.tex).forEach((k) => local.add(k));
+        // すべてのカードに数が入っているとき、式の右辺の数はカードを左から読んだ数と一致すること（74 → 入れかえて 47）
+        const digits = st.order.map((id) => st.values?.[id]).join('');
+        const rhs = st.tex.split('=').at(-1).trim();
+        if (st.order.every((id) => st.values?.[id] !== undefined) && /^[0-9]+$/.test(rhs) && rhs !== digits) {
+          err(ws, `カードの並び（${digits}）と式の数（${rhs}）が一致しません`);
+        }
+      }
+    }
+  }
+  if (b.type === 'bars') {
+    // ブロック図：全体・部分・まとまりの文章とキー。値（value）があれば「部分の和＝全体」を確かめる
+    for (const st of [b, ...(b.states ?? [])]) {
+      const ws = st === b ? w : `${w} state:${st.id}`;
+      const total = st.total ?? b.total;
+      const parts = st.parts ?? b.parts;
+      const groups = st.groups ?? b.groups ?? [];
+      if (!Array.isArray(parts) || !parts.length) { err(ws, 'bars には parts が必要です'); continue; }
+      for (const o of [total, ...parts, ...groups].filter(Boolean)) {
+        checkText(ws, o.text, local);
+        if (o.key) local.add(o.key);
+        if (o.color && !COLORS.has(o.color)) err(ws, `不明な色: ${o.color}`);
+      }
+      for (const g of groups) if (!(g.from >= 0 && g.to >= g.from && g.to < parts.length)) err(ws, `groups の範囲が parts の外です: ${g.from}〜${g.to}`);
+      if (total?.value !== undefined && parts.every((p) => p.value !== undefined)) {
+        const sum = parts.reduce((a, p) => a + p.value, 0);
+        if (sum !== total.value) err(ws, `ブロックの和（${sum}）が全体（${total.value}）と一致しません`);
+      }
+    }
+  }
   if (b.type === 'table') {
     if (!Array.isArray(b.rows) || !b.rows.length) err(w, 'table には rows が必要です');
     const width = b.head?.length ?? b.rows?.[0]?.cells?.length;
@@ -189,9 +256,10 @@ export function texToExpr(tex) {
     .replace(/[}]/g, ')')
     .replace(/\(\s*\)/g, '')
     .replace(/\s+/g, '');
-  if (/\\/.test(s) || !/^[0-9a-z+\-*/().=]*$/.test(s)) return null;
+  // 大文字は「整数A」「整数B」のような1文字の数量（check.solution に登録して検算する）
+  if (/\\/.test(s) || !/^[0-9a-zA-Z+\-*/().=]*$/.test(s)) return null;
   // 暗黙のかけ算：2x → 2*x, 3(…) → 3*(…), )( → )*(
-  s = s.replace(/([0-9a-z)])(?=[a-z(])/g, '$1*').replace(/\)(?=[0-9])/g, ')*');
+  s = s.replace(/([0-9a-zA-Z)])(?=[a-zA-Z(])/g, '$1*').replace(/\)(?=[0-9])/g, ')*');
   return s;
 }
 
@@ -226,6 +294,8 @@ function verifyBlock(where, b, sol) {
       .replace(/\\begin\{array\}\{[^}]*\}|\\begin\{(cases|aligned)\}|\\end\{(array|cases|aligned)\}|\\hline/g, '');
     for (const row of body.split('\\\\')) verifyRow(w, row.replace(/&/g, ''), sol);
   }
+  // 位取り表：状態ごとの式（A=10a+b、A=74 など）を検算する
+  if (b.type === 'place') for (const st of b.states ?? []) if (st.tex) verifyRow(`${w} state:${st.id}`, st.tex, sol);
   if (b.type === 'calc') {
     let prevLhs = null;
     for (const r of b.rows) {
@@ -331,6 +401,11 @@ function checkBody(where, statement = [], steps = []) {
       if (!keys.has(a.from) || !keys.has(a.to)) err(w, `矢印のキーがありません: ${a.from} → ${a.to}`);
     }
     for (const id of s.remove ?? []) if (!blockIds.has(id)) err(w, `remove のブロック "${id}" がありません`);
+    for (const [id, sid] of Object.entries(s.set ?? {})) {
+      const b = allBlocks.find((x) => x.id === id);
+      if (!b?.states) err(w, `set のブロック "${id}" がないか、状態（states）を持っていません`);
+      else if (!b.states.some((x) => x.id === sid)) err(w, `set の状態 "${sid}" がブロック "${id}" にありません`);
+    }
   });
   hidden.forEach((k) => { if (!revealed.has(k)) err(where, `hide したキー "${k}" がどのステップでも表示されません`); });
 

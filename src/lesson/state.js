@@ -72,8 +72,10 @@ export function computeView(content, st) {
 
   const revealed = new Set();
   const persistent = [];
+  const states = new Map(); // block id -> 状態ID（位取り表・ブロック図など。ステップの set で切りかえる）
   for (let i = 0; i < upto; i++) {
     const s = content.steps[i];
+    for (const [id, sid] of Object.entries(s.set ?? {})) states.set(id, sid);
     for (const id of s.remove ?? []) blocks.delete(id);
     for (const b of s.add ?? []) blocks.set(b.id, { block: b, anim: b.anim ?? s.anim ?? 'fade' });
     for (const k of s.reveal ?? []) revealed.add(k);
@@ -99,6 +101,7 @@ export function computeView(content, st) {
     blocks,
     hidden,
     emphasis,
+    states,
     arrows: current?.arrows ?? [],
     comment: current?.comment ?? null,
     hints: st.mode === 'hint' ? (content.hints ?? []).slice(0, st.hint) : [],
