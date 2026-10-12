@@ -1,0 +1,542 @@
+{
+  "schema": 1,
+  "unit": { "grade": "g2", "chapter": "c2", "section": "s2" },
+  "contents": [
+    {
+      "id": "g2.simul.subst.point",
+      "rev": 1,
+      "editions": { "2026": { "page": 26, "number": "ポイント" } },
+      "type": "point",
+      "title": "代入法",
+      "statement": [
+        {
+          "id": "box", "type": "pointbox", "area": "top", "title": "代入法",
+          "hide": ["k1", "n1"],
+          "items": [
+            { "text": ["[[sub|一方の式を他方の式に代入する]]ことで[[del|1つの文字を消去する]]方法を", "{{k1|代入法}} という。"] },
+            { "key": "n1", "text": "※ 一方の式が「$\\hl{fx}{x=\\cdots}$」，「$\\hl{fy}{y=\\cdots}$」の形になっているときは，代入法を使うとよい。", "strong": true, "bullet": false }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "substitute", "title": "代入する",
+          "emphasis": [{ "key": "sub", "style": "marker", "color": "green" }],
+          "comment": "「代入する」とは，文字のところに，それと等しい式を入れること。",
+          "teacherNote": "例：$y=x+1$ を $x+y=3$ に代入する → $y$ のところに $x+1$ を入れる（問2.1(1)）。"
+        },
+        {
+          "id": "eliminate", "title": "1つの文字を消去",
+          "emphasis": [
+            { "key": "sub", "style": "marker", "color": "green" },
+            { "key": "del", "style": "box", "color": "red" }
+          ],
+          "comment": "代入すると，式から文字が1つ消える。"
+        },
+        {
+          "id": "term", "title": "代入法",
+          "reveal": ["k1"],
+          "emphasis": [{ "key": "k1", "style": "marker", "color": "yellow" }]
+        },
+        {
+          "id": "when", "title": "代入法を使うとよいとき",
+          "reveal": ["n1"],
+          "emphasis": [
+            { "key": "fx", "style": "box", "color": "green" },
+            { "key": "fy", "style": "box", "color": "green" }
+          ]
+        },
+        {
+          "id": "compare", "title": "加減法とくらべる",
+          "comment": "加減法：2式を **たす・ひく** ことで1つの文字を消去する。\n代入法：一方の式を **代入する** ことで1つの文字を消去する。",
+          "teacherNote": "目的（1つの文字を消去する）は加減法と同じで，消去のしかたがちがうことを確認する。"
+        }
+      ],
+      "teacher": {
+        "status": "draft",
+        "aim": "「代入する」の意味と，代入法も加減法と同じく1つの文字を消去する方法であることを理解する。",
+        "questions": ["加減法では，どうやって文字を消去した？", "「$y=x+1$」のとき，$y$ の代わりに何を書いてもよい？"]
+      }
+    },
+    {
+      "id": "g2.simul.subst.q-y-form-1",
+      "rev": 1,
+      "editions": {
+        "2026": { "page": 26, "number": "問2.1(1)", "tags": ["定期"], "ref": "Ⓢp.35[3](1)〜(5)" }
+      },
+      "type": "exercise",
+      "title": "代入法（$y=\\cdots$ の式を代入）",
+      "statement": [
+        { "id": "q-text", "type": "text", "area": "top", "text": "次の連立方程式を解きなさい。" },
+        {
+          "id": "q-eq", "type": "math", "area": "top", "size": "l",
+          "tex": "\\begin{cases} \\hl{ly}{y}=\\hl{src}{x+1} \\cdots\\!\\cdots\\text{①} \\\\ x+\\hl{tgt}{y}=3 \\cdots\\!\\cdots\\text{②} \\end{cases}"
+        }
+      ],
+      "answer": { "tex": "x=1,\\ y=2", "values": { "x": 1, "y": 2 } },
+      "check": {
+        "equations": ["y=x+1", "x+y=3"],
+        "solution": { "x": 1, "y": 2 },
+        "derived": ["x+(x+1)=3", "2*x=2"],
+        "identities": ["x+(x+1)=2*x+1"]
+      },
+      "hints": [
+        "①は「$y=\\cdots$」の形になっているね。",
+        "②の $y$ のところに，①の $x+1$ を入れてみよう。"
+      ],
+      "steps": [
+        {
+          "id": "source",
+          "title": "代入する式を確認",
+          "emphasis": [
+            { "key": "ly", "style": "color", "color": "green" },
+            { "key": "src", "style": "box", "color": "green" }
+          ],
+          "comment": "①は「$y=\\cdots$」の形。$y$ は $x+1$ と等しい。",
+          "teacherNote": "「①を見ると，$y$ は何と等しい？」と発問する。"
+        },
+        {
+          "id": "target",
+          "title": "置き換える文字を確認",
+          "emphasis": [
+            { "key": "src", "style": "box", "color": "green" },
+            { "key": "tgt", "style": "box", "color": "orange" }
+          ],
+          "arrows": [{ "from": "src", "to": "tgt", "color": "green" }],
+          "comment": "②の $y$ を，①の $x+1$ に置き換える。",
+          "teacherNote": { "text": "指導書：①の $x+1$ を囲み，②の $y$ に矢印で代入を示している。", "source": "material" }
+        },
+        {
+          "id": "substitute",
+          "title": "②に代入する",
+          "anim": "slide-up",
+          "add": [
+            { "id": "sub-label", "type": "text", "area": "left", "text": "①を②に代入" },
+            {
+              "id": "calc", "type": "calc", "area": "left", "size": "l",
+              "hide": ["r2", "r3"],
+              "rows": [
+                { "cells": ["x+\\hl{sub}{(x+1)}", "=", "3"] },
+                { "key": "r2", "cells": ["2x", "=", "2"] },
+                { "key": "r3", "cells": ["x", "=", "1"] }
+              ]
+            }
+          ],
+          "emphasis": [
+            { "key": "src", "style": "box", "color": "green" },
+            { "key": "tgt", "style": "box", "color": "orange" },
+            { "key": "sub", "style": "box", "color": "green" }
+          ],
+          "arrows": [{ "from": "tgt", "to": "sub", "color": "orange" }],
+          "comment": "②の $y$ のところに $(x+1)$ を入れる。式を代入するときは，かっこを付ける。"
+        },
+        {
+          "id": "simplify",
+          "title": "計算する",
+          "reveal": ["r2"],
+          "emphasis": [{ "key": "r2", "style": "color", "color": "blue" }],
+          "comment": "$x+(x+1)=2x+1$ だから $2x+1=3$，$1$ を移項して $2x=2$"
+        },
+        {
+          "id": "x-value",
+          "title": "$x$ を求める",
+          "reveal": ["r3"],
+          "emphasis": [{ "key": "r3", "style": "marker", "color": "yellow" }],
+          "comment": "両辺を $2$ でわって $x=1$"
+        },
+        {
+          "id": "y-value",
+          "title": "$y$ を求める",
+          "add": [
+            { "id": "sub2-label", "type": "text", "area": "right", "text": "①に $x=1$ を代入" },
+            {
+              "id": "sub2", "type": "calc", "area": "right", "size": "l", "inline": true,
+              "rows": [{ "key": "s1", "cells": ["y", "=", "\\hl{sv}{1}+1", "=", "2"] }]
+            }
+          ],
+          "emphasis": [
+            { "key": "r3", "style": "color", "color": "green" },
+            { "key": "sv", "style": "box", "color": "green" }
+          ],
+          "arrows": [{ "from": "r3", "to": "sv", "label": "代入", "color": "green" }],
+          "comment": "①の $x$ に $1$ を代入すると，$y=1+1=2$"
+        },
+        {
+          "id": "answer",
+          "title": "答え",
+          "add": [
+            { "id": "ans", "type": "answer", "area": "right", "inline": true, "tex": "\\begin{cases} x=1 \\\\ y=2 \\end{cases}" }
+          ],
+          "teacherNote": "検算：②に代入すると $1+2=3$ で成り立つ。"
+        }
+      ],
+      "teacher": {
+        "status": "draft",
+        "aim": "「$y=\\cdots$」の形の式を他方の式に代入して $y$ を消去し，連立方程式を解く。",
+        "questions": [
+          "①を見ると，$y$ は何と等しい？",
+          "②の $y$ のところに何を入れればよい？",
+          "代入したら，どの文字が消えた？"
+        ],
+        "pitfalls": ["代入する式にかっこを付けない（この問題では答えは同じだが，(2) で誤りにつながる）。"],
+        "notes": [
+          { "text": "指導書の解答例：「①を②に代入」$x+(x+1)=3$，$2x=2$，$x=1$。①に $x=1$ を代入して $y=1+1=2$", "source": "material" }
+        ],
+        "procedure": [
+          "代入する式（$y=\\cdots$）を確認する",
+          "置き換える文字（②の $y$）を確認する",
+          "かっこを付けて代入し，1つの文字を消去する",
+          "求めた値をもとの式に代入する",
+          "答えを組で書く"
+        ]
+      }
+    },
+    {
+      "id": "g2.simul.subst.q-x-form-1",
+      "rev": 1,
+      "editions": {
+        "2026": { "page": 26, "number": "問2.1(2)", "tags": ["定期"], "ref": "Ⓢp.35[3](1)〜(5)" }
+      },
+      "type": "exercise",
+      "title": "代入法（かっこをはずす）",
+      "statement": [
+        { "id": "q-text", "type": "text", "area": "top", "text": "次の連立方程式を解きなさい。" },
+        {
+          "id": "q-eq", "type": "math", "area": "top", "size": "l",
+          "tex": "\\begin{cases} \\hl{lx}{x}=\\hl{src}{3y-8} \\cdots\\!\\cdots\\text{①} \\\\ -2\\hl{tgt}{x}+5y=18 \\cdots\\!\\cdots\\text{②} \\end{cases}"
+        }
+      ],
+      "answer": { "tex": "x=-14,\\ y=-2", "values": { "x": -14, "y": -2 } },
+      "check": {
+        "equations": ["x=3*y-8", "-2*x+5*y=18"],
+        "solution": { "x": -14, "y": -2 },
+        "derived": ["-2*(3*y-8)+5*y=18", "-y=2"],
+        "identities": ["-2*(3*y-8)=-6*y+16", "-6*y+16+5*y=-y+16", "-2*(-8)=16"]
+      },
+      "hints": [
+        "①は「$x=\\cdots$」の形。②の $x$ に $3y-8$ を代入しよう。",
+        "$-2x$ は $-2\\times x$。代入するときは $-2(3y-8)$ とかっこを付ける。",
+        "$-2$ は，かっこの中の **すべての項** にかける。$-2\\times(-8)$ の符号に注意。"
+      ],
+      "steps": [
+        {
+          "id": "source",
+          "title": "代入する式を確認",
+          "emphasis": [
+            { "key": "lx", "style": "color", "color": "green" },
+            { "key": "src", "style": "box", "color": "green" }
+          ],
+          "comment": "①は「$x=\\cdots$」の形。$x$ は $3y-8$ と等しい。"
+        },
+        {
+          "id": "target",
+          "title": "置き換える文字を確認",
+          "emphasis": [
+            { "key": "src", "style": "box", "color": "green" },
+            { "key": "tgt", "style": "box", "color": "orange" }
+          ],
+          "arrows": [{ "from": "src", "to": "tgt", "color": "green" }],
+          "comment": "②の $x$ を，①の $3y-8$ に置き換える。$-2x$ は $-2\\times x$ のこと。",
+          "teacherNote": { "text": "指導書：①の $3y-8$ を囲み，②の $x$ に矢印で代入を示している。", "source": "material" }
+        },
+        {
+          "id": "substitute",
+          "title": "②に代入する",
+          "anim": "slide-up",
+          "add": [
+            { "id": "sub-label", "type": "text", "area": "left", "text": "①を②に代入" },
+            {
+              "id": "calc", "type": "calc", "area": "left", "size": "l",
+              "hide": ["r2", "r3", "r4"],
+              "rows": [
+                { "cells": ["\\hl{m}{-2}\\hl{sub}{(3y-8)}+5y", "=", "18"] },
+                { "key": "r2", "cells": ["\\hl{d1}{-6y}\\hl{d2}{+16}+5y", "=", "18"] },
+                { "key": "r3", "cells": ["-y", "=", "2"] },
+                { "key": "r4", "cells": ["y", "=", "-2"] }
+              ]
+            }
+          ],
+          "emphasis": [
+            { "key": "src", "style": "box", "color": "green" },
+            { "key": "tgt", "style": "box", "color": "orange" },
+            { "key": "sub", "style": "box", "color": "green" }
+          ],
+          "arrows": [{ "from": "tgt", "to": "sub", "color": "orange" }],
+          "comment": "$x$ のところに $(3y-8)$ を入れると，$-2(3y-8)+5y=18$"
+        },
+        {
+          "id": "think",
+          "title": "かっこをはずす（考えよう）",
+          "emphasis": [
+            { "key": "m", "style": "box", "color": "red" },
+            { "key": "sub", "style": "box", "color": "green" }
+          ],
+          "comment": "$-2$ を，かっこの中の **すべての項** にかける。どうなるかな？",
+          "teacherNote": "ここで次の式を生徒に考えさせてから進める。$-2\\times(-8)$ の符号に注目させる。"
+        },
+        {
+          "id": "distribute",
+          "title": "分配法則",
+          "reveal": ["r2"],
+          "add": [
+            {
+              "id": "dist", "type": "calc", "area": "right", "size": "l",
+              "rows": [
+                { "cells": ["\\hl{m1}{-2}\\times\\hl{t1}{3y}", "=", "\\hl{e1}{-6y}"] },
+                { "cells": ["\\hl{m2}{-2}\\times\\hl{t2}{(-8)}", "=", "\\hl{e2}{+16}"] }
+              ]
+            }
+          ],
+          "emphasis": [
+            { "key": "m", "style": "color", "color": "red" },
+            { "key": "m1", "style": "color", "color": "red" },
+            { "key": "m2", "style": "color", "color": "red" },
+            { "key": "d1", "style": "box", "color": "blue" },
+            { "key": "e1", "style": "box", "color": "blue" },
+            { "key": "d2", "style": "box", "color": "red" },
+            { "key": "e2", "style": "box", "color": "red" }
+          ],
+          "comment": "$-2\\times3y=-6y$，$-2\\times(-8)=+16$（負×負＝正）"
+        },
+        {
+          "id": "y-value",
+          "title": "$y$ を求める",
+          "reveal": ["r3", "r4"],
+          "emphasis": [
+            { "key": "r3", "style": "color", "color": "blue" },
+            { "key": "r4", "style": "marker", "color": "yellow" }
+          ],
+          "comment": "$-6y+5y=-y$，$18-16=2$ より $-y=2$，$y=-2$"
+        },
+        {
+          "id": "x-value",
+          "title": "①に代入して $x$ を求める",
+          "remove": ["dist"],
+          "add": [
+            { "id": "sub2-label", "type": "text", "area": "right", "text": "①に $y=-2$ を代入" },
+            {
+              "id": "sub2", "type": "calc", "area": "right", "size": "l", "inline": true,
+              "rows": [{ "key": "s1", "cells": ["x", "=", "\\hl{sv}{-6}-8", "=", "-14"] }]
+            }
+          ],
+          "emphasis": [
+            { "key": "r4", "style": "color", "color": "green" },
+            { "key": "sv", "style": "box", "color": "green" }
+          ],
+          "arrows": [{ "from": "r4", "to": "sv", "label": "代入", "color": "green" }],
+          "comment": "①の $3y$ に $y=-2$ を代入すると $3\\times(-2)=-6$。$x=-6-8=-14$"
+        },
+        {
+          "id": "answer",
+          "title": "答え",
+          "add": [
+            { "id": "ans", "type": "answer", "area": "right", "inline": true, "tex": "\\begin{cases} x=-14 \\\\ y=-2 \\end{cases}" }
+          ],
+          "teacherNote": "検算：②に代入すると $-2\\times(-14)+5\\times(-2)=28-10=18$ で成り立つ。"
+        }
+      ],
+      "teacher": {
+        "status": "draft",
+        "aim": "代入した式にかっこを付け，分配法則で正しくかっこをはずして連立方程式を解く。",
+        "questions": [
+          "$-2x$ の $x$ に $3y-8$ を入れると，どんな式になる？",
+          "$-2\\times(-8)$ はいくつ？"
+        ],
+        "pitfalls": [
+          "かっこを付けずに $-2\\times3y-8$ としてしまう。",
+          "$-2\\times(-8)$ を $-16$ としてしまう（符号ミス）。"
+        ],
+        "commonErrors": ["$-2(3y-8)=-6y-16$ と計算してしまう。"],
+        "notes": [
+          { "text": "指導書の解答例：「①を②に代入」$-2(3y-8)+5y=18$，$-6y+16+5y=18$，$-y=2$，$y=-2$。①に $y=-2$ を代入して $x=-6-8=-14$", "source": "material" }
+        ],
+        "procedure": [
+          "代入する式（$x=\\cdots$）と置き換える文字（②の $x$）を確認する",
+          "かっこを付けて代入する",
+          "分配法則でかっこをはずす（符号に注意）",
+          "$y$ を求め，①に代入して $x$ を求める"
+        ]
+      }
+    },
+    {
+      "id": "g2.simul.subst.q-transform-1",
+      "rev": 1,
+      "editions": {
+        "2026": { "page": 26, "number": "↗問2.2", "ref": "Ⓢp.35[3](6)〜(9)" }
+      },
+      "type": "exercise",
+      "title": "代入法（式を変形してから代入）",
+      "statement": [
+        {
+          "id": "q-text", "type": "text", "area": "top",
+          "text": "連立方程式 $\\begin{cases} \\hl{a1}{x}\\hl{a3}{+3y}=-8 \\cdots\\!\\cdots\\text{①} \\\\ 3\\hl{tgt}{x}-2y=9 \\cdots\\!\\cdots\\text{②} \\end{cases}$ を__代入法__で解きなさい。"
+        }
+      ],
+      "answer": { "tex": "x=1,\\ y=-3", "values": { "x": 1, "y": -3 } },
+      "check": {
+        "equations": ["x+3*y=-8", "3*x-2*y=9"],
+        "solution": { "x": 1, "y": -3 },
+        "derived": ["x=-3*y-8", "-11*y=33"],
+        "identities": ["3*(-3*y-8)=-9*y-24", "-9*y-24-2*y=-11*y-24", "9+24=33"]
+      },
+      "hints": [
+        "どちらの式も「$x=\\cdots$」「$y=\\cdots$」の形ではない。まず一方の式を変形しよう。",
+        "①の $3y$ を移項すると，$x=-3y-8$ になる。",
+        "②の $x$ に $(-3y-8)$ を代入する。$3(-3y-8)$ のかっこをはずすときは符号に注意。"
+      ],
+      "steps": [
+        {
+          "id": "prepare",
+          "title": "代入法を使う準備",
+          "add": [
+            { "id": "tip", "type": "callout", "area": "right", "tone": "point", "text": "一方の式を\n「$x=\\cdots$」「$y=\\cdots$」の形に変形する！" }
+          ],
+          "emphasis": [{ "key": "a1", "style": "box", "color": "green" }],
+          "comment": "どちらの式も「$x=\\cdots$」「$y=\\cdots$」の形になっていない。①を $x$ について解こう。",
+          "teacherNote": { "text": "指導書：「一方の式を『$x=\\cdots$』『$y=\\cdots$』の形に変形する！」", "source": "material" }
+        },
+        {
+          "id": "transform",
+          "title": "①を変形する",
+          "anim": "slide-up",
+          "add": [
+            {
+              "id": "t1", "type": "calc", "area": "left", "size": "l",
+              "rows": [{ "label": "①より", "cells": ["\\hl{nx}{x}", "=", "\\hl{src}{-3y-8}", { "text": "……①'" }] }]
+            }
+          ],
+          "emphasis": [
+            { "key": "a3", "style": "box", "color": "orange" },
+            { "key": "src", "style": "box", "color": "green" }
+          ],
+          "arrows": [{ "from": "a3", "to": "src", "color": "orange" }],
+          "comment": "①の $+3y$ を右辺に移項すると，$x=-3y-8$。これを①' とする。"
+        },
+        {
+          "id": "target",
+          "title": "置き換える文字を確認",
+          "emphasis": [
+            { "key": "src", "style": "box", "color": "green" },
+            { "key": "tgt", "style": "box", "color": "orange" }
+          ],
+          "arrows": [{ "from": "src", "to": "tgt", "color": "green" }],
+          "comment": "②の $x$ を，①' の $-3y-8$ に置き換える。"
+        },
+        {
+          "id": "substitute",
+          "title": "②に代入する",
+          "remove": ["tip"],
+          "add": [
+            { "id": "sub-label", "type": "text", "area": "left", "text": "②に代入すると" },
+            {
+              "id": "calc", "type": "calc", "area": "left", "size": "l",
+              "hide": ["r2", "r3", "r4"],
+              "rows": [
+                { "cells": ["\\hl{m}{3}\\hl{sub}{(-3y-8)}-2y", "=", "9"] },
+                { "key": "r2", "cells": ["\\hl{d1}{-9y}\\hl{d2}{-24}-2y", "=", "9"] },
+                { "key": "r3", "cells": ["-11y", "=", "33"] },
+                { "key": "r4", "cells": ["y", "=", "-3"] }
+              ]
+            }
+          ],
+          "emphasis": [
+            { "key": "src", "style": "box", "color": "green" },
+            { "key": "tgt", "style": "box", "color": "orange" },
+            { "key": "sub", "style": "box", "color": "green" }
+          ],
+          "arrows": [{ "from": "src", "to": "sub", "color": "green" }],
+          "comment": "②の $x$ のところに $(-3y-8)$ を入れると，$3(-3y-8)-2y=9$"
+        },
+        {
+          "id": "distribute",
+          "title": "かっこをはずす",
+          "reveal": ["r2"],
+          "add": [
+            {
+              "id": "dist", "type": "calc", "area": "right", "size": "l",
+              "rows": [
+                { "cells": ["\\hl{m1}{3}\\times\\hl{t1}{(-3y)}", "=", "\\hl{e1}{-9y}"] },
+                { "cells": ["\\hl{m2}{3}\\times\\hl{t2}{(-8)}", "=", "\\hl{e2}{-24}"] }
+              ]
+            }
+          ],
+          "emphasis": [
+            { "key": "m", "style": "color", "color": "red" },
+            { "key": "m1", "style": "color", "color": "red" },
+            { "key": "m2", "style": "color", "color": "red" },
+            { "key": "d1", "style": "box", "color": "blue" },
+            { "key": "e1", "style": "box", "color": "blue" },
+            { "key": "d2", "style": "box", "color": "blue" },
+            { "key": "e2", "style": "box", "color": "blue" }
+          ],
+          "comment": "$3$ を，かっこの中の **すべての項** にかける。$3\\times(-3y)=-9y$，$3\\times(-8)=-24$"
+        },
+        {
+          "id": "simplify",
+          "title": "整理する",
+          "reveal": ["r3"],
+          "emphasis": [{ "key": "r3", "style": "color", "color": "blue" }],
+          "comment": "$-9y-2y=-11y$，$-24$ を移項して $9+24=33$"
+        },
+        {
+          "id": "y-value",
+          "title": "$y$ を求める",
+          "reveal": ["r4"],
+          "emphasis": [{ "key": "r4", "style": "marker", "color": "yellow" }],
+          "comment": "両辺を $-11$ でわって $y=-3$"
+        },
+        {
+          "id": "x-value",
+          "title": "①' に代入して $x$ を求める",
+          "remove": ["dist"],
+          "add": [
+            { "id": "sub2-label", "type": "text", "area": "right", "text": "①' に代入すると" },
+            {
+              "id": "sub2", "type": "calc", "area": "right", "size": "l", "inline": true,
+              "rows": [{ "key": "s1", "cells": ["x", "=", "\\hl{sv}{9}-8", "=", "1"] }]
+            }
+          ],
+          "emphasis": [
+            { "key": "r4", "style": "color", "color": "green" },
+            { "key": "sv", "style": "box", "color": "green" }
+          ],
+          "arrows": [{ "from": "r4", "to": "sv", "label": "代入", "color": "green" }],
+          "comment": "①' の $-3y$ に $y=-3$ を代入すると $-3\\times(-3)=9$。$x=9-8=1$",
+          "teacherNote": { "text": "指導書の解答例では，変形した式①' に代入している。", "source": "material" }
+        },
+        {
+          "id": "answer",
+          "title": "答え",
+          "add": [
+            { "id": "ans", "type": "answer", "area": "right", "inline": true, "tex": "\\begin{cases} x=1 \\\\ y=-3 \\end{cases}" }
+          ],
+          "teacherNote": "検算：②に代入すると $3\\times1-2\\times(-3)=3+6=9$ で成り立つ。"
+        }
+      ],
+      "teacher": {
+        "status": "draft",
+        "aim": "式が「$x=\\cdots$」「$y=\\cdots$」の形でないときは，一方の式を変形してから代入する，という2つの操作のつながりを理解する。",
+        "questions": [
+          "どちらの式を，どの文字について解くと簡単？",
+          "①を $x=\\cdots$ の形にすると？",
+          "$3(-3y-8)$ のかっこをはずすと？"
+        ],
+        "pitfalls": [
+          "移項するときの符号（$x=-3y-8$）を誤る。",
+          "$3\\times(-8)$ を $+24$ としてしまう。"
+        ],
+        "commonErrors": ["$3(-3y-8)$ を $-9y-8$ としてしまう（$-8$ にかけ忘れ）。"],
+        "notes": [
+          { "text": "指導書の解答例：「①より $x=-3y-8$ …①'」「②に代入すると」$3(-3y-8)-2y=9$，$-9y-24-2y=9$，$-11y=33$，$y=-3$。「①' に代入すると」$x=9-8=1$", "source": "material" },
+          "この連立方程式は加減法（①×3−②）でも解ける。代入法の練習として，変形してから代入する流れを確認する。"
+        ],
+        "procedure": [
+          { "text": "一方の式を「$x=\\cdots$」「$y=\\cdots$」の形に変形する", "source": "material" },
+          "変形した式を他方の式に代入する（かっこを付ける）",
+          "かっこをはずして整理し，$y$ を求める",
+          "変形した式①' に代入して $x$ を求める"
+        ]
+      }
+    }
+  ]
+}

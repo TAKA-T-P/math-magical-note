@@ -42,9 +42,24 @@ export async function mountLesson(root, params) {
   recordOpened({ path, label: `${contentLabel(content)} ${content.title}`.replace(/\$/g, ''), sub });
 
   const modes = availableModes(content);
-  const prevContent = contents[index - 1];
-  const nextContent = contents[index + 1];
-  const contentHref = (c) => `#/lesson/${params.grade}/${params.chapter}/${params.section}/${encodeURIComponent(c.id)}`;
+  // 前後の項目。節の最初・最後では、同じ章の前後の節（教材のある節）へつなげる
+  const withSection = (c, sec) => c && { ...c, sectionId: sec.id, sectionNumber: sec.number };
+  let prevContent = withSection(contents[index - 1], section);
+  let nextContent = withSection(contents[index + 1], section);
+  const secIndex = chapter.sections.indexOf(section);
+  const neighbor = async (dir) => {
+    for (let i = secIndex + dir; i >= 0 && i < chapter.sections.length; i += dir) {
+      const s = chapter.sections[i];
+      if (!s.data) continue;
+      const list = await loadSection(s.data, settings.edition).catch(() => []);
+      if (list.length) return withSection(dir < 0 ? list[list.length - 1] : list[0], s);
+    }
+    return null;
+  };
+  if (!prevContent) prevContent = await neighbor(-1);
+  if (!nextContent) nextContent = await neighbor(1);
+  const contentHref = (c) => `#/lesson/${params.grade}/${params.chapter}/${c.sectionId}/${encodeURIComponent(c.id)}`;
+  const navTitle = (c) => `${c.sectionId !== section.id ? c.sectionNumber + ' ' : ''}${contentLabel(c)}`;
   const t = content.teacher;
   const minis = miniByUnit(params.grade, params.chapter, params.section);
   const teacherDraft = hasDraft(
@@ -68,8 +83,8 @@ export async function mountLesson(root, params) {
           <span class="meta-number">${inlineToHtml(contentLabel(content))}</span>
           <span class="meta-page">p.${content.edition.page}</span>
           <nav class="content-nav">
-            ${prevContent ? `<a class="hbtn" href="${contentHref(prevContent)}" title="前の項目：${contentLabel(prevContent)}">${icon('prev', 20)}</a>` : ''}
-            ${nextContent ? `<a class="hbtn" href="${contentHref(nextContent)}" title="次の項目：${contentLabel(nextContent)}">${icon('next', 20)}</a>` : ''}
+            ${prevContent ? `<a class="hbtn" href="${contentHref(prevContent)}" title="前の項目：${navTitle(prevContent)}">${icon('prev', 20)}</a>` : ''}
+            ${nextContent ? `<a class="hbtn" href="${contentHref(nextContent)}" title="次の項目：${navTitle(nextContent)}">${icon('next', 20)}</a>` : ''}
           </nav>
         </div>
       </header>

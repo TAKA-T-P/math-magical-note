@@ -206,14 +206,30 @@ export class LessonRenderer {
     for (const a of arrows) {
       const f = rectOf(a.from), t = rectOf(a.to);
       if (!f || !t) continue;
-      const x1 = f.r + 12, y1 = (f.t + f.b) / 2;
+      // 向き：右にある要素へは横向き、真下（横方向に重なる位置）の要素へは上から下へ、それ以外は右から回り込む
       const toRight = t.l > f.r;
-      const x2 = toRight ? t.l - 14 : (t.l + t.r) / 2;
-      const y2 = toRight ? (t.t + t.b) / 2 : t.t - 14;
-      const dx = Math.max(60, Math.abs(x2 - x1) / 2);
-      const d = toRight
-        ? `M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}`
-        : `M${x1},${y1} C${x1 + dx},${y1} ${x2},${y2 - dx} ${x2},${y2}`;
+      const near = t.l < f.r + 40 && t.r > f.l - 40; // 横方向に重なっている
+      const below = !toRight && near && t.t >= f.b - 4;
+      const above = !toRight && near && t.b <= f.t + 4;
+      let x1, y1, x2, y2, c1x, c1y, c2x, c2y, ang;
+      if (below || above) {
+        const s = below ? 1 : -1;
+        x1 = (f.l + f.r) / 2; y1 = below ? f.b + 6 : f.t - 6;
+        x2 = (t.l + t.r) / 2; y2 = below ? t.t - 8 : t.b + 8;
+        const dy = Math.max(12, Math.abs(y2 - y1) / 2);
+        [c1x, c1y, c2x, c2y] = [x1, y1 + s * dy, x2, y2 - s * dy];
+        ang = (s * Math.PI) / 2;
+      } else {
+        x1 = f.r + 12; y1 = (f.t + f.b) / 2;
+        x2 = toRight ? t.l - 14 : (t.l + t.r) / 2;
+        y2 = toRight ? (t.t + t.b) / 2 : t.t - 14;
+        const dx = Math.max(60, Math.abs(x2 - x1) / 2);
+        [c1x, c1y, c2x, c2y] = toRight ? [x1 + dx, y1, x2 - dx, y2] : [x1 + dx, y1, x2, y2 - dx];
+        ang = toRight ? 0 : Math.PI / 2;
+      }
+      const d = `M${x1},${y1} C${c1x},${c1y} ${c2x},${c2y} ${x2},${y2}`;
+      // 短い矢印では矢じりを小さくする
+      const hs = Math.min(18, Math.max(9, Math.hypot(x2 - x1, y2 - y1) / 3));
       const g = document.createElementNS(ns, 'g');
       g.setAttribute('class', 'arrow' + (play ? ' arrow-anim' : ''));
       g.style.setProperty('--em', `var(--c-${a.color ?? 'red'})`);
@@ -222,18 +238,20 @@ export class LessonRenderer {
       path.setAttribute('pathLength', '1');
       g.append(path);
       // 矢じり
-      const ang = toRight ? 0 : Math.PI / 2;
       const head = document.createElementNS(ns, 'path');
       const hx = (dx2, dy2) => `${x2 + dx2 * Math.cos(ang) - dy2 * Math.sin(ang)},${y2 + dx2 * Math.sin(ang) + dy2 * Math.cos(ang)}`;
-      head.setAttribute('d', `M${hx(-18, -10)} L${x2},${y2} L${hx(-18, 10)}`);
+      head.setAttribute('d', `M${hx(-hs, -hs * 0.55)} L${x2},${y2} L${hx(-hs, hs * 0.55)}`);
       head.setAttribute('class', 'arrow-head');
       g.append(head);
       if (a.label) {
-        // ベジェ曲線の中点の少し上に置く
-        const [c1x, c1y, c2x, c2y] = toRight ? [x1 + dx, y1, x2 - dx, y2] : [x1 + dx, y1, x2, y2 - dx];
+        // ベジェ曲線の中点の近く（縦向きなら右横、それ以外は少し上）に置く
+        const mx = (x1 + 3 * c1x + 3 * c2x + x2) / 8;
+        const my = (y1 + 3 * c1y + 3 * c2y + y2) / 8;
         const text = document.createElementNS(ns, 'text');
-        text.setAttribute('x', (x1 + 3 * c1x + 3 * c2x + x2) / 8);
-        text.setAttribute('y', (y1 + 3 * c1y + 3 * c2y + y2) / 8 - 16);
+        const vertical = below || above;
+        text.setAttribute('x', vertical ? mx + 14 : mx);
+        text.setAttribute('y', vertical ? my + 8 : my - 16);
+        if (vertical) text.style.textAnchor = 'start';
         text.textContent = a.label;
         g.append(text);
       }

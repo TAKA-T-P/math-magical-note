@@ -179,11 +179,18 @@ function verifyBlock(where, b, sol) {
     for (const row of body.split('\\\\')) verifyRow(w, row.replace(/&/g, ''), sol);
   }
   if (b.type === 'calc') {
+    let prevLhs = null;
     for (const r of b.rows) {
       if (r.note || r.head) continue;
       const cells = r.cells.map((c) => (typeof c === 'string' ? c : ''));
-      // 「=」だけのセルがある行は1つの式、そうでなければセルごとの式として扱う
-      if (cells.includes('=')) verifyRow(w, cells.join(' '), sol);
+      const eq = cells.indexOf('=');
+      // 「=」だけのセルがある行は1つの式、そうでなければセルごとの式として扱う。
+      // 左辺が空の行（「　= …」と前の行から続く等式）は、前の行の左辺を引き継いで検算する。
+      if (eq >= 0) {
+        const lhs = cells.slice(0, eq).join(' ').trim();
+        if (lhs) prevLhs = lhs;
+        verifyRow(w, (lhs || prevLhs || '') + ' ' + cells.slice(eq).join(' '), sol);
+      }
       else cells.filter((c) => c.includes('=')).forEach((c) => verifyRow(w, c, sol));
     }
   }
@@ -444,7 +451,24 @@ function checkMini(rel, m) {
         for (const k of q.errorKeys ?? []) if (!wk.has(k)) err(w, `誤りの位置のキー "${k}" が誤答の式にありません`);
         for (const k of q.correctKeys ?? []) if (!ck.has(k)) err(w, `correctKeys のキー "${k}" が正しい式にありません`);
         for (const k of wk) if (ck.has(k)) err(w, `キー "${k}" が誤答と正答の両方にあります（別のキーにしてください）`);
-        if (!q.check?.solution) err(w, 'ミスを見破れ！には check.solution（正しい解）が必要です');
+        if (q.check?.identity) {
+          // 式の計算そのもの（例：-2(3y-8) の展開）が題材の場合：
+          // 正しい式はどんな値でも成り立ち、誤答の式は成り立たない値があること
+          const vars = q.check.vars ?? ['x', 'y'];
+          const points = Array.from({ length: 6 }, () => Object.fromEntries(vars.map((v) => [v, Math.floor(Math.random() * 19) - 9 || 1])));
+          const failsAt = (block) =>
+            points.filter((pt) => {
+              const before = errors.length;
+              verifyBlock(w, block, pt);
+              const bad = errors.length > before;
+              errors.length = before;
+              return bad;
+            }).length;
+          if (failsAt(correct)) err(w, '正しい式が恒等的に成り立っていません');
+          if (!failsAt(wrong)) err(w, '誤答の式がすべての値で成り立っています（誤りが含まれていません）');
+          checkCheck(w, q.check, []);
+          auto = true;
+        } else if (!q.check?.solution) err(w, 'ミスを見破れ！には check.solution（正しい解）または check.identity が必要です');
         else {
           // 正しい解き方の式はすべて成り立ち、誤答の式は少なくとも1行が成り立たないこと
           checkCheck(w, q.check, [correct, ...(q.tex ? [{ id: 'problem', type: 'math', tex: q.tex }] : [])]);
