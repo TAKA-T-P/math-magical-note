@@ -4,10 +4,14 @@
 //   \hl{key}{3y}     … 項 3y にキー key を付ける
 //   x\hl{key}{+3y}   … 符号ごと「+3y」にキーを付ける（演算子の前後の空白は通常どおり入る）
 // キーを付けた部分は、ステップの emphasis（強調）や reveal（表示）の対象にできる。
-// 筆算（array）のセルの先頭に符号を置くときは、+\mkern4mu 3y のように空白を補う。
+// 筆算（calc ブロック）のセルで符号付きの項を書くときは {}-6y のように {} を前に置く
+// （2項演算子として扱われ、符号の前後に通常の空白が入る）。
+//   \ok / \ng        … 判定の ○ / ×
 
 export const KATEX_MACROS = {
   '\\hl': '\\htmlClass{k-#1}{#2}',
+  '\\ok': '\\htmlClass{mark-ok}{\\bigcirc}',
+  '\\ng': '\\htmlClass{mark-ng}{\\times}',
 };
 
 export const KATEX_OPTIONS = {

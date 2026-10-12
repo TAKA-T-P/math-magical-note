@@ -94,17 +94,19 @@ export async function mountLesson(root, params) {
       <aside class="teacher-panel" hidden aria-label="講師用情報">
         <div class="teacher-head">
           <strong>講師用メモ</strong><span class="muted">（生徒に見せない）</span>
-          ${t?.status === 'draft' ? '<span class="tag tag-warn">下書き・要確認</span>' : ''}
+          ${hasDraft(content) ? '<span class="tag tag-warn">要確認あり</span>' : ''}
           <button class="hbtn" data-action="teacher" aria-label="閉じる">${icon('close', 20)}</button>
         </div>
+        <p class="teacher-legend"><span class="src src-material">教材</span>本編・指導書に記載　<span class="src src-draft">提案</span>教材にない補足（下書き）</p>
         <div class="teacher-step"></div>
         <div class="teacher-body">
-          ${teacherSection('指導のねらい', t?.aim)}
-          ${teacherSection('発問例', t?.questions)}
-          ${teacherSection('つまずきやすいポイント', t?.pitfalls)}
-          ${teacherSection('よくある誤答', t?.commonErrors)}
-          ${teacherSection('補足説明', t?.notes)}
-          ${teacherSection('推奨する解説手順', t?.procedure, true)}
+          ${content.edition.ref ? `<section><h3>対応する問題</h3><p>${inlineToHtml(content.edition.ref)}</p></section>` : ''}
+          ${teacherSection('指導のねらい', t?.aim, t)}
+          ${teacherSection('発問例', t?.questions, t)}
+          ${teacherSection('つまずきやすいポイント', t?.pitfalls, t)}
+          ${teacherSection('よくある誤答', t?.commonErrors, t)}
+          ${teacherSection('補足説明', t?.notes, t)}
+          ${teacherSection('推奨する解説手順', t?.procedure, t, true)}
           ${t ? '' : '<p class="muted">この教材には講師用情報が登録されていません。</p>'}
         </div>
       </aside>
@@ -178,7 +180,7 @@ export async function mountLesson(root, params) {
     }
     const note = view.current?.teacherNote;
     $('.teacher-step').innerHTML = note
-      ? `<div class="teacher-note"><span class="tag">このステップ</span>${inlineToHtml(note)}</div>`
+      ? `<div class="teacher-note"><span class="tag">このステップ</span>${teacherEntry(note, t)}</div>`
       : '';
   }
 
@@ -326,12 +328,34 @@ export async function mountLesson(root, params) {
   };
 }
 
-function teacherSection(title, value, ordered = false) {
+// 講師向け情報の1項目。文字列、または { text, source: "material" | "draft" }。
+// source を省略した項目は teacher.status に従う（status: "draft" なら提案扱い）。
+function sourceOf(entry, t) {
+  return (typeof entry === 'object' && entry.source) || (t?.status === 'draft' ? 'draft' : 'material');
+}
+
+function teacherEntry(entry, t) {
+  const text = typeof entry === 'object' ? entry.text : entry;
+  const src = sourceOf(entry, t);
+  return `<span class="src src-${src}">${src === 'material' ? '教材' : '提案'}</span>${inlineToHtml(text)}`;
+}
+
+function hasDraft(content) {
+  const t = content.teacher;
+  const entries = [
+    ...['aim', 'notes'].map((k) => t?.[k]),
+    ...['questions', 'pitfalls', 'commonErrors', 'procedure'].flatMap((k) => t?.[k] ?? []),
+    ...content.steps.map((s) => s.teacherNote),
+  ].filter(Boolean);
+  return entries.some((e) => sourceOf(e, t) === 'draft');
+}
+
+function teacherSection(title, value, t, ordered = false) {
   if (!value || (Array.isArray(value) && !value.length)) return '';
   const tag = ordered ? 'ol' : 'ul';
   const inner = Array.isArray(value)
-    ? `<${tag}>${value.map((v) => `<li>${inlineToHtml(v)}</li>`).join('')}</${tag}>`
-    : `<p>${inlineToHtml(value)}</p>`;
+    ? `<${tag}>${value.map((v) => `<li>${teacherEntry(v, t)}</li>`).join('')}</${tag}>`
+    : `<p>${teacherEntry(value, t)}</p>`;
   return `<section><h3>${title}</h3>${inner}</section>`;
 }
 

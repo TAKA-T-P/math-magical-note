@@ -18,7 +18,8 @@ export function texToHtml(tex, displayMode = false) {
 //   $...$          インライン数式
 //   **語句**       重要語句（赤太字）
 //   __語句__       下線
-//   {{key|語句}}   キー付きの重要語句（ステップで隠す・表示・強調できる）
+//   {{key|語句}}   キー付きの重要語句（赤太字。ステップで隠す・表示・強調できる）
+//   [[key|語句]]   キー付きの語句（見た目は通常の文字。強調の対象にするだけ）
 //   改行           <br>
 export function inlineToHtml(text) {
   const src = Array.isArray(text) ? text.join('\n') : String(text ?? '');
@@ -28,6 +29,7 @@ export function inlineToHtml(text) {
       if (i % 2 === 1) return texToHtml(part);
       return escapeHtml(part)
         .replace(/\{\{([A-Za-z0-9_-]+)\|(.+?)\}\}/g, '<span class="kw k-$1">$2</span>')
+        .replace(/\[\[([A-Za-z0-9_-]+)\|(.+?)\]\]/g, '<span class="k-$1">$2</span>')
         .replace(/\*\*(.+?)\*\*/g, '<strong class="kw">$1</strong>')
         .replace(/__(.+?)__/g, '<u>$1</u>')
         .replace(/\n/g, '<br>');

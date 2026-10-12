@@ -7,14 +7,18 @@ const BLOCK_BUILDERS = {
   math: (b) => texToHtml(b.tex, true),
   callout: (b) =>
     `${b.title ? `<div class="callout-title">${inlineToHtml(b.title)}</div>` : ''}<div>${inlineToHtml(b.text)}</div>`,
-  answer: (b) => `<span class="answer-label">答</span>${texToHtml(b.tex, true)}`,
+  answer: (b) =>
+    `<span class="answer-label">答</span>${b.tex ? texToHtml(b.tex, true) : `<span class="answer-text">${inlineToHtml(b.text)}</span>`}`,
+  calc: buildCalc,
   pointbox: (b) => `
     <div class="pointbox-legend"><span class="pointbox-tag">ポイント</span>${inlineToHtml(b.title)}</div>
     <ul>
       ${b.items
         .map((it) => {
           const lines = Array.isArray(it.text) ? it.text : [it.text];
-          const cls = [it.note && 'is-note', it.strong && 'is-strong', it.bullet === false && 'no-bullet'].filter(Boolean).join(' ');
+          const cls = [it.note && 'is-note', it.strong && 'is-strong', it.bullet === false && 'no-bullet', it.key && 'k-' + it.key]
+            .filter(Boolean)
+            .join(' ');
           return `<li class="${cls}">${lines
             .map((l, i) => `<span class="line" ${i && it.contIndent ? `style="padding-left:${it.contIndent}em"` : ''}>${inlineToHtml(l)}</span>`)
             .join('')}</li>`;
@@ -30,6 +34,36 @@ const BLOCK_BUILDERS = {
     </ol>`,
 };
 
+// 筆算・表（calc）：行ごとに「ラベル」「演算記号」「セル…」を格子状に並べる。
+// 同じ列の項・等号が縦にそろい、横線（rule）はラベル列を除いた部分にだけ引かれる。
+//   rows[]: { label, op, cells[], key, rule, note }
+//     cells の要素は数式（文字列）か { text }（文章）。key を付けると行全体が段階表示・強調の対象になる。
+//   align: 列ごとの寄せ "r" | "c" | "l"（省略時は "=" の列を中央、それ以外を右寄せ）
+function buildCalc(b) {
+  const hasLabel = b.rows.some((r) => r.label);
+  const hasOp = b.rows.some((r) => r.op);
+  const n = Math.max(...b.rows.map((r) => r.cells.length));
+  const align = Array.from({ length: n }, (_, i) =>
+    b.align?.[i] ?? (b.rows.some((r) => r.cells[i] === '=') ? 'c' : 'r'),
+  );
+  const cols = [hasLabel && 'auto', hasOp && 'auto', ...align.map(() => 'auto')].filter(Boolean).join(' ');
+  const cell = (c) => (c == null || c === '' ? '' : typeof c === 'object' ? inlineToHtml(c.text) : texToHtml(c));
+  const html = b.rows
+    .map((r) => {
+      const common = [r.key && 'k-' + r.key, r.note && 'is-note'].filter(Boolean).join(' ');
+      const ruled = r.rule ? ' has-rule' : '';
+      return [
+        hasLabel && `<div class="calc-label ${common}">${r.label ? inlineToHtml(r.label) : ''}</div>`,
+        hasOp && `<div class="calc-op ${common}${ruled}">${r.op ? inlineToHtml(r.op) : ''}</div>`,
+        ...align.map((a, i) => `<div class="calc-cell a-${a} ${common}${ruled}">${cell(r.cells[i])}</div>`),
+      ]
+        .filter(Boolean)
+        .join('');
+    })
+    .join('');
+  return `<div class="calc-grid" style="grid-template-columns:${cols}">${html}</div>`;
+}
+
 const keyClasses = (el) => [...el.classList].filter((c) => c.startsWith('k-')).map((c) => c.slice(2));
 
 export class LessonRenderer {
@@ -43,9 +77,10 @@ export class LessonRenderer {
       <div class="area area-top"></div>
       <div class="area area-left"></div>
       <div class="area area-right"></div>
+      <div class="area area-full"></div>
       <div class="area area-bottom"><div class="hint-panel"></div><div class="step-comment"></div></div>
       <svg class="arrow-layer" aria-hidden="true"></svg>`;
-    this.areas = Object.fromEntries(['top', 'left', 'right', 'bottom'].map((a) => [a, body.querySelector('.area-' + a)]));
+    this.areas = Object.fromEntries(['top', 'left', 'right', 'full', 'bottom'].map((a) => [a, body.querySelector('.area-' + a)]));
     this.hintPanel = body.querySelector('.hint-panel');
     this.commentEl = body.querySelector('.step-comment');
     this.arrowLayer = body.querySelector('.arrow-layer');
@@ -66,7 +101,7 @@ export class LessonRenderer {
     // ブロックの追加・削除（並び順はデータの順）
     const want = new Set(view.blocks.keys());
     for (const [id, el] of this.cache) if (!want.has(id)) el.remove();
-    const perArea = { top: [], left: [], right: [], bottom: [] };
+    const perArea = { top: [], left: [], right: [], full: [], bottom: [] };
     for (const [id, { block, anim }] of view.blocks) {
       let el = this.cache.get(id);
       if (!el) this.cache.set(id, (el = this.buildBlock(block)));
@@ -83,7 +118,7 @@ export class LessonRenderer {
       const anchor = area === 'bottom' ? this.hintPanel : null;
       els.forEach((el) => host.insertBefore(el, anchor));
     }
-    this.body.classList.toggle('has-columns', perArea.left.length + perArea.right.length > 0);
+    this.body.classList.toggle('has-columns', perArea.left.length + perArea.right.length + perArea.full.length > 0);
 
     // キー付き要素：表示／非表示と強調
     for (const el of this.body.querySelectorAll('[class^="k-"], [class*=" k-"]')) {

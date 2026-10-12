@@ -2,7 +2,9 @@
 
 KECゼミナール オリジナル教材「魔法のノート」を使った、数学科講師向けの授業支援Webアプリ（電子黒板・プロジェクター向け）。
 
-現在の収録範囲：中2数学 第2章 連立方程式 第1節（章タイトル・ポイント2件・問1.2(1)）
+現在の収録範囲：中2数学 第2章 連立方程式 第1節 加減法による解き方（p.24〜25：章タイトル・ポイント2件・問1.1・問1.2(1)(2)・問1.3(1)(2)）
+
+公開URL：https://taka-t-p.github.io/math-magical-note/ （`main` にプッシュすると GitHub Actions で自動公開）
 
 ## 使い方
 
@@ -11,7 +13,7 @@ npm install
 npm run dev        # 開発サーバー（http://localhost:5173）
 npm run build      # 教材データを検証してから dist/ に出力
 npm run preview    # ビルド結果の確認
-npm run validate   # 教材データだけを検証
+npm run validate   # 教材データだけを検証（数式・キー参照・表示される式の検算）
 ```
 
 `dist/` の中身を GitHub Pages などの静的ホスティングに置けば公開できます（サブパス配下でも動作）。

@@ -76,6 +76,9 @@
 .area-left { grid-area: left; min-height: 0; }
 .area-right { grid-area: right; min-height: 0; }
 .area-bottom { grid-area: bottom; display: grid; gap: 10px; }
+/* 左右2列にまたがる領域（表など）。left / right と同時には使わない */
+.area-full { grid-row: 2; grid-column: 1 / -1; min-height: 0; }
+.area-full:empty { display: none; }
 .has-columns .area-top { border-bottom: 2px dashed var(--line); padding-bottom: 10px; margin-bottom: 22px; }
 
 .type-title .area-top,
@@ -91,6 +94,8 @@
 .stage .katex-display > .katex { text-align: left; }
 .blk.is-inline { display: inline-block; vertical-align: bottom; margin: 0 48px 0 0; }
 .blk-answer.is-inline { display: inline-flex; }
+/* 問題文の横に後から式を並べても、問題文の位置が動かない（手書きとずれない）よう上端でそろえる */
+.area-top .blk.is-inline { vertical-align: top; }
 .blk.is-inline:last-child { margin-right: 0; }
 .stage-body.is-overflow { outline: 6px dashed var(--c-orange); outline-offset: -6px; }
 
@@ -104,6 +109,27 @@
   font-size: 0.9em;
 }
 .blk-callout .kw { font-size: 1.05em; }
+/* 「ひく」側の判断は青で示し、「たす」（赤）と区別する */
+.blk-callout.tone-blue { border-color: var(--c-blue); background: #f0f6ff; }
+.blk-callout.tone-blue .kw { color: var(--c-blue); }
+.blk-callout.tone-note { border-color: var(--c-red); background: #fff; color: var(--c-red); font-weight: 700; font-size: 0.75em; }
+
+/* 筆算・表（calc ブロック） */
+.calc-grid { display: inline-grid; align-items: baseline; row-gap: 4px; }
+.calc-cell, .calc-op { padding: 2px 0.16em; white-space: nowrap; }
+.calc-cell.a-r { text-align: right; }
+.calc-cell.a-c { text-align: center; }
+.calc-cell.a-l { text-align: left; }
+.calc-label { padding-right: 0.7em; font-size: 0.8em; font-weight: 700; color: #444; white-space: nowrap; }
+.calc-op { padding-right: 0.3em; }
+.has-rule { border-bottom: 3px solid currentColor; padding-bottom: 6px; }
+/* 行全体のマーカーがセルの境目で重ならないようにする */
+.calc-grid > .em-marker::before { inset: 0; border-radius: 0; }
+.calc-grid .is-note { font-size: 0.7em; color: var(--c-orange); font-weight: 700; text-align: center; }
+.calc-grid .is-note .katex { font-size: 1.1em; }
+.answer-text { font-size: 1.3em; font-weight: 800; padding: 0 0.3em; }
+.mark-ok { color: var(--c-blue); }
+.mark-ng { color: var(--c-red); }
 .callout-title { font-weight: 800; margin-bottom: 4px; }
 
 .blk-answer {
@@ -335,8 +361,22 @@
 }
 .teacher-panel[hidden] { display: none; }
 .teacher-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-.teacher-head strong { font-size: 22px; }
+.teacher-head strong { font-size: 22px; white-space: nowrap; }
+.teacher-head .muted { white-space: nowrap; }
 .teacher-head .hbtn { margin-left: auto; background: rgba(0, 0, 0, 0.06); color: var(--ink); }
+.teacher-legend { margin: -4px 0 12px; font-size: 14px; color: var(--muted); }
+.src {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 0 6px;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.6;
+  vertical-align: 2px;
+}
+.src-material { background: #dcefe2; color: #126b37; }
+.src-draft { background: #ffe2c2; color: #9a5a00; }
 .teacher-note { padding: 10px 14px; margin-bottom: 14px; border-radius: 10px; background: #fff0c9; }
 .teacher-note .tag { margin-right: 8px; background: var(--c-orange); }
 .teacher-panel section { margin-bottom: 14px; }
