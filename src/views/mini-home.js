@@ -4,6 +4,7 @@ import { getSettings, updateSettings } from '../app/settings.js';
 import { icon } from '../ui/icons.js';
 import { MINI_TYPES, MINI_ORDER, miniByType, miniByUnit } from '../mini/mini-catalog.js';
 import { miniCardHtml } from '../mini/mini-card.js';
+import { attachTooltips } from '../ui/tooltip.js';
 
 export function mountMiniHome(root) {
   const page = document.createElement('div');
@@ -94,4 +95,5 @@ export function mountMiniList(root, { type }) {
     <section class="panel">
       ${items.length ? `<div class="mini-card-grid">${items.map((c) => miniCardHtml(c)).join('')}</div>` : '<p class="muted">準備中です。</p>'}
     </section>`;
+  return attachTooltips(page);
 }

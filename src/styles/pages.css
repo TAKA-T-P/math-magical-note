@@ -80,37 +80,88 @@
 }
 .recent-list a:hover { background: #e2e8f2; }
 
-/* 章・節選択 */
-.section-list { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 0.8rem; }
-.section-item { background: var(--surface); border-radius: 14px; padding: 1rem 1.3rem; }
+/* 章・節選択（節ごとに折りたためる。カードは番号と短い名前だけ、詳しい情報はツールチップ） */
+.units .page-header { flex-wrap: wrap; }
+.fold-all { margin-left: auto; display: flex; gap: 0.25rem; }
+.fold-all .btn { min-height: 2.25rem; font-size: 0.85rem; padding: 0.2em 0.8em; }
+.section-list { margin: 1rem 0 0; display: grid; gap: 0.6rem; }
+.section-item { background: var(--surface); border-radius: 14px; padding: 0.2rem 1.1rem; }
+.section-item[open] { padding-bottom: 0.9rem; }
 .section-item.is-disabled { opacity: 0.6; }
-.section-head { display: flex; align-items: baseline; gap: 0.8rem; }
-.section-num { color: var(--navy); font-weight: 700; min-width: 3.5em; }
-.section-title { font-size: 1.15rem; font-weight: 700; }
+.section-item.is-disabled .section-head { cursor: default; pointer-events: none; }
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 2.9rem;
+  cursor: pointer;
+  list-style: none;
+  border-radius: 10px;
+}
+.section-head::-webkit-details-marker { display: none; }
+.section-head:hover .section-title { color: var(--navy); }
+.fold-mark { display: inline-grid; color: var(--muted); transition: transform 0.15s; }
+.section-item[open] > .section-head .fold-mark { transform: rotate(90deg); }
+.section-item.is-disabled .fold-mark { visibility: hidden; }
+.section-num { color: var(--navy); font-weight: 700; min-width: 3.2em; }
+.section-title { font-size: 1.05rem; font-weight: 700; }
+.section-count { margin-left: auto; font-size: 0.85rem; }
 .content-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-  gap: 0.7rem;
-  margin-top: 0.9rem;
+  grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
+  gap: 0.45rem;
+  margin-top: 0.45rem;
 }
 .content-card {
   display: grid;
-  gap: 0.2rem;
-  padding: 0.9rem 1rem;
+  align-content: center;
+  min-height: 3.6rem;
+  padding: 0.35rem 0.7rem;
   border: 2px solid var(--line);
   border-left-width: 6px;
-  border-radius: 12px;
+  border-radius: 10px;
   text-decoration: none;
   background: var(--surface);
+  line-height: 1.3;
 }
-.content-card:hover { border-color: var(--navy); }
+.content-card:hover, .content-card:focus-visible { border-color: var(--navy); }
 .content-card.type-point { border-left-color: var(--c-red); }
 .content-card.type-exercise { border-left-color: var(--navy); }
 .content-card.type-title { border-left-color: var(--muted); }
-.content-type { font-size: 0.75rem; color: var(--muted); }
-.content-num { font-size: 1.2rem; font-weight: 700; }
-.content-title { font-size: 0.95rem; }
-.content-meta { display: flex; gap: 0.4rem; align-items: center; font-size: 0.85rem; }
+.content-num { font-size: 1.05rem; font-weight: 800; }
+.content-title { font-size: 0.8rem; color: #444; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.content-title .katex { font-size: 1em; }
+
+/* ツールチップ（.tip-content の内容を表示する） */
+.tip-content {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.tooltip {
+  position: absolute;
+  z-index: 1000;
+  display: grid;
+  gap: 0.3rem;
+  max-width: min(22rem, calc(100vw - 16px));
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.18);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  pointer-events: none;
+}
+.tooltip[hidden] { display: none; }
+.tooltip > span, .tooltip > strong { display: block; }
+.tip-type { font-size: 0.75rem; font-weight: 700; color: var(--muted); }
+.tip-title { font-size: 0.95rem; }
+.tip-desc { color: #444; }
+.tip-meta { display: flex !important; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.6rem; color: var(--muted); }
 
 /* 設定 */
 .settings-form fieldset { border: none; padding: 0; margin: 0 0 1.3rem; }
