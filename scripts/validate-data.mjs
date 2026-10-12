@@ -44,6 +44,12 @@ function checkText(where, text, keys) {
   const s = Array.isArray(text) ? text.join('\n') : String(text ?? '');
   const parts = s.split('$');
   if (parts.length % 2 === 0) err(where, `$ の数が奇数です: ${s}`);
+  // {{key|…}} / [[key|…]] の開き・閉じが数式の外側でそろっているか（中に数式があってもよい）
+  const outside = parts.filter((_, i) => i % 2 === 0).join(' ');
+  const opensKw = (outside.match(/\{\{[A-Za-z0-9_-]+\|/g) ?? []).length;
+  const opensK = (outside.match(/\[\[[A-Za-z0-9_-]+\|/g) ?? []).length;
+  if (opensKw !== (outside.match(/\}\}/g) ?? []).length) err(where, `{{ }} の対応がとれていません: ${s}`);
+  if (opensK !== (outside.match(/\]\]/g) ?? []).length) err(where, `[[ ]] の対応がとれていません: ${s}`);
   parts.forEach((p, i) => {
     if (i % 2 === 1) {
       renderTex(where, p);
