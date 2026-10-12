@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "id": "mistake-solution-coefficient-1",
+  "type": "mistake",
+  "title": "解と係数の落とし穴！",
+  "description": "負の数を代入するときの符号ミスと、求める文字を取りちがえる「方針のまちがい」を見破ります。",
+  "unit": { "grade": "g2", "chapter": "c2", "section": "s4" },
+  "minutes": 7,
+  "difficulty": 2,
+  "status": "draft",
+  "teacher": {
+    "aim": "解を代入するときの符号の扱いと、「この問題で求めるものは何か」を読み取ることの大切さを確認する。",
+    "notes": ["第1問は計算ミス、第2問は計算は正しいのに方針がちがう例。2つのちがいを意識させる。", "第2問では「本当に求めたいものは何かな？」と発問してから「ミス発見」を押す。"]
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "prompt": "連立方程式の解が $x=2,\\ y=-1$ のとき，$ax+by=5$ に代入しました。どこでまちがえたでしょう？",
+      "tex": "ax+by=5",
+      "wrong": {
+        "label": "まちがいのある計算（$x=2,\\ y=-1$ を代入）",
+        "align": ["r", "c", "l"],
+        "rows": [{ "cells": ["a\\times2+b\\times(-1)", "=", "5"]}, { "cells": ["2a\\hl{e1}{+b}", "=", "5"]} ]
+      },
+      "errorKeys": ["e1"],
+      "errorType": "sign",
+      "correct": {
+        "label": "正しい計算",
+        "align": ["r", "c", "l"],
+        "rows": [{ "cells": ["a\\times2+b\\times(-1)", "=", "5"]}, { "cells": ["2a\\hl{f1}{-b}", "=", "5"]} ]
+      },
+      "correctKeys": ["f1"],
+      "reason": "$b\\times(-1)=-b$ なので，$2a+b$ ではなく $2a-b$ になる。負の数を代入するときは，かっこを付けて符号に注意する。",
+      "note": "問4.1 の1つ目の式と同じ計算。",
+      "check": { "equations": ["a*x+b*y=5"], "solution": { "x": 2, "y": -1, "a": 1, "b": -3}, "identities": ["a*2+b*(-1)=2*a-b"]},
+      "teacherNote": "問4.1 の答え $a=1,\\ b=-3$ を入れると，$2a+b=-1$ となり $5$ にならないことでも確かめられる。"
+    },
+    {
+      "id": "q2",
+      "prompt": "連立方程式 $\\begin{cases} ax+by=4 \\\\ ax-by=8 \\end{cases}$ の解が $x=3,\\ y=-2$ のとき，定数 $a$，$b$ を求めようとしています。この解き方の **方針** はどこがおかしいでしょう？（この問題で，本当に求めたいものは何かな？）",
+      "wrong": {
+        "label": "まちがいのある解き方（$x$ を求めようとしている）",
+        "align": ["r", "c", "l"],
+        "rows": [
+          { "cells": ["ax+by", "=", "4"]},
+          { "op": "+)", "cells": ["ax-by", "=", "8"], "rule": true},
+          { "cells": ["2ax", "=", "12"]},
+          { "cells": ["\\hl{e1}{x}", "=", "\\dfrac{6}{a}"]}
+        ]
+      },
+      "errorKeys": ["e1"],
+      "errorType": "approach",
+      "errorLabel": "求める文字の取りちがえ",
+      "correct": {
+        "label": "正しい解き方（$x$，$y$ を代入）",
+        "align": ["r", "c", "l"],
+        "rows": [
+          { "cells": ["\\hl{f1}{3a-2b}", "=", "4"]},
+          { "op": "+)", "cells": ["\\hl{f2}{3a+2b}", "=", "8"], "rule": true},
+          { "cells": ["6a", "=", "12"]},
+          { "cells": ["a", "=", "2"]}
+        ]
+      },
+      "correctKeys": ["f1", "f2"],
+      "reason": "$x=3,\\ y=-2$ はもうわかっている。求めたいのは $a$，$b$。計算は正しいが，$x$ を求めても $a$，$b$ は求まらない。",
+      "note": "正しくは $x$，$y$ を代入して $6a=12$，$a=2$。$3\\times2-2b=4$ より $b=1$。",
+      "check": {
+        "equations": ["a*x+b*y=4", "a*x-b*y=8"],
+        "solution": { "x": 3, "y": -2, "a": 2, "b": 1},
+        "identities": ["a*3+b*(-2)=3*a-2*b", "a*3-b*(-2)=3*a+2*b"]
+      },
+      "teacherNote": "誤答の式はすべて正しい等式（計算ミスではない）。問題文の「何がわかっていて，何を求めるのか」を読み取ることが大切だと伝える。"
+    }
+  ]
+}

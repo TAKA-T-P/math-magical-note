@@ -1,0 +1,436 @@
+{
+  "schema": 1,
+  "unit": { "grade": "g2", "chapter": "c2", "section": "s4" },
+  "contents": [
+    {
+      "id": "g2.simul.coef.q-from-solution-1",
+      "rev": 1,
+      "editions": { "2026": { "page": 30, "number": "問4.1", "tags": ["定期"], "ref": "Ⓢp.42[5](1)〜(4)" }},
+      "type": "exercise",
+      "title": "解から係数を求める",
+      "statement": [
+        {
+          "id": "q-text",
+          "type": "text",
+          "area": "top",
+          "text": "連立方程式 $\\begin{cases} \\hl{a1}{a}\\hl{x1}{x}+\\hl{b1}{b}\\hl{y1}{y}=5 \\\\ \\hl{a2}{a}\\hl{x2}{x}-\\hl{b2}{b}\\hl{y2}{y}=-1 \\end{cases}$ の解が $\\hl{gx}{x=2}$，$\\hl{gy}{y=-1}$ であるとき，定数 $\\hl{ta}{a}$，$\\hl{tb}{b}$ の値をそれぞれ求めなさい。"
+        }
+      ],
+      "answer": { "tex": "a=1,\\ b=-3", "values": { "x": 2, "y": -1, "a": 1, "b": -3}},
+      "check": {
+        "equations": ["a*x+b*y=5", "a*x-b*y=-1"],
+        "solution": { "x": 2, "y": -1, "a": 1, "b": -3},
+        "derived": ["2*a-b=5", "2*a+b=-1", "4*a=4", "2+b=-1"],
+        "identities": ["a*2+b*(-1)=2*a-b", "a*2-b*(-1)=2*a+b", "(2*a-b)+(2*a+b)=4*a"]
+      },
+      "hints": ["この問題で求めるのは $x$，$y$ ではなく，$a$，$b$。", "$x=2$，$y=-1$ を2つの式に代入すると，$a$，$b$ の連立方程式になる。", "$b\\times(-1)=-b$。負の数を代入するときはかっこを付ける。"],
+      "steps": [
+        {
+          "id": "goal",
+          "title": "わかっているもの・求めるもの",
+          "add": [
+            {
+              "id": "info",
+              "type": "calc",
+              "area": "right",
+              "align": ["l"],
+              "rows": [
+                { "label": "わかっている", "cells": [{ "text": "$\\hl{ix}{x=2}$，$\\hl{iy}{y=-1}$（解）" } ]},
+                { "label": "求めたい", "cells": [{ "text": "$\\hl{ia}{a}$，$\\hl{ib}{b}$（定数）" } ]}
+              ]
+            }
+          ],
+          "emphasis": [
+            { "key": "gx", "style": "marker", "color": "green" },
+            { "key": "gy", "style": "marker", "color": "green" },
+            { "key": "ix", "style": "marker", "color": "green" },
+            { "key": "iy", "style": "marker", "color": "green" },
+            { "key": "ta", "style": "box", "color": "red" },
+            { "key": "tb", "style": "box", "color": "red" },
+            { "key": "ia", "style": "box", "color": "red" },
+            { "key": "ib", "style": "box", "color": "red" }
+          ],
+          "comment": "$x$，$y$ はもうわかっている。この問題で求めるのは $a$ と $b$。",
+          "teacherNote": "「この問題で求めるものは何？」と発問し，$x$，$y$ を求めようとしないよう確認する。"
+        },
+        {
+          "id": "substitute",
+          "title": "$x$，$y$ を代入する",
+          "anim": "slide-up",
+          "add": [
+            { "id": "sub-label", "type": "text", "area": "left", "text": "$x=2$，$y=-1$ を代入すると" },
+            {
+              "id": "subst",
+              "type": "calc",
+              "area": "left",
+              "size": "l",
+              "rows": [
+                { "cells": ["a\\times\\hl{v1}{2}+b\\times(\\hl{v2}{-1})", "=", "5"]},
+                { "cells": ["a\\times\\hl{v3}{2}-b\\times(\\hl{v4}{-1})", "=", "-1"]}
+              ]
+            }
+          ],
+          "emphasis": [
+            { "key": "x1", "style": "box", "color": "orange" },
+            { "key": "y1", "style": "box", "color": "orange" },
+            { "key": "x2", "style": "box", "color": "orange" },
+            { "key": "y2", "style": "box", "color": "orange" },
+            { "key": "v1", "style": "box", "color": "green" },
+            { "key": "v2", "style": "box", "color": "green" },
+            { "key": "v3", "style": "box", "color": "green" },
+            { "key": "v4", "style": "box", "color": "green" }
+          ],
+          "comment": "$x$ のところに $2$，$y$ のところに $(-1)$ を入れる。負の数はかっこを付けて代入する。"
+        },
+        {
+          "id": "arrange",
+          "title": "$a$，$b$ の連立方程式にする",
+          "add": [
+            {
+              "id": "ab",
+              "type": "calc",
+              "area": "left",
+              "size": "l",
+              "align": ["r", "c", "r", "l"],
+              "rows": [{ "cells": ["\\hl{u1}{2a-b}", "=", "5", { "text": "……①" } ]}, { "cells": ["\\hl{u2}{2a+b}", "=", "-1", { "text": "……②" } ]} ]
+            },
+            { "id": "role", "type": "callout", "area": "right", "tone": "point", "text": "$x$，$y$ を代入すると\n→ **$a$，$b$ の連立方程式** になる！" }
+          ],
+          "emphasis": [{ "key": "u1", "style": "color", "color": "red" }, { "key": "u2", "style": "color", "color": "red" } ],
+          "comment": "$b\\times(-1)=-b$，$-b\\times(-1)=+b$。$a$，$b$ が未知数の連立方程式になった。",
+          "teacherNote": "ここからは $a$，$b$ を求める「ふつうの連立方程式」。これまでの加減法で解ける。"
+        },
+        {
+          "id": "add",
+          "title": "加減法で解く（2式をたす）",
+          "remove": ["info", "role"],
+          "add": [
+            {
+              "id": "calc",
+              "type": "calc",
+              "area": "right",
+              "size": "l",
+              "hide": ["r3", "r4"],
+              "rows": [
+                { "cells": ["2a", "\\hl{cb1}{{}-b}", "=", "5"]},
+                { "op": "+)", "cells": ["2a", "\\hl{cb2}{{}+b}", "=", "-1"], "rule": true},
+                { "key": "r3", "cells": ["4a", "", "=", "4"]},
+                { "key": "r4", "cells": ["a", "", "=", "1"]}
+              ]
+            }
+          ],
+          "emphasis": [
+            { "key": "cb1", "style": "strike", "color": "red", "persist": true},
+            { "key": "cb2", "style": "strike", "color": "red", "persist": true}
+          ],
+          "comment": "$b$ の係数が $-1$ と $+1$（異符号）なので，2式をたす。"
+        },
+        {
+          "id": "a-value",
+          "title": "$a$ を求める",
+          "reveal": ["r3", "r4"],
+          "emphasis": [{ "key": "r4", "style": "marker", "color": "yellow" } ],
+          "comment": "$4a=4$ より $a=1$"
+        },
+        {
+          "id": "b-value",
+          "title": "②に代入して $b$ を求める",
+          "add": [
+            { "id": "sub2-label", "type": "text", "area": "right", "text": "②に $a=1$ を代入して" },
+            {
+              "id": "sub2",
+              "type": "calc",
+              "area": "right",
+              "size": "l",
+              "inline": true,
+              "rows": [{ "cells": ["\\hl{sv}{2}+b", "=", "-1"]}, { "key": "s2", "cells": ["b", "=", "-3"]} ]
+            }
+          ],
+          "emphasis": [{ "key": "sv", "style": "box", "color": "green" }, { "key": "s2", "style": "marker", "color": "yellow" } ],
+          "comment": "②の $2a$ に $a=1$ を代入すると $2$。$2+b=-1$ より $b=-3$",
+          "remove": ["calc"]
+        },
+        {
+          "id": "answer",
+          "title": "答え",
+          "add": [{ "id": "ans", "type": "answer", "area": "right", "inline": true, "tex": "\\begin{cases} a=1 \\\\ b=-3 \\end{cases}" } ],
+          "teacherNote": "検算：$a=1,\\ b=-3$ のとき，$ax+by=2+3=5$，$ax-by=2-3=-1$ で成り立つ。"
+        }
+      ],
+      "teacher": {
+        "status": "draft",
+        "aim": "「解が $x=2,\\ y=-1$」とは代入すると等式が成り立つことであり，代入すると $a$，$b$ の連立方程式になることを理解する。",
+        "questions": ["この問題で求めるものは何？", "$x=2$，$y=-1$ が解であるとはどういうこと？", "代入すると，どの文字が残る？"],
+        "pitfalls": ["$x$，$y$ を求めようとしてしまう。", "$b\\times(-1)$ を $+b$ としてしまう（符号ミス）。"],
+        "commonErrors": ["$ax+by=5$ に代入して $2a+b=5$ としてしまう。"],
+        "notes": [
+          {
+            "text": "指導書の解答例：「$x=2,\\ y=-1$ を代入すると」$2a-b=5$ …①，$2a+b=-1$ …②。たして $4a=4$，$a=1$。「②に代入して」$2+b=-1$，$b=-3$",
+            "source": "material"
+          }
+        ],
+        "procedure": ["求めるもの（$a$，$b$）を確認する", "わかっている $x$，$y$ を代入する", "$a$，$b$ の連立方程式を加減法で解く"]
+      }
+    },
+    {
+      "id": "g2.simul.coef.q-common-solution-1",
+      "rev": 1,
+      "editions": { "2026": { "page": 30, "number": "↗問4.2", "tags": ["発展"], "ref": "Ⓢp.42[5](6)" }},
+      "type": "advanced",
+      "title": "2組の連立方程式の解が一致する",
+      "statement": [
+        {
+          "id": "q-text",
+          "type": "text",
+          "area": "top",
+          "text": "$x$，$y$ に関する2つの連立方程式 $\\begin{cases} \\hl{e1}{3x-2y=3} \\\\ \\hl{e2}{ax-by=11} \\end{cases}$，$\\begin{cases} \\hl{e3}{2x+5y=-17} \\\\ \\hl{e4}{bx-ay=7} \\end{cases}$ の[[same|解が一致する]]とき，$a$，$b$ の値をそれぞれ求めなさい。"
+        }
+      ],
+      "answer": { "tex": "a=4,\\ b=5", "values": { "x": -1, "y": -3, "a": 4, "b": 5}},
+      "check": {
+        "equations": ["3*x-2*y=3", "a*x-b*y=11", "2*x+5*y=-17", "b*x-a*y=7"],
+        "solution": { "x": -1, "y": -3, "a": 4, "b": 5},
+        "derived": ["19*x=-19", "-2+5*y=-17", "-a+3*b=11", "3*a-b=7", "8*a=32", "12-b=7"],
+        "identities": ["5*(3*x-2*y)+2*(2*x+5*y)=19*x", "a*(-1)-b*(-3)=-a+3*b", "b*(-1)-a*(-3)=3*a-b", "(-a+3*b)+3*(3*a-b)=8*a"]
+      },
+      "hints": ["まず $a$，$b$ をふくまない2式を組み合わせよう。", "$3x-2y=3$ と $2x+5y=-17$ で $x$，$y$ が求まる。", "求めた $x$，$y$ を残りの2式に代入すると，$a$，$b$ の連立方程式になる。"],
+      "steps": [
+        {
+          "id": "same",
+          "title": "「解が一致する」に着目",
+          "emphasis": [{ "key": "same", "style": "marker", "color": "yellow" } ],
+          "comment": "2つの連立方程式の $x$，$y$ は **同じ値**。",
+          "teacherNote": "「この2つは，$x$ と $y$ が同じ値になるということだね。では，どの式から解けそうかな？」と発問する。"
+        },
+        {
+          "id": "select",
+          "title": "$a$，$b$ をふくまない式を探す",
+          "emphasis": [
+            { "key": "e1", "style": "box", "color": "green" },
+            { "key": "e3", "style": "box", "color": "green" },
+            { "key": "e2", "style": "dim" },
+            { "key": "e4", "style": "dim" }
+          ],
+          "comment": "$3x-2y=3$ と $2x+5y=-17$ には $a$，$b$ がない。この2式なら $x$，$y$ だけの連立方程式になる。",
+          "teacherNote": { "text": "本編のヒント：「まず $a$，$b$ をふくまない2式を組み合わせよう。」", "source": "material" },
+          "add": [{ "id": "hint", "type": "callout", "area": "right", "tone": "note", "text": "ヒント：まず $a$，$b$ をふくまない\n2式を組み合わせよう。" } ]
+        },
+        {
+          "id": "make",
+          "title": "新しい連立方程式を作る",
+          "anim": "slide-up",
+          "add": [
+            {
+              "id": "xy",
+              "type": "math",
+              "area": "left",
+              "size": "l",
+              "tex": "\\begin{cases} \\hl{n1}{3x-2y=3} \\cdots\\!\\cdots\\text{①} \\\\ \\hl{n2}{2x+5y=-17} \\cdots\\!\\cdots\\text{②} \\end{cases}"
+            }
+          ],
+          "emphasis": [
+            { "key": "e1", "style": "color", "color": "green" },
+            { "key": "e3", "style": "color", "color": "green" },
+            { "key": "e2", "style": "dim" },
+            { "key": "e4", "style": "dim" },
+            { "key": "n1", "style": "color", "color": "green" },
+            { "key": "n2", "style": "color", "color": "green" }
+          ],
+          "comment": "取り出した2式で，$x$，$y$ の連立方程式を作る。",
+          "remove": []
+        },
+        {
+          "id": "solve-xy",
+          "title": "①×5，②×2 で $y$ をそろえる",
+          "add": [
+            {
+              "id": "calc1",
+              "type": "calc",
+              "area": "right",
+              "size": "l",
+              "hide": ["r3", "r4"],
+              "rows": [
+                { "label": "①×5", "cells": ["15x", "\\hl{cy1}{{}-10y}", "=", "15"]},
+                { "label": "②×2", "op": "+)", "cells": ["4x", "\\hl{cy2}{{}+10y}", "=", "-34"], "rule": true},
+                { "key": "r3", "cells": ["19x", "", "=", "-19"]},
+                { "key": "r4", "cells": ["x", "", "=", "-1"]}
+              ]
+            }
+          ],
+          "emphasis": [
+            { "key": "e2", "style": "dim" },
+            { "key": "e4", "style": "dim" },
+            { "key": "cy1", "style": "strike", "color": "red", "persist": true},
+            { "key": "cy2", "style": "strike", "color": "red", "persist": true}
+          ],
+          "comment": "$y$ の係数を $10$ にそろえると異符号なので，2式をたす。",
+          "remove": ["hint"]
+        },
+        {
+          "id": "x-value",
+          "title": "$x$ を求める",
+          "reveal": ["r3", "r4"],
+          "emphasis": [{ "key": "e2", "style": "dim" }, { "key": "e4", "style": "dim" }, { "key": "r4", "style": "marker", "color": "yellow" } ],
+          "comment": "$19x=-19$ より $x=-1$"
+        },
+        {
+          "id": "y-value",
+          "title": "②に代入して $y$ を求める",
+          "add": [
+            { "id": "sub-label", "type": "text", "area": "left", "text": "②に代入して" },
+            {
+              "id": "sub",
+              "type": "calc",
+              "area": "left",
+              "size": "l",
+              "rows": [{ "cells": ["\\hl{sv}{-2}+5y", "=", "-17"]}, { "key": "s3", "cells": ["y", "=", "-3"]} ]
+            }
+          ],
+          "emphasis": [
+            { "key": "e2", "style": "dim" },
+            { "key": "e4", "style": "dim" },
+            { "key": "sv", "style": "box", "color": "green" },
+            { "key": "s3", "style": "marker", "color": "yellow" }
+          ],
+          "comment": "②の $2x$ に $x=-1$ を代入すると $-2$。$-2+5y=-17$，$5y=-15$ より $y=-3$"
+        },
+        {
+          "id": "back",
+          "title": "もとの問題に戻る",
+          "remove": ["xy", "calc1", "sub-label", "sub"],
+          "add": [{ "id": "found", "type": "callout", "area": "left", "tone": "point", "text": "わかった：$x=-1$，$y=-3$" } ],
+          "emphasis": [
+            { "key": "e1", "style": "dim" },
+            { "key": "e3", "style": "dim" },
+            { "key": "e2", "style": "box", "color": "red" },
+            { "key": "e4", "style": "box", "color": "red" }
+          ],
+          "comment": "残りの2式（$a$，$b$ をふくむ式）に，求めた $x$，$y$ を代入する。",
+          "teacherNote": "「$x$，$y$ がわかったら，問4.1 と同じ形になったね」と問4.1 とつなげる。"
+        },
+        {
+          "id": "substitute",
+          "title": "$x=-1$，$y=-3$ を代入する",
+          "add": [
+            { "id": "ab-label", "type": "text", "area": "left", "text": "残りの2式に $x=-1$，$y=-3$ を代入" },
+            {
+              "id": "ab",
+              "type": "calc",
+              "area": "left",
+              "size": "l",
+              "align": ["r", "c", "r", "l"],
+              "hide": ["q4"],
+              "rows": [
+                { "cells": ["\\hl{u1}{-a+3b}", "=", "11", { "text": "……③" } ]},
+                { "cells": ["\\hl{u3}{-b+3a}", "=", "7"]},
+                { "key": "q4", "cells": ["\\hl{u2}{3a-b}", "=", "7", { "text": "……④" } ]}
+              ]
+            }
+          ],
+          "emphasis": [
+            { "key": "e1", "style": "dim" },
+            { "key": "e3", "style": "dim" },
+            { "key": "e2", "style": "box", "color": "red" },
+            { "key": "e4", "style": "box", "color": "red" },
+            { "key": "u1", "style": "color", "color": "red" },
+            { "key": "u3", "style": "color", "color": "red" }
+          ],
+          "comment": "$a\\times(-1)-b\\times(-3)=-a+3b$，$b\\times(-1)-a\\times(-3)=-b+3a$"
+        },
+        {
+          "id": "arrange",
+          "title": "$a$，$b$ の連立方程式にする",
+          "reveal": ["q4"],
+          "emphasis": [
+            { "key": "e1", "style": "dim" },
+            { "key": "e3", "style": "dim" },
+            { "key": "u2", "style": "color", "color": "red" },
+            { "key": "u3", "style": "dim" }
+          ],
+          "comment": "$-b+3a=7$ を並べかえて $3a-b=7$。$a$，$b$ の連立方程式（③・④）ができた。"
+        },
+        {
+          "id": "solve-ab",
+          "title": "③＋④×3 で $b$ を消す",
+          "add": [
+            {
+              "id": "calc2",
+              "type": "calc",
+              "area": "right",
+              "size": "l",
+              "hide": ["r7", "r8"],
+              "rows": [
+                { "label": "③", "cells": ["-a", "\\hl{cb1}{{}+3b}", "=", "11"]},
+                { "label": "④×3", "op": "+)", "cells": ["9a", "\\hl{cb2}{{}-3b}", "=", "21"], "rule": true},
+                { "key": "r7", "cells": ["8a", "", "=", "32"]},
+                { "key": "r8", "cells": ["a", "", "=", "4"]}
+              ]
+            }
+          ],
+          "emphasis": [
+            { "key": "e1", "style": "dim" },
+            { "key": "e3", "style": "dim" },
+            { "key": "cb1", "style": "strike", "color": "red", "persist": true},
+            { "key": "cb2", "style": "strike", "color": "red", "persist": true}
+          ],
+          "comment": "④を $3$ 倍すると $b$ の係数が $+3$ と $-3$（異符号）になるので，2式をたす。"
+        },
+        {
+          "id": "a-value",
+          "title": "$a$ を求める",
+          "reveal": ["r7", "r8"],
+          "emphasis": [{ "key": "e1", "style": "dim" }, { "key": "e3", "style": "dim" }, { "key": "r8", "style": "marker", "color": "yellow" } ],
+          "comment": "$8a=32$ より $a=4$"
+        },
+        {
+          "id": "b-value",
+          "title": "④に代入して $b$ を求める",
+          "add": [
+            { "id": "sub3-label", "type": "text", "area": "right", "text": "④に $a=4$ を代入" },
+            {
+              "id": "sub3",
+              "type": "calc",
+              "area": "right",
+              "size": "l",
+              "inline": true,
+              "rows": [{ "cells": ["\\hl{sw}{12}-b", "=", "7"]}, { "key": "s5", "cells": ["b", "=", "5"]} ]
+            }
+          ],
+          "emphasis": [
+            { "key": "e1", "style": "dim" },
+            { "key": "e3", "style": "dim" },
+            { "key": "sw", "style": "box", "color": "green" },
+            { "key": "s5", "style": "marker", "color": "yellow" }
+          ],
+          "comment": "④の $3a$ に $a=4$ を代入すると $12$。$12-b=7$ より $b=5$",
+          "remove": ["calc2"]
+        },
+        {
+          "id": "answer",
+          "title": "答え",
+          "add": [{ "id": "ans", "type": "answer", "area": "right", "inline": true, "tex": "\\begin{cases} a=4 \\\\ b=5 \\end{cases}" } ],
+          "teacherNote": "検算：$x=-1,\\ y=-3,\\ a=4,\\ b=5$ のとき，$ax-by=-4+15=11$，$bx-ay=-5+12=7$ で，4つの式がすべて成り立つ。"
+        }
+      ],
+      "teacher": {
+        "status": "draft",
+        "aim": "2組の連立方程式の解が一致するとき，$a$，$b$ をふくまない2式から先に $x$，$y$ を求め，残りの式に代入して $a$，$b$ を求める。",
+        "questions": ["「解が一致する」とはどういうこと？", "4つの式のうち，どの2式なら今すぐ解ける？", "$x$，$y$ がわかったら，あとは何をすればよい？"],
+        "pitfalls": ["左の連立方程式だけ，右の連立方程式だけで解こうとして行き詰まる。", "負の数を代入するときの符号ミス。"],
+        "commonErrors": ["$bx-ay=7$ に代入して $-b-3a=7$ としてしまう（$-a\\times(-3)$ の符号ミス）。"],
+        "notes": [
+          {
+            "text": "指導書の解答例：$3x-2y=3$ …①，$2x+5y=-17$ …②。①×5，②×2 をたして $19x=-19$，$x=-1$。「②に代入して」$-2+5y=-17$，$5y=-15$，$y=-3$。「残りの2式に $x=-1,\\ y=-3$ を代入」$-a+3b=11$ …③，$3a-b=7$ …④。③＋④×3 で $8a=32$，$a=4$。「④に代入」$12-b=7$，$b=5$",
+            "source": "material"
+          }
+        ],
+        "procedure": [
+          { "text": "$a$，$b$ をふくまない2式を組み合わせる", "source": "material" },
+          "その2式で $x$，$y$ を求める",
+          "残りの2式に $x$，$y$ を代入して，$a$，$b$ の連立方程式を作る",
+          "$a$，$b$ を求める"
+        ]
+      }
+    }
+  ]
+}

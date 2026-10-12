@@ -31,7 +31,11 @@ const stats = { rows: 0, identities: 0, unparsed: [] };
 const origWarn = console.warn;
 console.warn = (...a) => { if (!String(a[0]).startsWith('No character metrics')) origWarn(...a); };
 
+// JSON の書き方のミス（"\\times" を "\times" と書くとタブ文字になる など）を見つける
+const CONTROL = /[\u0000-\u0009\u000b-\u001f]/;
+
 function renderTex(where, tex) {
+  if (CONTROL.test(tex)) err(where, `数式に制御文字（タブなど）が入っています。\\ の書き忘れでは？: ${JSON.stringify(tex)}`);
   try {
     katex.renderToString(tex, { ...KATEX_OPTIONS, macros: { ...KATEX_OPTIONS.macros } });
   } catch (e) {
@@ -42,6 +46,7 @@ function renderTex(where, tex) {
 // 文章中の $...$ と {{key|...}} / [[key|...]] を処理
 function checkText(where, text, keys) {
   const s = Array.isArray(text) ? text.join('\n') : String(text ?? '');
+  if (CONTROL.test(s)) err(where, `文章に制御文字（タブなど）が入っています。\\ の書き忘れでは？: ${JSON.stringify(s)}`);
   const parts = s.split('$');
   if (parts.length % 2 === 0) err(where, `$ の数が奇数です: ${s}`);
   // {{key|…}} / [[key|…]] の開き・閉じが数式の外側でそろっているか（中に数式があってもよい）
@@ -50,6 +55,8 @@ function checkText(where, text, keys) {
   const opensK = (outside.match(/\[\[[A-Za-z0-9_-]+\|/g) ?? []).length;
   if (opensKw !== (outside.match(/\}\}/g) ?? []).length) err(where, `{{ }} の対応がとれていません: ${s}`);
   if (opensK !== (outside.match(/\]\]/g) ?? []).length) err(where, `[[ ]] の対応がとれていません: ${s}`);
+  if ((outside.match(/\*\*/g) ?? []).length % 2) err(where, `** の対応がとれていません: ${s}`);
+  if ((outside.match(/__/g) ?? []).length % 2) err(where, `__ の対応がとれていません: ${s}`);
   parts.forEach((p, i) => {
     if (i % 2 === 1) {
       renderTex(where, p);
@@ -232,7 +239,10 @@ function checkContent(file, c, ids, catalog) {
 
   const { allBlocks } = checkBody(where, c.statement, c.steps);
 
-  (c.hints ?? []).forEach((h, i) => checkText(`${where} hint${i + 1}`, h, new Set()));
+  (c.hints ?? []).forEach((h, i) => {
+    if (typeof h !== 'string') err(`${where} hint${i + 1}`, 'ヒントは文字列で書いてください');
+    else checkText(`${where} hint${i + 1}`, h, new Set());
+  });
   const t = c.teacher ?? {};
   if (t.status && t.status !== 'draft') err(where, `teacher.status は draft のみ指定できます: ${t.status}`);
   for (const v of [t.aim, ...[].concat(t.notes ?? []), ...(t.questions ?? []), ...(t.pitfalls ?? []), ...(t.commonErrors ?? []), ...(t.procedure ?? [])]) {
@@ -374,7 +384,7 @@ referenced.forEach((k) => err('catalog.json', `データファイル ${k}.json �
 // 自動で検証できるのは「構成・参照・数式の構文・check に登録した計算」まで。
 // 〇×や3択の正誤判断・解説文の内容は、講師が確認する（status: "draft" の間は「要確認」と表示される）。
 const MINI_TYPES = { choice3: 'quiz', mistake: 'quiz', truefalse: 'quiz', column: 'slide', introduction: 'slide' };
-const ERROR_TYPES = new Set(['sign', 'calc', 'formula', 'transpose', 'distribute', 'other']);
+const ERROR_TYPES = new Set(['sign', 'calc', 'formula', 'transpose', 'distribute', 'approach', 'other']);
 const miniIds = new Set();
 const miniStats = { files: 0, autoChecked: 0, manual: [] };
 
@@ -478,11 +488,16 @@ function checkMini(rel, m) {
         else {
           // 正しい解き方の式はすべて成り立ち、誤答の式は少なくとも1行が成り立たないこと
           checkCheck(w, q.check, [correct, ...(q.tex ? [{ id: 'problem', type: 'math', tex: q.tex }] : [])]);
-          const before = errors.length;
-          verifyBlock(w, wrong, q.check.solution);
-          const failed = errors.length - before;
-          errors.length = before;
-          if (!failed) err(w, '誤答の式がすべて正しい解で成り立っています（誤りが含まれていません）');
+          if (q.errorType === 'approach') {
+            // 方針の誤り：誤答の式そのものには計算ミスがないこと（計算ミスと混同しない）
+            verifyBlock(w, wrong, q.check.solution);
+          } else {
+            const before = errors.length;
+            verifyBlock(w, wrong, q.check.solution);
+            const failed = errors.length - before;
+            errors.length = before;
+            if (!failed) err(w, '誤答の式がすべて正しい解で成り立っています（誤りが含まれていません）');
+          }
           auto = true;
         }
       }

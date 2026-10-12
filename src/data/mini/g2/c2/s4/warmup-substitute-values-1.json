@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "id": "warmup-substitute-values-1",
+  "type": "choice3",
+  "title": "連立方程式、解を代入できる？",
+  "description": "負の数をふくむ値を式に代入する計算を3問で練習してから、解と係数の問題に進みます。",
+  "unit": { "grade": "g2", "chapter": "c2", "section": "s4" },
+  "minutes": 5,
+  "difficulty": 1,
+  "status": "draft",
+  "teacher": {
+    "aim": "第4節で必要な「解を式に代入する」計算（特に負の数の代入）を確認する。",
+    "notes": ["負の数を代入するときは、かっこを付けて書かせる。"]
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "prompt": "$x=2,\\ y=-1$ のとき，$3x+2y$ の値は？",
+      "choices": [
+        { "id": "a", "text": "$4$" },
+        { "id": "b", "text": "$8$" },
+        { "id": "c", "text": "$-4$" }
+      ],
+      "answer": "a",
+      "explanation": "$3\\times2+2\\times(-1)=6-2=4$",
+      "check": { "identities": ["3*2+2*(-1)=4"] },
+      "teacherNote": "②の $8$ は $2\\times(-1)$ を $+2$ と計算した誤り。"
+    },
+    {
+      "id": "q2",
+      "prompt": "$x=-1,\\ y=2$ のとき，$-2x+3y$ の値は？",
+      "choices": [
+        { "id": "a", "text": "$4$" },
+        { "id": "b", "text": "$8$" },
+        { "id": "c", "text": "$-8$" }
+      ],
+      "answer": "b",
+      "explanation": "$-2\\times(-1)+3\\times2=2+6=8$。負×負＝正。",
+      "check": { "identities": ["-2*(-1)+3*2=8"] },
+      "teacherNote": "①の $4$ は $-2\\times(-1)$ を $-2$ と計算した誤り。"
+    },
+    {
+      "id": "q3",
+      "prompt": "$x=3,\\ y=-2$ のとき，$2x-y$ の値は？",
+      "choices": [
+        { "id": "a", "text": "$4$" },
+        { "id": "b", "text": "$6$" },
+        { "id": "c", "text": "$8$" }
+      ],
+      "answer": "c",
+      "explanation": "$2\\times3-(-2)=6+2=8$。$-(-2)=+2$ に注意。",
+      "check": { "identities": ["2*3-(-2)=8"] },
+      "teacherNote": "①の $4$ は $-(-2)$ を $-2$ と計算した誤り。"
+    }
+  ]
+}

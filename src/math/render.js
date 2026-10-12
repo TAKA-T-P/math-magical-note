@@ -24,28 +24,37 @@ export function texToHtml(tex, displayMode = false) {
 // {{ }} と [[ ]] の中には数式（$...$）を入れてもよい。
 export function inlineToHtml(text) {
   const src = Array.isArray(text) ? text.join('\n') : String(text ?? '');
-  const { marked, opens } = markKeyedSpans(src);
+  const { marked, opens, closes } = markKeyedSpans(src);
   return marked
     .split('$')
     .map((part, i) => {
       if (i % 2 === 1) return texToHtml(part);
-      return escapeHtml(part)
-        .replace(/\*\*(.+?)\*\*/g, '<strong class="kw">$1</strong>')
-        .replace(/__(.+?)__/g, '<u>$1</u>')
-        .replace(/\n/g, '<br>');
+      return escapeHtml(part).replace(/\n/g, '<br>');
     })
     .join('')
     .replace(/\u0001(\d+)\u0003/g, (_, n) => opens[n])
-    .replace(/\u0002/g, '</span>');
+    .replace(/\u0002(\d+)\u0003/g, (_, n) => closes[n]);
 }
 
-// {{key|…}} / [[key|…]] を、数式の外側だけで探して目印の文字に置き換える。
+// {{key|…}} / [[key|…]] / **…** / __…__ を、数式の外側だけで探して目印の文字に置き換える。
 // 数式の中の「}}」（例 \frac{1}{4}}）を閉じ記号と取り違えないよう、$ の内外を数えながら読む。
+// これにより、どの書式の中にも数式を入れられる。
 function markKeyedSpans(src) {
   const opens = [];
+  const closes = [];
   const closers = [];
+  const toggles = { '**': ['<strong class="kw">', '</strong>'], __: ['<u>', '</u>'] };
+  const toggled = { '**': false, __: false };
   let out = '';
   let inMath = false;
+  const open = (html) => {
+    opens.push(html);
+    return `\u0001${opens.length - 1}\u0003`;
+  };
+  const close = (html) => {
+    closes.push(html);
+    return `\u0002${closes.length - 1}\u0003`;
+  };
   for (let i = 0; i < src.length; ) {
     const ch = src[i];
     if (ch === '$') {
@@ -55,19 +64,25 @@ function markKeyedSpans(src) {
       continue;
     }
     if (!inMath) {
+      const t = src.startsWith('**', i) ? '**' : src.startsWith('__', i) ? '__' : null;
+      if (t) {
+        out += toggled[t] ? close(toggles[t][1]) : open(toggles[t][0]);
+        toggled[t] = !toggled[t];
+        i += 2;
+        continue;
+      }
       const m = /^(\{\{|\[\[)([A-Za-z0-9_-]+)\|/.exec(src.slice(i, i + 80));
       if (m) {
         const kw = m[1] === '{{';
-        opens.push(`<span class="${kw ? 'kw ' : ''}k-${m[2]}">`);
+        out += open(`<span class="${kw ? 'kw ' : ''}k-${m[2]}">`);
         closers.push(kw ? '}}' : ']]');
-        out += `\u0001${opens.length - 1}\u0003`;
         i += m[0].length;
         continue;
       }
-      const close = closers[closers.length - 1];
-      if (close && src.startsWith(close, i)) {
+      const closer = closers[closers.length - 1];
+      if (closer && src.startsWith(closer, i)) {
         closers.pop();
-        out += '\u0002';
+        out += close('</span>');
         i += 2;
         continue;
       }
@@ -75,5 +90,5 @@ function markKeyedSpans(src) {
     out += ch;
     i++;
   }
-  return { marked: out, opens };
+  return { marked: out, opens, closes };
 }

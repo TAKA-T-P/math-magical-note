@@ -53,6 +53,7 @@ export const ERROR_TYPES = {
   formula: '公式の誤用',
   transpose: '移項ミス',
   distribute: '分配法則のミス',
+  approach: '方針の誤り', // 式の計算は正しいが、求めるもの・解き方の方針をまちがえている
   other: 'その他',
 };
 

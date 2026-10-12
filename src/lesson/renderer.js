@@ -137,10 +137,12 @@ export class LessonRenderer {
         el.classList.add('reveal-in');
       }
 
-      el.classList.remove('em', 'em-color', 'em-box', 'em-marker', 'em-strike', 'em-dim', 'em-anim');
+      el.classList.remove('em', 'em-color', 'em-box', 'em-marker', 'em-strike', 'em-dim', 'em-anim', 'em-narrow');
       const e = keys.map((k) => view.emphasis.get(k)).find(Boolean);
       if (e && !hidden) {
         el.classList.add('em', 'em-' + e.style);
+        // 1文字程度の狭い要素は、囲み枠が文字に重ならないよう左右に余裕を持たせる
+        if (e.style === 'box' && el.offsetWidth && el.offsetWidth < 40) el.classList.add('em-narrow');
         el.style.setProperty('--em', `var(--c-${e.color ?? 'red'})`);
         const before = keys.map((k) => this.prevEmphasis.get(k)).find(Boolean);
         if (play && (!before || before.style !== e.style || before.color !== e.color)) el.classList.add('em-anim');
