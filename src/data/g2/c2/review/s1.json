@@ -1,0 +1,1353 @@
+{
+ "schema": 1,
+ "unit": {
+  "grade": "g2",
+  "chapter": "c2",
+  "section": "ex"
+ },
+ "group": "s1",
+ "contents": [
+  {
+   "id": "g2.simul.review.judge-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 38,
+     "number": "類1.1"
+    }
+   },
+   "type": "similar",
+   "group": "s1",
+   "related": {
+    "original": [
+     "g2.simul.def.q-judge-1"
+    ]
+   },
+   "title": "連立方程式の解を選ぶ",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "次の中から，連立方程式 $\\hl{sys}{\\begin{cases} 3x+2y=25 \\\\ x-y=5 \\end{cases}}$ の解であるものを選びなさい。"
+    },
+    {
+     "id": "ch-a",
+     "type": "text",
+     "area": "top",
+     "inline": true,
+     "text": "ア　$\\hl{ca}{\\begin{cases} x=8 \\\\ y=3 \\end{cases}}$"
+    },
+    {
+     "id": "ch-b",
+     "type": "text",
+     "area": "top",
+     "inline": true,
+     "text": "イ　$\\hl{cb}{\\begin{cases} x=5 \\\\ y=3 \\end{cases}}$"
+    },
+    {
+     "id": "ch-c",
+     "type": "text",
+     "area": "top",
+     "inline": true,
+     "text": "ウ　$\\hl{cc}{\\begin{cases} x=7 \\\\ y=2 \\end{cases}}$"
+    }
+   ],
+   "answer": {
+    "text": "ウ",
+    "values": {
+     "x": 7,
+     "y": 2
+    }
+   },
+   "check": {
+    "equations": [
+     "3*x+2*y=25",
+     "x-y=5"
+    ],
+    "solution": {
+     "x": 7,
+     "y": 2
+    },
+    "nonSolutions": [
+     {
+      "x": 8,
+      "y": 3
+     },
+     {
+      "x": 5,
+      "y": 3
+     }
+    ],
+    "identities": [
+     "3*8+2*3=30",
+     "3*5+2*3=21"
+    ]
+   },
+   "hints": [
+    "選択肢の $x,\\ y$ を2つの式に代入しよう。",
+    "2つの式の **両方** が成り立つものが解。"
+   ],
+   "steps": [
+    {
+     "id": "meaning",
+     "title": "解は両方の式を成り立たせる組",
+     "emphasis": [
+      {
+       "key": "sys",
+       "style": "box",
+       "color": "red"
+      }
+     ],
+     "comment": "解は **2つの式の両方** を成り立たせる $x,\\ y$ の組。選択肢を代入して調べる。"
+    },
+    {
+     "id": "sub-all",
+     "title": "ア・イ・ウを代入する",
+     "add": [
+      {
+       "id": "table",
+       "type": "calc",
+       "area": "full",
+       "rows": [
+        {
+         "head": true,
+         "cells": [
+          {
+           "text": "$3x+2y=25$ に代入"
+          },
+          "",
+          {
+           "text": "$x-y=5$ に代入"
+          },
+          ""
+         ]
+        },
+        {
+         "key": "ra",
+         "label": "ア",
+         "cells": [
+          "\\hl{a1}{3\\times8+2\\times3=30}",
+          "\\quad\\hl{am1}{\\ng}\\quad",
+          "\\hl{a2}{8-3=5}",
+          "\\quad\\hl{am2}{\\ok}"
+         ]
+        },
+        {
+         "key": "rb",
+         "label": "イ",
+         "cells": [
+          "\\hl{b1}{3\\times5+2\\times3=21}",
+          "\\quad\\hl{bm1}{\\ng}\\quad",
+          "\\hl{b2}{5-3=2}",
+          "\\quad\\hl{bm2}{\\ng}"
+         ]
+        },
+        {
+         "key": "rc",
+         "label": "ウ",
+         "cells": [
+          "\\hl{c1}{3\\times7+2\\times2=25}",
+          "\\quad\\hl{cm1}{\\ok}\\quad",
+          "\\hl{c2}{7-2=5}",
+          "\\quad\\hl{cm2}{\\ok}"
+         ]
+        }
+       ],
+       "hide": [
+        "am1",
+        "am2",
+        "bm1",
+        "bm2",
+        "cm1",
+        "cm2"
+       ],
+       "align": [
+        "l",
+        "c",
+        "l",
+        "c"
+       ]
+      }
+     ],
+     "comment": "それぞれの $x,\\ y$ を，2つの式に代入して計算する。"
+    },
+    {
+     "id": "judge",
+     "title": "判定する",
+     "reveal": [
+      "am1",
+      "am2",
+      "bm1",
+      "bm2",
+      "cm1",
+      "cm2"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cm1",
+        "cm2"
+       ],
+       "style": "box",
+       "color": "blue"
+      }
+     ],
+     "comment": "アは1つ目の式が成り立たない。イはどちらも成り立たない。ウは **両方** 成り立つ。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "full",
+       "inline": true,
+       "text": "ウ"
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "ra",
+        "rb"
+       ],
+       "style": "dim"
+      },
+      {
+       "key": "rc",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ]
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "連立方程式の解は2つの式を両方成り立たせる値の組であることを，代入して確かめる。",
+    "notes": [
+     {
+      "text": "指導書の答え：ウ",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.elim-add-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 38,
+     "number": "類1.2(1)"
+    }
+   },
+   "type": "similar",
+   "group": "s1",
+   "related": {
+    "original": [
+     "g2.simul.elim.q-add-1"
+    ]
+   },
+   "title": "加減法（異符号 → たす）",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "次の連立方程式を解きなさい。"
+    },
+    {
+     "id": "q-eq",
+     "type": "math",
+     "area": "top",
+     "size": "l",
+     "tex": "\\begin{cases} x\\hl{y1}{+2y}=6 \\cdots\\!\\cdots\\text{①} \\\\ 3x\\hl{y2}{-2y}=10 \\cdots\\!\\cdots\\text{②} \\end{cases}"
+    }
+   ],
+   "answer": {
+    "tex": "\\begin{cases} x=4 \\\\ y=1 \\end{cases}",
+    "values": {
+     "x": 4,
+     "y": 1
+    }
+   },
+   "check": {
+    "equations": [
+     "x+2*y=6",
+     "3*x-2*y=10"
+    ],
+    "solution": {
+     "x": 4,
+     "y": 1
+    },
+    "derived": [
+     "4*x=16",
+     "4+2*y=6",
+     "2*y=2"
+    ],
+    "identities": [
+     "(x+2*y)+(3*x-2*y)=4*x"
+    ]
+   },
+   "hints": [
+    "$y$ の係数に注目しよう。",
+    "異符号なら2式をたす。"
+   ],
+   "steps": [
+    {
+     "id": "focus",
+     "title": "消去する文字を決める",
+     "emphasis": [
+      {
+       "keys": [
+        "y1",
+        "y2"
+       ],
+       "style": "box",
+       "color": "red"
+      }
+     ],
+     "comment": "$y$ の係数は $+2$ と $-2$。絶対値がそろっている。",
+     "add": [
+      {
+       "id": "plan",
+       "type": "callout",
+       "area": "right",
+       "tone": "point",
+       "text": "$y$ の係数は **異符号**（$+2$ と $-2$）\n→ 2式を **たす**（①＋②）"
+      }
+     ]
+    },
+    {
+     "id": "calc",
+     "title": "縦にそろえて計算する",
+     "anim": "slide-up",
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "①",
+         "cells": [
+          "x",
+          "\\hl{cy1}{{}+2y}",
+          "=",
+          "6"
+         ]
+        },
+        {
+         "label": "②",
+         "op": "[[op|+)]]",
+         "cells": [
+          "3x",
+          "\\hl{cy2}{{}-2y}",
+          "=",
+          "10"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "4x",
+          "",
+          "=",
+          "16"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "",
+          "x",
+          "=",
+          "\\hl{v1}{4}"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "box",
+       "color": "red"
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "red"
+      }
+     ],
+     "comment": "同じ文字を縦にそろえて書く。"
+    },
+    {
+     "id": "eliminate",
+     "title": "1つの文字を消去する",
+     "reveal": [
+      "r3"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "strike",
+       "color": "red",
+       "persist": true
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "red"
+      }
+     ],
+     "comment": "$+2y$ と $-2y$ をたすと $0$。$x+3x=4x$，$6+10=16$ より $4x=16$。"
+    },
+    {
+     "id": "value1",
+     "title": "1つ目の値",
+     "reveal": [
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "両辺を4でわって $x=4$。"
+    },
+    {
+     "id": "substitute",
+     "title": "代入してもう1つの値",
+     "remove": [
+      "plan"
+     ],
+     "add": [
+      {
+       "id": "sub-label",
+       "type": "text",
+       "area": "right",
+       "text": "①に $x=4$ を代入"
+      },
+      {
+       "id": "sub",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "cells": [
+          "\\hl{sv}{4}+2y",
+          "=",
+          "6"
+         ]
+        },
+        {
+         "cells": [
+          "2y",
+          "=",
+          "2"
+         ]
+        },
+        {
+         "cells": [
+          "y",
+          "=",
+          "1"
+         ]
+        }
+       ],
+       "size": "l"
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v1",
+        "sv"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "$4+2y=6$ → $2y=2$ → $y=1$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "tex": "\\begin{cases} x=4 \\\\ y=1 \\end{cases}"
+      }
+     ],
+     "comment": "答えは $x$ と $y$ の値を組にして書く。",
+     "teacherNote": "検算：②に代入すると $3\\times4-2\\times1=10$。"
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "係数の絶対値がそろった異符号の文字を，2式をたして消去する。",
+    "notes": [
+     {
+      "text": "指導書の答え：$x=4,\\ y=1$",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.elim-sub-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 38,
+     "number": "類1.2(2)"
+    }
+   },
+   "type": "similar",
+   "group": "s1",
+   "related": {
+    "original": [
+     "g2.simul.elim.q-sub-1"
+    ]
+   },
+   "title": "加減法（同符号 → ひく）",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "次の連立方程式を解きなさい。"
+    },
+    {
+     "id": "q-eq",
+     "type": "math",
+     "area": "top",
+     "size": "l",
+     "tex": "\\begin{cases} \\hl{x1}{2x}+5y=7 \\cdots\\!\\cdots\\text{①} \\\\ \\hl{x2}{2x}-3y=-17 \\cdots\\!\\cdots\\text{②} \\end{cases}"
+    }
+   ],
+   "answer": {
+    "tex": "\\begin{cases} x=-4 \\\\ y=3 \\end{cases}",
+    "values": {
+     "x": -4,
+     "y": 3
+    }
+   },
+   "check": {
+    "equations": [
+     "2*x+5*y=7",
+     "2*x-3*y=-17"
+    ],
+    "solution": {
+     "x": -4,
+     "y": 3
+    },
+    "derived": [
+     "8*y=24",
+     "2*x+15=7",
+     "2*x=-8"
+    ],
+    "identities": [
+     "(2*x+5*y)-(2*x-3*y)=8*y",
+     "7-(-17)=24"
+    ]
+   },
+   "hints": [
+    "$x$ の係数に注目しよう。",
+    "同符号なら2式をひく。ひくときは符号に注意。"
+   ],
+   "steps": [
+    {
+     "id": "focus",
+     "title": "消去する文字を決める",
+     "emphasis": [
+      {
+       "keys": [
+        "x1",
+        "x2"
+       ],
+       "style": "box",
+       "color": "red"
+      }
+     ],
+     "comment": "$x$ の係数はどちらも $2$。",
+     "add": [
+      {
+       "id": "plan",
+       "type": "callout",
+       "area": "right",
+       "tone": "point",
+       "text": "$x$ の係数は **同符号**（$2$ と $2$）\n→ 2式を **ひく**（①−②）"
+      }
+     ]
+    },
+    {
+     "id": "calc",
+     "title": "縦にそろえて計算する",
+     "anim": "slide-up",
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "①",
+         "cells": [
+          "\\hl{cx1}{2x}",
+          "{}+5y",
+          "=",
+          "7"
+         ]
+        },
+        {
+         "label": "②",
+         "op": "[[op|−)]]",
+         "cells": [
+          "\\hl{cx2}{2x}",
+          "{}-3y",
+          "=",
+          "-17"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "",
+          "8y",
+          "=",
+          "24"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "",
+          "y",
+          "=",
+          "\\hl{v1}{3}"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cx1",
+        "cx2"
+       ],
+       "style": "box",
+       "color": "red"
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "blue"
+      }
+     ],
+     "comment": "同じ文字を縦にそろえて書く。"
+    },
+    {
+     "id": "eliminate",
+     "title": "1つの文字を消去する",
+     "reveal": [
+      "r3"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cx1",
+        "cx2"
+       ],
+       "style": "strike",
+       "color": "blue",
+       "persist": true
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "blue"
+      }
+     ],
+     "comment": "$2x-2x=0$ で $x$ が消える。$5y-(-3y)=8y$，$7-(-17)=24$ より $8y=24$。"
+    },
+    {
+     "id": "value1",
+     "title": "1つ目の値",
+     "reveal": [
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "両辺を8でわって $y=3$。"
+    },
+    {
+     "id": "substitute",
+     "title": "代入してもう1つの値",
+     "remove": [
+      "plan"
+     ],
+     "add": [
+      {
+       "id": "sub-label",
+       "type": "text",
+       "area": "right",
+       "text": "①に $y=3$ を代入"
+      },
+      {
+       "id": "sub",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "cells": [
+          "2x+5\\times\\hl{sv}{3}",
+          "=",
+          "7"
+         ]
+        },
+        {
+         "cells": [
+          "2x",
+          "=",
+          "-8"
+         ]
+        },
+        {
+         "cells": [
+          "x",
+          "=",
+          "-4"
+         ]
+        }
+       ],
+       "size": "l"
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v1",
+        "sv"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "$2x+15=7$ → $2x=-8$ → $x=-4$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "tex": "\\begin{cases} x=-4 \\\\ y=3 \\end{cases}"
+      }
+     ],
+     "comment": "答えは $x$ と $y$ の値を組にして書く。",
+     "teacherNote": "検算：②に代入すると $2\\times(-4)-3\\times3=-17$。"
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "同符号の文字を，2式をひいて消去する（ひき算の符号に注意）。",
+    "notes": [
+     {
+      "text": "指導書の答え：$x=-4,\\ y=3$",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.elim-mul-one-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 38,
+     "number": "類1.3(1)"
+    }
+   },
+   "type": "similar",
+   "group": "s1",
+   "related": {
+    "original": [
+     "g2.simul.elim.q-mul-one-1"
+    ]
+   },
+   "title": "加減法（一方の式を何倍かする）",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "次の連立方程式を解きなさい。"
+    },
+    {
+     "id": "q-eq",
+     "type": "math",
+     "area": "top",
+     "size": "l",
+     "tex": "\\begin{cases} 2x\\hl{y1}{+y}=-3 \\cdots\\!\\cdots\\text{①} \\\\ 5x\\hl{y2}{+2y}=-7 \\cdots\\!\\cdots\\text{②} \\end{cases}"
+    }
+   ],
+   "answer": {
+    "tex": "\\begin{cases} x=-1 \\\\ y=-1 \\end{cases}",
+    "values": {
+     "x": -1,
+     "y": -1
+    }
+   },
+   "check": {
+    "equations": [
+     "2*x+y=-3",
+     "5*x+2*y=-7"
+    ],
+    "solution": {
+     "x": -1,
+     "y": -1
+    },
+    "derived": [
+     "4*x+2*y=-6",
+     "-x=1",
+     "-2+y=-3"
+    ],
+    "identities": [
+     "2*(2*x+y)=4*x+2*y",
+     "(4*x+2*y)-(5*x+2*y)=-x",
+     "-6-(-7)=1"
+    ]
+   },
+   "hints": [
+    "係数をそろえるには，一方の式を何倍かする。",
+    "①を2倍すると $y$ の係数が $2$ になる。"
+   ],
+   "steps": [
+    {
+     "id": "focus",
+     "title": "消去する文字を決める",
+     "emphasis": [
+      {
+       "keys": [
+        "y1",
+        "y2"
+       ],
+       "style": "box",
+       "color": "red"
+      }
+     ],
+     "comment": "$y$ の係数は $1$ と $2$。①を2倍すればそろう。",
+     "add": [
+      {
+       "id": "plan",
+       "type": "callout",
+       "area": "right",
+       "tone": "point",
+       "text": "①を **2倍** すると $y$ の係数が $2$ でそろう\n→ 同符号なので **ひく**（①×2−②）"
+      }
+     ]
+    },
+    {
+     "id": "calc",
+     "title": "縦にそろえて計算する",
+     "anim": "slide-up",
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "①×2",
+         "cells": [
+          "4x",
+          "\\hl{cy1}{{}+2y}",
+          "=",
+          "-6"
+         ]
+        },
+        {
+         "label": "②",
+         "op": "[[op|−)]]",
+         "cells": [
+          "5x",
+          "\\hl{cy2}{{}+2y}",
+          "=",
+          "-7"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "-x",
+          "",
+          "=",
+          "1"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "x",
+          "",
+          "=",
+          "\\hl{v1}{-1}"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "box",
+       "color": "red"
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "blue"
+      }
+     ],
+     "comment": "同じ文字を縦にそろえて書く。"
+    },
+    {
+     "id": "eliminate",
+     "title": "1つの文字を消去する",
+     "reveal": [
+      "r3"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "strike",
+       "color": "blue",
+       "persist": true
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "blue"
+      }
+     ],
+     "comment": "①×2 は $4x+2y=-6$。②をひくと $-x=1$。"
+    },
+    {
+     "id": "value1",
+     "title": "1つ目の値",
+     "reveal": [
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "両辺を $-1$ でわって $x=-1$。"
+    },
+    {
+     "id": "substitute",
+     "title": "代入してもう1つの値",
+     "remove": [
+      "plan"
+     ],
+     "add": [
+      {
+       "id": "sub-label",
+       "type": "text",
+       "area": "right",
+       "text": "①に $x=-1$ を代入"
+      },
+      {
+       "id": "sub",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "cells": [
+          "2\\times(\\hl{sv}{-1})+y",
+          "=",
+          "-3"
+         ]
+        },
+        {
+         "cells": [
+          "y",
+          "=",
+          "-1"
+         ]
+        }
+       ],
+       "size": "l"
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v1",
+        "sv"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "$-2+y=-3$ → $y=-1$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "tex": "\\begin{cases} x=-1 \\\\ y=-1 \\end{cases}"
+      }
+     ],
+     "comment": "答えは $x$ と $y$ の値を組にして書く。",
+     "teacherNote": "検算：②に代入すると $5\\times(-1)+2\\times(-1)=-7$。"
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "一方の式を整数倍して係数の絶対値をそろえる。",
+    "notes": [
+     {
+      "text": "指導書の答え：$x=-1,\\ y=-1$",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.elim-mul-both-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 38,
+     "number": "類1.3(2)"
+    }
+   },
+   "type": "similar",
+   "group": "s1",
+   "related": {
+    "original": [
+     "g2.simul.elim.q-mul-both-1"
+    ]
+   },
+   "title": "加減法（両方の式を何倍かする）",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "次の連立方程式を解きなさい。"
+    },
+    {
+     "id": "q-eq",
+     "type": "math",
+     "area": "top",
+     "size": "l",
+     "tex": "\\begin{cases} 3x\\hl{y1}{-4y}=2 \\cdots\\!\\cdots\\text{①} \\\\ 5x\\hl{y2}{-3y}=7 \\cdots\\!\\cdots\\text{②} \\end{cases}"
+    }
+   ],
+   "answer": {
+    "tex": "\\begin{cases} x=2 \\\\ y=1 \\end{cases}",
+    "values": {
+     "x": 2,
+     "y": 1
+    }
+   },
+   "check": {
+    "equations": [
+     "3*x-4*y=2",
+     "5*x-3*y=7"
+    ],
+    "solution": {
+     "x": 2,
+     "y": 1
+    },
+    "derived": [
+     "9*x-12*y=6",
+     "20*x-12*y=28",
+     "-11*x=-22",
+     "6-4*y=2"
+    ],
+    "identities": [
+     "3*(3*x-4*y)=9*x-12*y",
+     "4*(5*x-3*y)=20*x-12*y",
+     "(9*x-12*y)-(20*x-12*y)=-11*x"
+    ]
+   },
+   "hints": [
+    "両方の式を何倍かして，係数の絶対値をそろえる。",
+    "$y$ の係数 $4$ と $3$ の最小公倍数は $12$。"
+   ],
+   "steps": [
+    {
+     "id": "focus",
+     "title": "消去する文字を決める",
+     "emphasis": [
+      {
+       "keys": [
+        "y1",
+        "y2"
+       ],
+       "style": "box",
+       "color": "red"
+      }
+     ],
+     "comment": "$y$ の係数は $-4$ と $-3$。4 と 3 の最小公倍数 12 にそろえる。",
+     "add": [
+      {
+       "id": "plan",
+       "type": "callout",
+       "area": "right",
+       "tone": "point",
+       "text": "①を **3倍**，②を **4倍** → $y$ の係数が $-12$ でそろう\n→ 同符号なので **ひく**"
+      }
+     ]
+    },
+    {
+     "id": "calc",
+     "title": "縦にそろえて計算する",
+     "anim": "slide-up",
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "①×3",
+         "cells": [
+          "9x",
+          "\\hl{cy1}{{}-12y}",
+          "=",
+          "6"
+         ]
+        },
+        {
+         "label": "②×4",
+         "op": "[[op|−)]]",
+         "cells": [
+          "20x",
+          "\\hl{cy2}{{}-12y}",
+          "=",
+          "28"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "-11x",
+          "",
+          "=",
+          "-22"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "x",
+          "",
+          "=",
+          "\\hl{v1}{2}"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "box",
+       "color": "red"
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "blue"
+      }
+     ],
+     "comment": "同じ文字を縦にそろえて書く。"
+    },
+    {
+     "id": "eliminate",
+     "title": "1つの文字を消去する",
+     "reveal": [
+      "r3"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "strike",
+       "color": "blue",
+       "persist": true
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "blue"
+      }
+     ],
+     "comment": "①×3 から ②×4 をひくと $-11x=-22$。"
+    },
+    {
+     "id": "value1",
+     "title": "1つ目の値",
+     "reveal": [
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "両辺を $-11$ でわって $x=2$。"
+    },
+    {
+     "id": "substitute",
+     "title": "代入してもう1つの値",
+     "remove": [
+      "plan"
+     ],
+     "add": [
+      {
+       "id": "sub-label",
+       "type": "text",
+       "area": "right",
+       "text": "①に $x=2$ を代入"
+      },
+      {
+       "id": "sub",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "cells": [
+          "3\\times\\hl{sv}{2}-4y",
+          "=",
+          "2"
+         ]
+        },
+        {
+         "cells": [
+          "-4y",
+          "=",
+          "-4"
+         ]
+        },
+        {
+         "cells": [
+          "y",
+          "=",
+          "1"
+         ]
+        }
+       ],
+       "size": "l"
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v1",
+        "sv"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "$6-4y=2$ → $-4y=-4$ → $y=1$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "tex": "\\begin{cases} x=2 \\\\ y=1 \\end{cases}"
+      }
+     ],
+     "comment": "答えは $x$ と $y$ の値を組にして書く。",
+     "teacherNote": "検算：②に代入すると $5\\times2-3\\times1=7$。"
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "両方の式を整数倍して係数をそろえる。",
+    "notes": [
+     {
+      "text": "指導書の答え：$x=2,\\ y=1$",
+      "source": "material"
+     }
+    ]
+   }
+  }
+ ]
+}

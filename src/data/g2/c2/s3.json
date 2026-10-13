@@ -67,6 +67,7 @@
     },
     {
       "id": "g2.simul.various.q-decimal-1",
+      "related": { "similar": ["g2.simul.review.decimal-1"] },
       "rev": 1,
       "editions": { "2026": { "page": 27, "number": "問3.1", "tags": ["定期"], "ref": "Ⓢp.40[1](7)〜(11)" }},
       "type": "exercise",
@@ -253,6 +254,7 @@
     },
     {
       "id": "g2.simul.various.q-fraction-1",
+      "related": { "similar": ["g2.simul.review.fraction-1"] },
       "rev": 1,
       "editions": { "2026": { "page": 27, "number": "問3.2", "tags": ["定期"], "ref": "Ⓢp.40[1](1)〜(5)" }},
       "type": "exercise",
@@ -455,6 +457,7 @@
     },
     {
       "id": "g2.simul.various.q-paren-1",
+      "related": { "similar": ["g2.simul.review.paren-1"] },
       "rev": 1,
       "editions": { "2026": { "page": 28, "number": "問3.3", "tags": ["定期"], "ref": "Ⓢp.40[2]" }},
       "type": "exercise",
@@ -677,6 +680,7 @@
     },
     {
       "id": "g2.simul.various.q-numerator-1",
+      "related": { "similar": ["g2.simul.review.numerator-1"] },
       "rev": 1,
       "editions": { "2026": { "page": 28, "number": "問3.4", "tags": ["定期"], "ref": "Ⓢp.41[3](1)〜(4)" }},
       "type": "exercise",
@@ -919,6 +923,7 @@
     },
     {
       "id": "g2.simul.various.q-abc-1",
+      "related": { "similar": ["g2.simul.review.abc-1"] },
       "rev": 1,
       "editions": { "2026": { "page": 29, "number": "問3.5(1)", "tags": ["定期"], "ref": "Ⓢp.41[4](1)〜(9)" }},
       "type": "exercise",
@@ -1052,6 +1057,7 @@
     },
     {
       "id": "g2.simul.various.q-abc-2",
+      "related": { "similar": ["g2.simul.review.abc-2"] },
       "rev": 1,
       "editions": { "2026": { "page": 29, "number": "問3.5(2)", "tags": ["定期"], "ref": "Ⓢp.41[4](1)〜(9)" }},
       "type": "exercise",

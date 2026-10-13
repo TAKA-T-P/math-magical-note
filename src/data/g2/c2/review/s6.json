@@ -1,0 +1,738 @@
+{
+ "schema": 1,
+ "unit": {
+  "grade": "g2",
+  "chapter": "c2",
+  "section": "ex"
+ },
+ "group": "s6",
+ "contents": [
+  {
+   "id": "g2.simul.review.integer-quotient-remainder-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 40,
+     "number": "類6.1"
+    }
+   },
+   "type": "similar",
+   "group": "s6",
+   "related": {
+    "original": [
+     "g2.simul.integer.q-quotient-remainder-1"
+    ]
+   },
+   "title": "大小2つの整数（商とあまり）",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "大小2つの整数がある。[[c1|大きい数は小さい数より57大きい]]。また，[[c2|大きい数を小さい数でわると]]，[[q4|商が4]]になり，[[r12|あまりが12]]となる。これら2つの整数を答えなさい。"
+    }
+   ],
+   "answer": {
+    "text": "小さい数 15，大きい数 72",
+    "values": {
+     "x": 15,
+     "y": 72
+    }
+   },
+   "check": {
+    "equations": [
+     "y=x+57",
+     "y=4*x+12"
+    ],
+    "solution": {
+     "x": 15,
+     "y": 72
+    },
+    "derived": [
+     "x+57=4*x+12",
+     "-3*x=-45"
+    ],
+    "identities": [
+     "72-15=57",
+     "15*4+12=72"
+    ],
+    "nonSolutions": [
+     {
+      "x": 72,
+      "y": 15
+     }
+    ]
+   },
+   "hints": [
+    "わり算のたしかめの式：わられる数＝わる数×商＋あまり",
+    "大きい数は「小さい数×4＋12」。"
+   ],
+   "steps": [
+    {
+     "id": "letters",
+     "title": "小さい数 $x$，大きい数 $y$",
+     "add": [
+      {
+       "id": "let",
+       "type": "text",
+       "area": "left",
+       "text": "小さい数を $\\tc{blue}{x}$，大きい数を $\\tc{orange}{y}$ とする。"
+      }
+     ],
+     "comment": "この類題では，指導書にならって **小さい数を $x$**，大きい数を $y$ とおく（問6.1 と逆）。",
+     "teacherNote": {
+      "text": "指導書の解答では「小さい数を $x$，大きい数を $y$」としている（問6.1 とは文字の置き方が逆）。",
+      "source": "material"
+     }
+    },
+    {
+     "id": "eq1",
+     "title": "1つ目の式",
+     "add": [
+      {
+       "id": "eqs",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "key": "e1",
+         "cells": [
+          "\\tc{orange}{y}",
+          "=",
+          "\\tc{blue}{x}+57",
+          {
+           "text": "……①"
+          }
+         ]
+        },
+        {
+         "key": "e2",
+         "cells": [
+          "\\tc{orange}{y}",
+          "=",
+          "\\hl{e4x}{4\\tc{blue}{x}}+\\hl{e12}{12}",
+          {
+           "text": "……②"
+          }
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "e2"
+       ],
+       "align": [
+        "r",
+        "c",
+        "l",
+        "l"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "c1",
+        "e1"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "大きい数は，小さい数より57大きい → $y=x+57$"
+    },
+    {
+     "id": "bars",
+     "title": "わり算の関係を図で見る",
+     "add": [
+      {
+       "id": "bars",
+       "type": "bars",
+       "area": "right",
+       "total": {
+        "text": "わられる数（大きい数）$\\tc{orange}{y}$",
+        "key": "bt"
+       },
+       "parts": [
+        {
+         "text": "$x$",
+         "w": 3,
+         "color": "blue"
+        },
+        {
+         "text": "$x$",
+         "w": 3,
+         "color": "blue"
+        },
+        {
+         "text": "$x$",
+         "w": 3,
+         "color": "blue"
+        },
+        {
+         "text": "$x$",
+         "w": 3,
+         "color": "blue"
+        },
+        {
+         "text": "$12$",
+         "w": 2,
+         "color": "green",
+         "key": "b12"
+        }
+       ],
+       "groups": [
+        {
+         "from": 0,
+         "to": 3,
+         "text": "わる数 $x$ が 4つ（商 4）",
+         "key": "gq"
+        },
+        {
+         "from": 4,
+         "to": 4,
+         "text": "あまり",
+         "key": "gr"
+        }
+       ],
+       "states": [
+        {
+         "id": "sym"
+        },
+        {
+         "id": "num",
+         "total": {
+          "text": "わられる数 $72$",
+          "value": 72
+         },
+         "parts": [
+          {
+           "text": "$15$",
+           "w": 15,
+           "color": "blue",
+           "value": 15
+          },
+          {
+           "text": "$15$",
+           "w": 15,
+           "color": "blue",
+           "value": 15
+          },
+          {
+           "text": "$15$",
+           "w": 15,
+           "color": "blue",
+           "value": 15
+          },
+          {
+           "text": "$15$",
+           "w": 15,
+           "color": "blue",
+           "value": 15
+          },
+          {
+           "text": "$12$",
+           "w": 12,
+           "color": "green",
+           "value": 12,
+           "key": "b12"
+          }
+         ],
+         "groups": [
+          {
+           "from": 0,
+           "to": 3,
+           "text": "わる数 $15$ が 4つ（商 4）",
+           "key": "gq"
+          },
+          {
+           "from": 4,
+           "to": 4,
+           "text": "あまり",
+           "key": "gr"
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "c2",
+        "q4",
+        "gq"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      },
+      {
+       "keys": [
+        "r12",
+        "gr"
+       ],
+       "style": "marker",
+       "color": "green"
+      }
+     ],
+     "comment": "大きい数 $y$ は「$x$ が4つ分」と「あまり12」を合わせた大きさ。"
+    },
+    {
+     "id": "eq2",
+     "title": "2つ目の式",
+     "reveal": [
+      "e2"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "e4x",
+        "gq"
+       ],
+       "style": "box",
+       "color": "red"
+      },
+      {
+       "keys": [
+        "e12",
+        "gr"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "わられる数＝わる数×商＋あまり → $y=4x+12$"
+    },
+    {
+     "id": "solve",
+     "title": "①を②に代入して解く",
+     "add": [
+      {
+       "id": "sv",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "①を②に代入",
+         "cells": [
+          "x+57",
+          "=",
+          "4x+12"
+         ]
+        },
+        {
+         "cells": [
+          "-3x",
+          "=",
+          "-45"
+         ]
+        },
+        {
+         "cells": [
+          "x",
+          "=",
+          "15"
+         ]
+        },
+        {
+         "label": "①に代入",
+         "cells": [
+          "y",
+          "=",
+          "15+57"
+         ]
+        },
+        {
+         "cells": [
+          "",
+          "=",
+          "72"
+         ]
+        }
+       ]
+      }
+     ],
+     "comment": "$x+57=4x+12$ → $-3x=-45$ → $x=15$。$y=15+57=72$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "set": {
+      "bars": "num"
+     },
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "text": "小さい数 15，大きい数 72"
+      }
+     ],
+     "comment": "確かめ：$72-15=57$，$15\\times4+12=72$。あまり12はわる数15より小さい。"
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "商とあまりの条件を「わられる数＝わる数×商＋あまり」で式にする（問6.1 の復習）。",
+    "notes": [
+     {
+      "text": "指導書の解答：小さい数を $x$，大きい数を $y$ とする。$y=x+57$，$y=4x+12$。これを解くと $x=15,\\ y=72$。小さい数15，大きい数72",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.integer-swap-digits-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 40,
+     "number": "類6.2"
+    }
+   },
+   "type": "similar",
+   "group": "s6",
+   "related": {
+    "original": [
+     "g2.simul.integer.q-swap-digits-1"
+    ]
+   },
+   "title": "2けたの整数と位の入れかえ",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "2けたの整数Aがある。この整数Aは，[[c1|十の位の数の9倍より10大きい]]。また，[[sw|整数Aの十の位の数と一の位の数を入れかえた整数をB]]とすると，[[c2|整数Aは整数Bより54大きい]]。このとき，整数Aの値を求めなさい。"
+    }
+   ],
+   "answer": {
+    "text": "82",
+    "values": {
+     "x": 8,
+     "y": 2,
+     "A": 82,
+     "B": 28
+    }
+   },
+   "check": {
+    "equations": [
+     "10*x+y=9*x+10",
+     "10*x+y=10*y+x+54"
+    ],
+    "solution": {
+     "x": 8,
+     "y": 2,
+     "A": 82,
+     "B": 28
+    },
+    "derived": [
+     "x+y=10",
+     "9*x-9*y=54",
+     "x-y=6",
+     "2*x=16",
+     "8+y=10",
+     "A=10*x+y",
+     "B=10*y+x"
+    ],
+    "identities": [
+     "(10*x+y)-(9*x+10)=x+y-10",
+     "(10*x+y)-(10*y+x)=9*x-9*y",
+     "9*8+10=82",
+     "82-28=54"
+    ]
+   },
+   "hints": [
+    "十の位の数が $x$，一の位の数が $y$ の2けたの整数は $10x+y$。",
+    "入れかえた整数は $10y+x$。"
+   ],
+   "steps": [
+    {
+     "id": "place",
+     "title": "位取り表で A，B を表す",
+     "add": [
+      {
+       "id": "let",
+       "type": "text",
+       "area": "left",
+       "text": "Aの十の位の数を $\\tc{blue}{x}$，一の位の数を $\\tc{orange}{y}$ とする。"
+      },
+      {
+       "id": "pv",
+       "type": "place",
+       "area": "left",
+       "labels": [
+        "十の位",
+        "一の位"
+       ],
+       "cards": [
+        {
+         "id": "x",
+         "label": "x",
+         "color": "blue",
+         "key": "cx"
+        },
+        {
+         "id": "y",
+         "label": "y",
+         "color": "orange",
+         "key": "cy"
+        }
+       ],
+       "states": [
+        {
+         "id": "A",
+         "order": [
+          "x",
+          "y"
+         ],
+         "tex": "A=10\\tc{blue}{x}+\\tc{orange}{y}"
+        },
+        {
+         "id": "B",
+         "order": [
+          "y",
+          "x"
+         ],
+         "tex": "B=10\\tc{orange}{y}+\\tc{blue}{x}"
+        },
+        {
+         "id": "A-num",
+         "order": [
+          "x",
+          "y"
+         ],
+         "values": {
+          "x": "8",
+          "y": "2"
+         },
+         "tex": "A=82"
+        },
+        {
+         "id": "B-num",
+         "order": [
+          "y",
+          "x"
+         ],
+         "values": {
+          "x": "8",
+          "y": "2"
+         },
+         "tex": "B=28"
+        }
+       ]
+      }
+     ],
+     "comment": "十の位の $x$ は「10が $x$ 個」→ $A=10x+y$。",
+     "teacherNote": {
+      "text": "指導書の解答では，Aの十の位の数を $x$，一の位の数を $y$ としている。",
+      "source": "material"
+     }
+    },
+    {
+     "id": "swap",
+     "title": "位を入れかえる",
+     "set": {
+      "pv": "B"
+     },
+     "emphasis": [
+      {
+       "key": "sw",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "入れかえた整数は $B=10y+x$。"
+    },
+    {
+     "id": "eqs",
+     "title": "2つの方程式",
+     "add": [
+      {
+       "id": "eqs",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "key": "e1",
+         "label": "①",
+         "cells": [
+          "10x+y",
+          "=",
+          "9x+10"
+         ]
+        },
+        {
+         "key": "e1b",
+         "label": "①より",
+         "cells": [
+          "x+y",
+          "=",
+          "10",
+          {
+           "text": "……①'"
+          }
+         ]
+        },
+        {
+         "key": "e2",
+         "label": "②",
+         "cells": [
+          "10x+y",
+          "=",
+          "10y+x+54"
+         ]
+        },
+        {
+         "key": "e2b",
+         "label": "②より",
+         "cells": [
+          "9x-9y",
+          "=",
+          "54"
+         ]
+        },
+        {
+         "key": "e2c",
+         "label": "÷9",
+         "cells": [
+          "x-y",
+          "=",
+          "6",
+          {
+           "text": "……②'"
+          }
+         ]
+        }
+       ],
+       "hide": [
+        "e2",
+        "e2b",
+        "e2c"
+       ],
+       "align": [
+        "r",
+        "c",
+        "l",
+        "l"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "c1",
+        "e1"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "「十の位の数の9倍より10大きい」→ $10x+y=9x+10$，整理して $x+y=10$。"
+    },
+    {
+     "id": "eq2",
+     "title": "2つ目の条件",
+     "reveal": [
+      "e2",
+      "e2b",
+      "e2c"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "c2",
+        "e2"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "「AはBより54大きい」→ $10x+y=10y+x+54$。整理して $9x-9y=54$，$x-y=6$。"
+    },
+    {
+     "id": "solve",
+     "title": "①'＋②' で解く",
+     "remove": [
+      "eqs"
+     ],
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "①'＋②'",
+         "cells": [
+          "2x",
+          "=",
+          "16"
+         ]
+        },
+        {
+         "cells": [
+          "x",
+          "=",
+          "8"
+         ]
+        },
+        {
+         "label": "①'に代入",
+         "cells": [
+          "8+y",
+          "=",
+          "10"
+         ]
+        },
+        {
+         "cells": [
+          "y",
+          "=",
+          "2"
+         ]
+        }
+       ]
+      }
+     ],
+     "comment": "$2x=16$ → $x=8$。$8+y=10$ → $y=2$。"
+    },
+    {
+     "id": "num",
+     "title": "位取り表に数を入れる",
+     "set": {
+      "pv": "B-num"
+     },
+     "comment": "入れかえた整数Bは28。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "set": {
+      "pv": "A-num"
+     },
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "text": "82"
+      }
+     ],
+     "comment": "整数Aは82。確かめ：$9\\times8+10=82$，$82-28=54$。"
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "2けたの整数を 10x＋y と表し，位を入れかえた整数を 10y＋x と表す（問6.2 の復習）。",
+    "notes": [
+     {
+      "text": "指導書の解答：Aの十の位の数を $x$，一の位の数を $y$ とすると，$10x+y=9x+10$，$10x+y=10y+x+54$。これを解くと $x=8,\\ y=2$。82",
+      "source": "material"
+     }
+    ]
+   }
+  }
+ ]
+}

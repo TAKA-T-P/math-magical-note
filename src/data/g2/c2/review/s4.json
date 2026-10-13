@@ -1,0 +1,599 @@
+{
+ "schema": 1,
+ "unit": {
+  "grade": "g2",
+  "chapter": "c2",
+  "section": "ex"
+ },
+ "group": "s4",
+ "contents": [
+  {
+   "id": "g2.simul.review.coef-from-solution-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 39,
+     "number": "類4.1"
+    }
+   },
+   "type": "similar",
+   "group": "s4",
+   "related": {
+    "original": [
+     "g2.simul.coef.q-from-solution-1"
+    ]
+   },
+   "title": "解から係数を求める",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "連立方程式 $\\begin{cases} \\hl{a1}{a}\\hl{x1}{x}+\\hl{b1}{b}\\hl{y1}{y}=7 \\\\ \\hl{a2}{a}\\hl{x2}{x}-\\hl{b2}{b}\\hl{y2}{y}=-1 \\end{cases}$ の解が $\\hl{gx}{x=3}$，$\\hl{gy}{y=1}$ であるとき，定数 $\\hl{ta}{a}$，$\\hl{tb}{b}$ の値をそれぞれ求めなさい。"
+    }
+   ],
+   "answer": {
+    "tex": "a=1,\\ b=4",
+    "values": {
+     "x": 3,
+     "y": 1,
+     "a": 1,
+     "b": 4
+    }
+   },
+   "check": {
+    "equations": [
+     "a*x+b*y=7",
+     "a*x-b*y=-1"
+    ],
+    "solution": {
+     "x": 3,
+     "y": 1,
+     "a": 1,
+     "b": 4
+    },
+    "derived": [
+     "3*a+b=7",
+     "3*a-b=-1",
+     "6*a=6"
+    ],
+    "identities": [
+     "a*3+b*1=3*a+b",
+     "(3*a+b)+(3*a-b)=6*a"
+    ]
+   },
+   "hints": [
+    "求めるのは $x$，$y$ ではなく $a$，$b$。",
+    "$x=3$，$y=1$ を代入すると $a$，$b$ の連立方程式になる。"
+   ],
+   "steps": [
+    {
+     "id": "goal",
+     "title": "わかっているもの・求めるもの",
+     "emphasis": [
+      {
+       "keys": [
+        "gx",
+        "gy"
+       ],
+       "style": "marker",
+       "color": "green"
+      },
+      {
+       "keys": [
+        "ta",
+        "tb"
+       ],
+       "style": "box",
+       "color": "red"
+      }
+     ],
+     "comment": "$x$，$y$ はもうわかっている。求めるのは $a$ と $b$。"
+    },
+    {
+     "id": "substitute",
+     "title": "$x$，$y$ を代入する",
+     "add": [
+      {
+       "id": "sub-label",
+       "type": "text",
+       "area": "left",
+       "text": "$x=3$，$y=1$ を代入すると"
+      },
+      {
+       "id": "ab",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "cells": [
+          "\\hl{u1}{3a+b}",
+          "=",
+          "7",
+          {
+           "text": "……①"
+          }
+         ]
+        },
+        {
+         "cells": [
+          "\\hl{u2}{3a-b}",
+          "=",
+          "-1",
+          {
+           "text": "……②"
+          }
+         ]
+        }
+       ],
+       "size": "l",
+       "align": [
+        "r",
+        "c",
+        "r",
+        "l"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "x1",
+        "y1",
+        "x2",
+        "y2"
+       ],
+       "style": "box",
+       "color": "orange"
+      },
+      {
+       "keys": [
+        "u1",
+        "u2"
+       ],
+       "style": "color",
+       "color": "red"
+      }
+     ],
+     "comment": "$a\\times3+b\\times1=3a+b$。$a$，$b$ の連立方程式になる。"
+    },
+    {
+     "id": "calc",
+     "title": "加減法で $a$ を求める",
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "①",
+         "cells": [
+          "3a",
+          "\\hl{cb1}{{}+b}",
+          "=",
+          "7"
+         ]
+        },
+        {
+         "label": "②",
+         "op": "[[op|+)]]",
+         "cells": [
+          "3a",
+          "\\hl{cb2}{{}-b}",
+          "=",
+          "-1"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "6a",
+          "",
+          "=",
+          "6"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "a",
+          "",
+          "=",
+          "\\hl{v1}{1}"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cb1",
+        "cb2"
+       ],
+       "style": "strike",
+       "color": "red",
+       "persist": true
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "red"
+      }
+     ],
+     "comment": "$b$ の係数が異符号 → たして $6a=6$。"
+    },
+    {
+     "id": "a-value",
+     "title": "$a$ と $b$",
+     "reveal": [
+      "r3",
+      "r4"
+     ],
+     "add": [
+      {
+       "id": "sub",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "①に代入",
+         "cells": [
+          "3\\times\\hl{sv}{1}+b",
+          "=",
+          "7"
+         ]
+        },
+        {
+         "cells": [
+          "b",
+          "=",
+          "4"
+         ]
+        }
+       ],
+       "size": "l"
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v1",
+        "sv"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "$a=1$。①に代入して $3+b=7$，$b=4$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "tex": "\\begin{cases} a=1 \\\\ b=4 \\end{cases}"
+      }
+     ]
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "解を代入して，係数 a，b の連立方程式をつくる。",
+    "notes": [
+     {
+      "text": "指導書の答え：$a=1,\\ b=4$",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.coef-common-solution-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 40,
+     "number": "類4.2"
+    }
+   },
+   "type": "similar",
+   "group": "s4",
+   "related": {
+    "original": [
+     "g2.simul.coef.q-common-solution-1"
+    ]
+   },
+   "title": "2組の連立方程式の解が一致する",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "2つの連立方程式 $\\begin{cases} \\hl{k1}{2x+3y=19} \\\\ \\hl{k2}{ax+by=7} \\end{cases}$，$\\begin{cases} \\hl{k3}{-5x+7y=-4} \\\\ \\hl{k4}{bx-ay=-11} \\end{cases}$ の解が一致するとき，$a$，$b$ の値をそれぞれ求めなさい。"
+    }
+   ],
+   "answer": {
+    "tex": "a=2,\\ b=-1",
+    "values": {
+     "x": 5,
+     "y": 3,
+     "a": 2,
+     "b": -1
+    }
+   },
+   "check": {
+    "equations": [
+     "2*x+3*y=19",
+     "a*x+b*y=7",
+     "-5*x+7*y=-4",
+     "b*x-a*y=-11"
+    ],
+    "solution": {
+     "x": 5,
+     "y": 3,
+     "a": 2,
+     "b": -1
+    },
+    "derived": [
+     "10*x+15*y=95",
+     "-10*x+14*y=-8",
+     "29*y=87",
+     "5*a+3*b=7",
+     "-3*a+5*b=-11",
+     "34*a=68",
+     "10+3*b=7"
+    ],
+    "identities": [
+     "5*(2*x+3*y)=10*x+15*y",
+     "2*(-5*x+7*y)=-10*x+14*y",
+     "5*(5*a+3*b)-3*(-3*a+5*b)=34*a"
+    ]
+   },
+   "hints": [
+    "まず $a$，$b$ をふくまない2つの式を組み合わせよう。",
+    "求めた $x$，$y$ を残りの式に代入する。"
+   ],
+   "steps": [
+    {
+     "id": "pick",
+     "title": "$a$，$b$ をふくまない2式を取り出す",
+     "emphasis": [
+      {
+       "keys": [
+        "k1",
+        "k3"
+       ],
+       "style": "box",
+       "color": "green"
+      },
+      {
+       "keys": [
+        "k2",
+        "k4"
+       ],
+       "style": "dim"
+      }
+     ],
+     "add": [
+      {
+       "id": "sys1",
+       "type": "math",
+       "area": "left",
+       "size": "l",
+       "tex": "\\begin{cases} 2x+3y=19 \\cdots\\!\\cdots\\text{①} \\\\ -5x+7y=-4 \\cdots\\!\\cdots\\text{②} \\end{cases}"
+      }
+     ],
+     "comment": "解が一致するので，4つの式はすべて同じ $x$，$y$ で成り立つ。まず $a$，$b$ のない2式で $x$，$y$ を求める。"
+    },
+    {
+     "id": "xy",
+     "title": "$x$，$y$ を求める",
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "①×5",
+         "cells": [
+          "10x",
+          "{}+15y",
+          "=",
+          "95"
+         ]
+        },
+        {
+         "label": "②×2",
+         "op": "[[op|+)]]",
+         "cells": [
+          "-10x",
+          "{}+14y",
+          "=",
+          "-8"
+         ],
+         "rule": true
+        },
+        {
+         "cells": [
+          "",
+          "29y",
+          "=",
+          "87"
+         ]
+        },
+        {
+         "cells": [
+          "",
+          "y",
+          "=",
+          "3"
+         ]
+        }
+       ]
+      }
+     ],
+     "comment": "$x$ の係数を $10$ にそろえてたすと $29y=87$，$y=3$。①に代入して $2x+9=19$，$x=5$。"
+    },
+    {
+     "id": "back",
+     "title": "残りの式に代入する",
+     "remove": [
+      "sys1",
+      "el"
+     ],
+     "add": [
+      {
+       "id": "got",
+       "type": "math",
+       "area": "left",
+       "size": "l",
+       "verify": false,
+       "tex": "\\hl{gxy}{x=5,\\ y=3}"
+      },
+      {
+       "id": "ab",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "cells": [
+          "5a+3b",
+          "=",
+          "7",
+          {
+           "text": "……③"
+          }
+         ]
+        },
+        {
+         "cells": [
+          "-3a+5b",
+          "=",
+          "-11",
+          {
+           "text": "……④"
+          }
+         ]
+        }
+       ],
+       "size": "l",
+       "align": [
+        "r",
+        "c",
+        "r",
+        "l"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "k2",
+        "k4"
+       ],
+       "style": "box",
+       "color": "red"
+      },
+      {
+       "keys": [
+        "k1",
+        "k3"
+       ],
+       "style": "dim"
+      },
+      {
+       "key": "gxy",
+       "style": "marker",
+       "color": "green"
+      }
+     ],
+     "comment": "$ax+by=7$ に代入して $5a+3b=7$。$bx-ay=-11$ に代入して $5b-3a=-11$。"
+    },
+    {
+     "id": "solve-ab",
+     "title": "$a$，$b$ を求める",
+     "add": [
+      {
+       "id": "el2",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "③×5",
+         "cells": [
+          "25a",
+          "{}+15b",
+          "=",
+          "35"
+         ]
+        },
+        {
+         "label": "④×3",
+         "op": "[[op|−)]]",
+         "cells": [
+          "-9a",
+          "{}+15b",
+          "=",
+          "-33"
+         ],
+         "rule": true
+        },
+        {
+         "cells": [
+          "34a",
+          "",
+          "=",
+          "68"
+         ]
+        },
+        {
+         "cells": [
+          "a",
+          "",
+          "=",
+          "2"
+         ]
+        }
+       ]
+      }
+     ],
+     "comment": "$b$ の係数を $15$ にそろえてひくと $34a=68$，$a=2$。③に代入して $10+3b=7$，$b=-1$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "tex": "\\begin{cases} a=2 \\\\ b=-1 \\end{cases}"
+      }
+     ]
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "解が一致することから，a，b をふくまない2式で x，y を求め，残りの式に代入して a，b を求める。",
+    "notes": [
+     {
+      "text": "指導書の解答：$2x+3y=19$，$-5x+7y=-4$ を解くと $x=5,\\ y=3$。残りの式に代入して解くと $a=2,\\ b=-1$",
+      "source": "material"
+     }
+    ]
+   }
+  }
+ ]
+}

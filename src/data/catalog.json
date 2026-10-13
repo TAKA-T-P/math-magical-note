@@ -34,7 +34,8 @@
             { "id": "s6", "number": "第6節", "title": "整数に関する問題", "pages": { "2026": 33 }, "data": "g2/c2/s6" },
             { "id": "s7", "number": "第7節", "title": "速さに関する問題", "pages": { "2026": 34 }, "data": "g2/c2/s7" },
             { "id": "s8", "number": "第8節", "title": "割合に関する問題", "pages": { "2026": 36 }, "data": "g2/c2/s8" },
-            { "id": "ex", "number": "類題", "title": "【第2章】連立方程式", "pages": { "2026": 38 } }
+            { "id": "ex", "kind": "review", "number": "類題", "title": "【第2章】連立方程式", "pages": { "2026": 38 }, "pagesEnd": { "2026": 41 },
+              "data": ["g2/c2/review/s1", "g2/c2/review/s2", "g2/c2/review/s3", "g2/c2/review/s4", "g2/c2/review/s5", "g2/c2/review/s6", "g2/c2/review/s7", "g2/c2/review/s8"] }
           ]
         },
         {

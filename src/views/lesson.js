@@ -1,7 +1,10 @@
-import { getGrade, getChapter, getSection, loadSection, contentLabel } from '../app/catalog.js';
+import { getGrade, getChapter, getSection, loadSection, contentLabel, isReview, findContent } from '../app/catalog.js';
 import { getSettings, updateSettings, recordOpened } from '../app/settings.js';
 import { navigate } from '../app/router.js';
-import { saveLessonState, loadLessonState, consumeResume, launchFromLesson, enterAtEnd, consumeEnterAtEnd } from '../app/session.js';
+import {
+  saveLessonState, loadLessonState, consumeResume, launchFromLesson, enterAtEnd, consumeEnterAtEnd, markResume,
+  setReviewReturn, getReviewReturn, clearReviewReturn,
+} from '../app/session.js';
 import { inlineToHtml } from '../math/render.js';
 import { icon } from '../ui/icons.js';
 import { choose } from '../ui/dialog.js';
@@ -50,7 +53,8 @@ export async function mountLesson(root, params) {
   const neighbor = async (dir) => {
     for (let i = secIndex + dir; i >= 0 && i < chapter.sections.length; i += dir) {
       const s = chapter.sections[i];
-      if (!s.data) continue;
+      // 本編と類題はまたがない（本編は本編どうし，類題は類題どうしでつなぐ）
+      if (!s.data || isReview(s) !== isReview(section)) continue;
       const list = await loadSection(s.data, settings.edition).catch(() => []);
       if (list.length) return withSection(dir < 0 ? list[list.length - 1] : list[0], s);
     }
@@ -60,6 +64,18 @@ export async function mountLesson(root, params) {
   if (!nextContent) nextContent = await neighbor(1);
   const contentHref = (c) => `#/lesson/${params.grade}/${params.chapter}/${c.sectionId}/${encodeURIComponent(c.id)}`;
   const navTitle = (c) => `${c.sectionId !== section.id ? c.sectionNumber + ' ' : ''}${contentLabel(c)}`;
+  // ---- 本編⇔類題 ----
+  const review = isReview(section);
+  const groupSection = review ? chapter.sections.find((x) => x.id === content.group) : null;
+  const relatedIds = (review ? content.related?.original : content.related?.similar) ?? [];
+  const related = (await Promise.all(relatedIds.map((rid) => findContent(params.grade, params.chapter, rid, settings.edition)))).filter(Boolean);
+  // 本編から「類題へ」で来た類題なら「本編に戻る」（元の表示モード・ステップを復元）。それ以外は「本編へ」（最初から）
+  let ret = getReviewReturn();
+  if (ret && ret.edition !== settings.edition) ret = null;
+  const returning = review && ret?.to === path;
+  if (ret && path !== ret.to && path !== ret.from) clearReviewReturn();
+  const relatedLabel = review ? (returning ? '本編に戻る' : '本編へ') : '類題へ';
+
   const t = content.teacher;
   const minis = miniByUnit(params.grade, params.chapter, params.section);
   const teacherDraft = hasDraft(
@@ -76,9 +92,12 @@ export async function mountLesson(root, params) {
         <div class="crumbs">
           <span>${grade.title}</span><span class="sep">›</span>
           <span>${chapter.number} ${chapter.title}</span><span class="sep">›</span>
-          <span>${section.number} ${section.title}</span>
+          ${review
+            ? `<span class="crumb-review">類題</span>${groupSection ? `<span class="sep">›</span><span>${groupSection.number} ${groupSection.title}</span>` : ''}`
+            : `<span>${section.number} ${section.title}</span>`}
         </div>
         <div class="meta">
+          ${review ? '<span class="tag tag-review">類題</span>' : ''}
           ${(content.edition.tags ?? []).map((x) => `<span class="tag">${x}</span>`).join('')}
           <span class="meta-number">${inlineToHtml(contentLabel(content))}</span>
           <span class="meta-page">p.${content.edition.page}</span>
@@ -140,6 +159,9 @@ export async function mountLesson(root, params) {
         </div>
         <div class="tb-group">
           <button class="tbtn" data-action="ink" title="手書き">${icon('pen')}<span>手書き</span></button>
+          ${related.length
+            ? `<button class="tbtn tbtn-related ${review ? 'to-main' : 'to-review'}" data-action="related" title="${review ? (returning ? '元の本編の問題の同じステップに戻る' : '対応する本編の問題を開く') : '対応する類題を開く（本編の今のステップを覚えておく）'}：${related.map((r) => contentLabel(r.content)).join('，')}">${icon(review ? 'book' : 'practice')}<span>${relatedLabel}</span></button>`
+            : ''}
           ${minis.length ? `<button class="tbtn" data-action="mini" title="この単元の授業ミニコンテンツ">${icon('sparkle')}<span>ミニ</span></button>` : ''}
           <button class="tbtn" data-action="teacher" title="講師用メモ">${icon('teacher')}<span>講師</span></button>
           <button class="tbtn" data-action="fullscreen" title="全画面 (F)">${icon('expand')}<span>全画面</span></button>
@@ -152,6 +174,7 @@ export async function mountLesson(root, params) {
   const $ = (s) => viewport.querySelector(s);
   const stage = $('.stage');
   stage.classList.toggle('no-steps', content.steps.length === 0);
+  stage.classList.toggle('is-review', review);
   const body = $('.stage-body');
   const toolbar = $('.toolbar');
   const palette = $('.ink-palette');
@@ -171,6 +194,8 @@ export async function mountLesson(root, params) {
     // 次の問題の最初のページから「前の問題へ」で戻ってきたときは、最後のページから続ける
     st = { ...st, mode: 'explain', step: content.steps.length };
   }
+
+  if (returning) markResume(ret.from);
 
   // 最初・最後のページでは「前へ」「次へ」が前後の問題への移動になる（← → キーも同じ）
   const pathOf = (c) => `${params.grade}/${params.chapter}/${c.sectionId}/${encodeURIComponent(c.id)}`;
@@ -271,7 +296,37 @@ export async function mountLesson(root, params) {
     else if (d.action === 'teacher') setTeacher(teacherPanel.hidden);
     else if (d.action === 'fullscreen') toggleFullscreen();
     else if (d.action === 'mini') openMini();
+    else if (d.action === 'related') openRelated();
   });
+
+  // 本編 → 類題：今の表示モード・ステップを覚えて，類題を最初（問題）から開く。
+  // 類題 → 本編：本編から来たときは元の状態に戻し，そうでなければ本編の問題を最初から開く。
+  async function openRelated() {
+    let target = related[0];
+    if (related.length > 1) {
+      const picked = await choose({
+        title: review ? '本編の問題' : '類題',
+        message: review ? 'どの問題を開きますか？' : 'どの類題を開きますか？',
+        buttons: [...related.map((r) => ({ label: `${contentLabel(r.content)}　${r.content.title}`, value: r })), { label: 'キャンセル', value: null }],
+        vertical: true,
+      });
+      if (!picked) return;
+      target = picked;
+    }
+    if (review) {
+      if (returning && related.some((r) => r.path === ret.from)) {
+        markResume(ret.from);
+        navigate('/lesson/' + ret.from);
+      } else {
+        clearReviewReturn();
+        navigate('/lesson/' + target.path);
+      }
+      return;
+    }
+    saveLessonState(path, st);
+    setReviewReturn({ from: path, to: target.path, edition: settings.edition });
+    navigate('/lesson/' + target.path);
+  }
 
   // この単元のミニコンテンツを選んで起動する（終了すると、この画面のこのステップに戻る）
   async function openMini() {

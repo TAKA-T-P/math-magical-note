@@ -168,6 +168,7 @@
     },
     {
       "id": "g2.simul.ratio.q-students-1",
+      "related": { "similar": ["g2.simul.review.ratio-students-1"] },
       "rev": 1,
       "editions": { "2026": { "page": 36, "number": "問8.1", "tags": ["定期", "入試"], "ref": "Ⓢp.55[3](1)" }},
       "type": "exercise",
@@ -516,6 +517,7 @@
     },
     {
       "id": "g2.simul.ratio.q-salt-water-1",
+      "related": { "similar": ["g2.simul.review.ratio-salt-water-1"] },
       "rev": 1,
       "editions": { "2026": { "page": 37, "number": "問8.2", "tags": ["定期"], "ref": "Ⓢp.55[4]" }},
       "type": "exercise",

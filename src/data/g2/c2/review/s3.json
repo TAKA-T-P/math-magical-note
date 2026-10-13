@@ -1,0 +1,1867 @@
+{
+ "schema": 1,
+ "unit": {
+  "grade": "g2",
+  "chapter": "c2",
+  "section": "ex"
+ },
+ "group": "s3",
+ "contents": [
+  {
+   "id": "g2.simul.review.decimal-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 39,
+     "number": "類3.1"
+    }
+   },
+   "type": "similar",
+   "group": "s3",
+   "related": {
+    "original": [
+     "g2.simul.various.q-decimal-1"
+    ]
+   },
+   "title": "小数をふくむ連立方程式",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "連立方程式を解きなさい。"
+    },
+    {
+     "id": "q-eq",
+     "type": "math",
+     "area": "top",
+     "size": "l",
+     "tex": "\\begin{cases} \\hl{q1}{0.6x-0.7y=-1} \\cdots\\!\\cdots\\text{①} \\\\ \\hl{q2}{0.03x+0.01y=0.13} \\cdots\\!\\cdots\\text{②} \\end{cases}"
+    }
+   ],
+   "answer": {
+    "tex": "\\begin{cases} x=3 \\\\ y=4 \\end{cases}",
+    "values": {
+     "x": 3,
+     "y": 4
+    }
+   },
+   "check": {
+    "equations": [
+     "0.6*x-0.7*y=-1",
+     "0.03*x+0.01*y=0.13"
+    ],
+    "solution": {
+     "x": 3,
+     "y": 4
+    },
+    "derived": [
+     "6*x-7*y=-10",
+     "3*x+y=13",
+     "21*x+7*y=91",
+     "27*x=81"
+    ],
+    "identities": [
+     "10*(0.6*x-0.7*y)=6*x-7*y",
+     "100*(0.03*x+0.01*y)=3*x+y",
+     "7*(3*x+y)=21*x+7*y",
+     "(6*x-7*y)+(21*x+7*y)=27*x"
+    ]
+   },
+   "hints": [
+    "小数は両辺を10倍・100倍して整数にする。",
+    "②は小数第2位まであるので100倍。"
+   ],
+   "steps": [
+    {
+     "id": "tf1",
+     "title": "①を整理する",
+     "add": [
+      {
+       "id": "tf",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "①×10",
+         "cells": [
+          "6x-7y",
+          "=",
+          "-10",
+          {
+           "text": "……①'"
+          }
+         ]
+        },
+        {
+         "key": "t2",
+         "label": "②×100",
+         "cells": [
+          "3x+y",
+          "=",
+          "13",
+          {
+           "text": "……②'"
+          }
+         ]
+        }
+       ],
+       "hide": [
+        "t2"
+       ],
+       "align": [
+        "r",
+        "c",
+        "l",
+        "l"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "key": "q1",
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "①の両辺を **10倍** して小数をなくす：$6x-7y=-10$"
+    },
+    {
+     "id": "tf2",
+     "title": "②を整理する",
+     "reveal": [
+      "t2"
+     ],
+     "emphasis": [
+      {
+       "key": "q2",
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "②の両辺を **100倍** する（小数第2位まであるので）：$3x+y=13$"
+    },
+    {
+     "id": "calc",
+     "title": "加減法で解く",
+     "anim": "slide-up",
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "①'",
+         "cells": [
+          "6x",
+          "\\hl{cy1}{{}-7y}",
+          "=",
+          "-10"
+         ]
+        },
+        {
+         "label": "②'×7",
+         "op": "[[op|+)]]",
+         "cells": [
+          "21x",
+          "\\hl{cy2}{{}+7y}",
+          "=",
+          "91"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "27x",
+          "",
+          "=",
+          "81"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "x",
+          "",
+          "=",
+          "\\hl{v1}{3}"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "box",
+       "color": "red"
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "red"
+      }
+     ],
+     "comment": "②'を7倍すると $y$ の係数が $+7$ になり，①'の $-7$ と異符号 → たす。"
+    },
+    {
+     "id": "eliminate",
+     "title": "1つの文字を消去する",
+     "reveal": [
+      "r3"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "strike",
+       "color": "red",
+       "persist": true
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "red"
+      }
+     ],
+     "comment": "①'＋②'×7 で $27x=81$。"
+    },
+    {
+     "id": "value1",
+     "title": "1つ目の値",
+     "reveal": [
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$x=3$。"
+    },
+    {
+     "id": "substitute",
+     "title": "代入してもう1つの値",
+     "add": [
+      {
+       "id": "sub",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "cells": [
+          "3\\times\\hl{sv}{3}+y",
+          "=",
+          "13"
+         ],
+         "label": "②'に $x=3$"
+        },
+        {
+         "cells": [
+          "y",
+          "=",
+          "4"
+         ]
+        }
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v1",
+        "sv"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "②'に $x=3$ を代入。$9+y=13$ → $y=4$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "text": "$x=3$，$y=4$"
+      }
+     ]
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "小数をふくむ式は，両辺を10倍・100倍して係数を整数にしてから解く。",
+    "notes": [
+     {
+      "text": "指導書の答え：$x=3,\\ y=4$",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.fraction-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 39,
+     "number": "類3.2"
+    }
+   },
+   "type": "similar",
+   "group": "s3",
+   "related": {
+    "original": [
+     "g2.simul.various.q-fraction-1"
+    ]
+   },
+   "title": "分数をふくむ連立方程式",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "連立方程式を解きなさい。"
+    },
+    {
+     "id": "q-eq",
+     "type": "math",
+     "area": "top",
+     "size": "l",
+     "tex": "\\begin{cases} \\hl{q1}{\\dfrac{1}{3}x+\\dfrac{1}{2}y=\\dfrac{2}{3}} \\cdots\\!\\cdots\\text{①} \\\\[0.6em] \\hl{q2}{\\dfrac{1}{5}x+\\dfrac{7}{10}y=2} \\cdots\\!\\cdots\\text{②} \\end{cases}",
+     "verify": false,
+     "tone": "tall"
+    }
+   ],
+   "answer": {
+    "tex": "\\begin{cases} x=-4 \\\\ y=4 \\end{cases}",
+    "values": {
+     "x": -4,
+     "y": 4
+    }
+   },
+   "check": {
+    "equations": [
+     "x/3+y/2=2/3",
+     "x/5+7*y/10=2"
+    ],
+    "solution": {
+     "x": -4,
+     "y": 4
+    },
+    "derived": [
+     "2*x+3*y=4",
+     "2*x+7*y=20",
+     "-4*y=-16"
+    ],
+    "identities": [
+     "6*(x/3+y/2)=2*x+3*y",
+     "6*(2/3)=4",
+     "10*(x/5+7*y/10)=2*x+7*y",
+     "(2*x+3*y)-(2*x+7*y)=-4*y"
+    ]
+   },
+   "hints": [
+    "分母の最小公倍数を両辺にかける。",
+    "①は6倍，②は10倍。"
+   ],
+   "steps": [
+    {
+     "id": "tf1",
+     "title": "①を整理する",
+     "add": [
+      {
+       "id": "tf",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "①×6",
+         "cells": [
+          "2x+3y",
+          "=",
+          "4",
+          {
+           "text": "……①'"
+          }
+         ]
+        },
+        {
+         "key": "t2",
+         "label": "②×10",
+         "cells": [
+          "2x+7y",
+          "=",
+          "20",
+          {
+           "text": "……②'"
+          }
+         ]
+        }
+       ],
+       "hide": [
+        "t2"
+       ],
+       "align": [
+        "r",
+        "c",
+        "l",
+        "l"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "key": "q1",
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "①の分母 3，2 の最小公倍数 **6** を両辺にかける：$2x+3y=4$"
+    },
+    {
+     "id": "tf2",
+     "title": "②を整理する",
+     "reveal": [
+      "t2"
+     ],
+     "emphasis": [
+      {
+       "key": "q2",
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "②の分母 5，10 の最小公倍数 **10** を両辺にかける：$2x+7y=20$"
+    },
+    {
+     "id": "calc",
+     "title": "加減法で解く",
+     "anim": "slide-up",
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "①'",
+         "cells": [
+          "\\hl{cx1}{2x}",
+          "{}+3y",
+          "=",
+          "4"
+         ]
+        },
+        {
+         "label": "②'",
+         "op": "[[op|−)]]",
+         "cells": [
+          "\\hl{cx2}{2x}",
+          "{}+7y",
+          "=",
+          "20"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "",
+          "-4y",
+          "=",
+          "-16"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "",
+          "y",
+          "=",
+          "\\hl{v1}{4}"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cx1",
+        "cx2"
+       ],
+       "style": "box",
+       "color": "red"
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "blue"
+      }
+     ],
+     "comment": "$x$ の係数がどちらも $2$（同符号）→ ひく。"
+    },
+    {
+     "id": "eliminate",
+     "title": "1つの文字を消去する",
+     "reveal": [
+      "r3"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cx1",
+        "cx2"
+       ],
+       "style": "strike",
+       "color": "blue",
+       "persist": true
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "blue"
+      }
+     ],
+     "comment": "①'−②' で $-4y=-16$。"
+    },
+    {
+     "id": "value1",
+     "title": "1つ目の値",
+     "reveal": [
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$y=4$。"
+    },
+    {
+     "id": "substitute",
+     "title": "代入してもう1つの値",
+     "add": [
+      {
+       "id": "sub",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "cells": [
+          "2x+3\\times\\hl{sv}{4}",
+          "=",
+          "4"
+         ],
+         "label": "①'に $y=4$"
+        },
+        {
+         "cells": [
+          "2x",
+          "=",
+          "-8"
+         ]
+        },
+        {
+         "cells": [
+          "x",
+          "=",
+          "-4"
+         ]
+        }
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v1",
+        "sv"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "①'に $y=4$ を代入。$2x+12=4$ → $2x=-8$ → $x=-4$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "text": "$x=-4$，$y=4$"
+      }
+     ]
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "分数をふくむ式は，分母の最小公倍数を両辺にかけて分母をはらう。",
+    "notes": [
+     {
+      "text": "指導書の答え：$x=-4,\\ y=4$",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.paren-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 39,
+     "number": "類3.3"
+    }
+   },
+   "type": "similar",
+   "group": "s3",
+   "related": {
+    "original": [
+     "g2.simul.various.q-paren-1"
+    ]
+   },
+   "title": "かっこをふくむ連立方程式",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "連立方程式を解きなさい。"
+    },
+    {
+     "id": "q-eq",
+     "type": "math",
+     "area": "top",
+     "size": "l",
+     "tex": "\\begin{cases} \\hl{q1}{7x+4(x-y)=-1} \\cdots\\!\\cdots\\text{①} \\\\ \\hl{q2}{2(x+y)=5x+y-1} \\cdots\\!\\cdots\\text{②} \\end{cases}"
+    }
+   ],
+   "answer": {
+    "tex": "\\begin{cases} x=5 \\\\ y=14 \\end{cases}",
+    "values": {
+     "x": 5,
+     "y": 14
+    }
+   },
+   "check": {
+    "equations": [
+     "7*x+4*(x-y)=-1",
+     "2*(x+y)=5*x+y-1"
+    ],
+    "solution": {
+     "x": 5,
+     "y": 14
+    },
+    "derived": [
+     "11*x-4*y=-1",
+     "-3*x+y=-1",
+     "-12*x+4*y=-4",
+     "-x=-5"
+    ],
+    "identities": [
+     "7*x+4*(x-y)=11*x-4*y",
+     "2*(x+y)-(5*x+y)=-3*x+y",
+     "4*(-3*x+y)=-12*x+4*y",
+     "(11*x-4*y)+(-12*x+4*y)=-x"
+    ]
+   },
+   "hints": [
+    "まずかっこをはずして，$ax+by=c$ の形に整理する。",
+    "②は右辺の文字を左辺に移項する。"
+   ],
+   "steps": [
+    {
+     "id": "tf1",
+     "title": "①を整理する",
+     "add": [
+      {
+       "id": "tf",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "①より",
+         "cells": [
+          "11x-4y",
+          "=",
+          "-1",
+          {
+           "text": "……①'"
+          }
+         ]
+        },
+        {
+         "key": "t2",
+         "label": "②より",
+         "cells": [
+          "-3x+y",
+          "=",
+          "-1",
+          {
+           "text": "……②'"
+          }
+         ]
+        }
+       ],
+       "hide": [
+        "t2"
+       ],
+       "align": [
+        "r",
+        "c",
+        "l",
+        "l"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "key": "q1",
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "①のかっこをはずす：$7x+4x-4y=-1$ → $11x-4y=-1$"
+    },
+    {
+     "id": "tf2",
+     "title": "②を整理する",
+     "reveal": [
+      "t2"
+     ],
+     "emphasis": [
+      {
+       "key": "q2",
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "②のかっこをはずして移項：$2x+2y=5x+y-1$ → $-3x+y=-1$"
+    },
+    {
+     "id": "calc",
+     "title": "加減法で解く",
+     "anim": "slide-up",
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "①'",
+         "cells": [
+          "11x",
+          "\\hl{cy1}{{}-4y}",
+          "=",
+          "-1"
+         ]
+        },
+        {
+         "label": "②'×4",
+         "op": "[[op|+)]]",
+         "cells": [
+          "-12x",
+          "\\hl{cy2}{{}+4y}",
+          "=",
+          "-4"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "-x",
+          "",
+          "=",
+          "-5"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "x",
+          "",
+          "=",
+          "\\hl{v1}{5}"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "box",
+       "color": "red"
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "red"
+      }
+     ],
+     "comment": "②'を4倍すると $y$ の係数が $+4$。①'の $-4$ と異符号 → たす。"
+    },
+    {
+     "id": "eliminate",
+     "title": "1つの文字を消去する",
+     "reveal": [
+      "r3"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "strike",
+       "color": "red",
+       "persist": true
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "red"
+      }
+     ],
+     "comment": "①'＋②'×4 で $-x=-5$。"
+    },
+    {
+     "id": "value1",
+     "title": "1つ目の値",
+     "reveal": [
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$x=5$。"
+    },
+    {
+     "id": "substitute",
+     "title": "代入してもう1つの値",
+     "add": [
+      {
+       "id": "sub",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "cells": [
+          "-3\\times\\hl{sv}{5}+y",
+          "=",
+          "-1"
+         ],
+         "label": "②'に $x=5$"
+        },
+        {
+         "cells": [
+          "y",
+          "=",
+          "14"
+         ]
+        }
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v1",
+        "sv"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "②'に $x=5$ を代入。$-15+y=-1$ → $y=14$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "text": "$x=5$，$y=14$"
+      }
+     ]
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "かっこをはずし，移項して $ax+by=c$ の形に整理してから解く。",
+    "notes": [
+     {
+      "text": "指導書の答え：$x=5,\\ y=14$",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.numerator-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 39,
+     "number": "類3.4"
+    }
+   },
+   "type": "similar",
+   "group": "s3",
+   "related": {
+    "original": [
+     "g2.simul.various.q-numerator-1"
+    ]
+   },
+   "title": "分子が多項式の連立方程式",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "連立方程式を解きなさい。"
+    },
+    {
+     "id": "q-eq",
+     "type": "math",
+     "area": "top",
+     "size": "l",
+     "tex": "\\begin{cases} \\hl{q1}{\\dfrac{x-2}{3}+\\dfrac{y-1}{4}=1} \\cdots\\!\\cdots\\text{①} \\\\[0.6em] \\hl{q2}{x+\\dfrac{y-3}{2}=5} \\cdots\\!\\cdots\\text{②} \\end{cases}",
+     "verify": false,
+     "tone": "tall"
+    }
+   ],
+   "answer": {
+    "tex": "\\begin{cases} x=8 \\\\ y=-3 \\end{cases}",
+    "values": {
+     "x": 8,
+     "y": -3
+    }
+   },
+   "check": {
+    "equations": [
+     "(x-2)/3+(y-1)/4=1",
+     "x+(y-3)/2=5"
+    ],
+    "solution": {
+     "x": 8,
+     "y": -3
+    },
+    "derived": [
+     "4*x+3*y=23",
+     "2*x+y=13",
+     "4*x+2*y=26"
+    ],
+    "identities": [
+     "12*((x-2)/3+(y-1)/4)=4*x+3*y-11",
+     "2*(x+(y-3)/2)=2*x+y-3",
+     "2*(2*x+y)=4*x+2*y",
+     "(4*x+3*y)-(4*x+2*y)=y"
+    ]
+   },
+   "hints": [
+    "分母をはらうとき，分子はひとまとまり（かっこをつける）。",
+    "①は12倍，②は2倍。"
+   ],
+   "steps": [
+    {
+     "id": "tf1",
+     "title": "①を整理する",
+     "add": [
+      {
+       "id": "tf",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "①×12",
+         "cells": [
+          "4x+3y",
+          "=",
+          "23",
+          {
+           "text": "……①'"
+          }
+         ]
+        },
+        {
+         "key": "t2",
+         "label": "②×2",
+         "cells": [
+          "2x+y",
+          "=",
+          "13",
+          {
+           "text": "……②'"
+          }
+         ]
+        }
+       ],
+       "hide": [
+        "t2"
+       ],
+       "align": [
+        "r",
+        "c",
+        "l",
+        "l"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "key": "q1",
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "①×12：$4(x-2)+3(y-1)=12$ → $4x-8+3y-3=12$ → $4x+3y=23$"
+    },
+    {
+     "id": "tf2",
+     "title": "②を整理する",
+     "reveal": [
+      "t2"
+     ],
+     "emphasis": [
+      {
+       "key": "q2",
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "②×2：$2x+(y-3)=10$ → $2x+y=13$"
+    },
+    {
+     "id": "calc",
+     "title": "加減法で解く",
+     "anim": "slide-up",
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "①'",
+         "cells": [
+          "\\hl{cx1}{4x}",
+          "{}+3y",
+          "=",
+          "23"
+         ]
+        },
+        {
+         "label": "②'×2",
+         "op": "[[op|−)]]",
+         "cells": [
+          "\\hl{cx2}{4x}",
+          "{}+2y",
+          "=",
+          "26"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "",
+          "y",
+          "=",
+          "\\hl{v1}{-3}"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "",
+          "",
+          "",
+          ""
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cx1",
+        "cx2"
+       ],
+       "style": "box",
+       "color": "red"
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "blue"
+      }
+     ],
+     "comment": "②'を2倍すると $x$ の係数が $4$ でそろう（同符号）→ ひく。"
+    },
+    {
+     "id": "eliminate",
+     "title": "1つの文字を消去する",
+     "reveal": [
+      "r3"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cx1",
+        "cx2"
+       ],
+       "style": "strike",
+       "color": "blue",
+       "persist": true
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "blue"
+      }
+     ],
+     "comment": "①'−②'×2 で $y=-3$。"
+    },
+    {
+     "id": "value1",
+     "title": "1つ目の値",
+     "reveal": [
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$y=-3$ が求まった。"
+    },
+    {
+     "id": "substitute",
+     "title": "代入してもう1つの値",
+     "add": [
+      {
+       "id": "sub",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "cells": [
+          "2x+(\\hl{sv}{-3})",
+          "=",
+          "13"
+         ],
+         "label": "②'に $y=-3$"
+        },
+        {
+         "cells": [
+          "2x",
+          "=",
+          "16"
+         ]
+        },
+        {
+         "cells": [
+          "x",
+          "=",
+          "8"
+         ]
+        }
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v1",
+        "sv"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "②'に $y=-3$ を代入。$2x-3=13$ → $2x=16$ → $x=8$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "text": "$x=8$，$y=-3$"
+      }
+     ]
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "分子が多項式のときは，かっこをつけて分母をはらう。",
+    "notes": [
+     {
+      "text": "指導書の答え：$x=8,\\ y=-3$",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.abc-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 39,
+     "number": "類3.5(1)"
+    }
+   },
+   "type": "similar",
+   "group": "s3",
+   "related": {
+    "original": [
+     "g2.simul.various.q-abc-1"
+    ]
+   },
+   "title": "A＝B＝C の形（1）",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "次の連立方程式を解きなさい。"
+    },
+    {
+     "id": "q-eq",
+     "type": "math",
+     "area": "top",
+     "size": "l",
+     "tex": "\\hl{A}{2x+y}=\\hl{B}{5x-y}=\\hl{C}{14}"
+    }
+   ],
+   "answer": {
+    "tex": "\\begin{cases} x=4 \\\\ y=6 \\end{cases}",
+    "values": {
+     "x": 4,
+     "y": 6
+    }
+   },
+   "check": {
+    "equations": [
+     "2*x+y=14",
+     "5*x-y=14"
+    ],
+    "solution": {
+     "x": 4,
+     "y": 6
+    },
+    "derived": [
+     "7*x=28"
+    ],
+    "identities": [
+     "(2*x+y)+(5*x-y)=7*x"
+    ]
+   },
+   "hints": [
+    "$A=B=C$ を2つの式に分けよう。",
+    "$C$ が数なので，$A=C$，$B=C$ にする。"
+   ],
+   "steps": [
+    {
+     "id": "split",
+     "title": "2つの式に分ける",
+     "emphasis": [
+      {
+       "key": "A",
+       "style": "box",
+       "color": "green"
+      },
+      {
+       "key": "B",
+       "style": "box",
+       "color": "blue"
+      },
+      {
+       "key": "C",
+       "style": "box",
+       "color": "orange"
+      }
+     ],
+     "add": [
+      {
+       "id": "sys",
+       "type": "math",
+       "area": "right",
+       "size": "l",
+       "tex": "\\begin{cases} \\tc{green}{2x+y}=\\tc{orange}{14} \\cdots\\!\\cdots\\text{①} \\\\ \\tc{blue}{5x-y}=\\tc{orange}{14} \\cdots\\!\\cdots\\text{②} \\end{cases}"
+      }
+     ],
+     "comment": "$A=B=C$ は $A=C$ と $B=C$ の連立方程式にする。$C$ が数のときはこれが簡単。"
+    },
+    {
+     "id": "calc",
+     "title": "加減法で解く",
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "①",
+         "cells": [
+          "2x",
+          "\\hl{cy1}{{}+y}",
+          "=",
+          "14"
+         ]
+        },
+        {
+         "label": "②",
+         "op": "[[op|+)]]",
+         "cells": [
+          "5x",
+          "\\hl{cy2}{{}-y}",
+          "=",
+          "14"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "7x",
+          "",
+          "=",
+          "28"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "x",
+          "",
+          "=",
+          "\\hl{v1}{4}"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "box",
+       "color": "red"
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "red"
+      }
+     ],
+     "comment": "$y$ の係数が $+1$ と $-1$（異符号）→ たす。"
+    },
+    {
+     "id": "x-value",
+     "title": "$x$ を求める",
+     "reveal": [
+      "r3",
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "strike",
+       "color": "red",
+       "persist": true
+      },
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$7x=28$ → $x=4$。"
+    },
+    {
+     "id": "substitute",
+     "title": "$y$ を求める",
+     "add": [
+      {
+       "id": "sub-label",
+       "type": "text",
+       "area": "right",
+       "text": "①に $x=4$ を代入"
+      },
+      {
+       "id": "sub",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "cells": [
+          "2\\times\\hl{sv}{4}+y",
+          "=",
+          "14"
+         ]
+        },
+        {
+         "cells": [
+          "y",
+          "=",
+          "6"
+         ]
+        }
+       ],
+       "size": "l"
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v1",
+        "sv"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "$8+y=14$ → $y=6$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "tex": "\\begin{cases} x=4 \\\\ y=6 \\end{cases}"
+      }
+     ]
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "A＝B＝C の形の方程式を，2つの式の連立方程式になおして解く。",
+    "notes": [
+     {
+      "text": "指導書の答え：$x=4,\\ y=6$",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.abc-2",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 39,
+     "number": "類3.5(2)"
+    }
+   },
+   "type": "similar",
+   "group": "s3",
+   "related": {
+    "original": [
+     "g2.simul.various.q-abc-2"
+    ]
+   },
+   "title": "A＝B＝C の形（2）",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "次の連立方程式を解きなさい。"
+    },
+    {
+     "id": "q-eq",
+     "type": "math",
+     "area": "top",
+     "size": "l",
+     "tex": "\\hl{A}{4x-3y}=\\hl{B}{-x+2y-5}=\\hl{C}{2x-7}"
+    }
+   ],
+   "answer": {
+    "tex": "\\begin{cases} x=4 \\\\ y=5 \\end{cases}",
+    "values": {
+     "x": 4,
+     "y": 5
+    }
+   },
+   "check": {
+    "equations": [
+     "4*x-3*y=2*x-7",
+     "-x+2*y-5=2*x-7"
+    ],
+    "solution": {
+     "x": 4,
+     "y": 5
+    },
+    "derived": [
+     "2*x-3*y=-7",
+     "-3*x+2*y=-2",
+     "-5*x=-20"
+    ],
+    "identities": [
+     "(4*x-3*y)-(2*x-7)=2*x-3*y+7",
+     "(-x+2*y-5)-(2*x-7)=-3*x+2*y+2",
+     "2*(2*x-3*y)+3*(-3*x+2*y)=-5*x"
+    ]
+   },
+   "hints": [
+    "$A=B=C$ から2つの式をつくろう。",
+    "$A=C$，$B=C$ を整理して解く。"
+   ],
+   "steps": [
+    {
+     "id": "split",
+     "title": "2つの式に分ける",
+     "emphasis": [
+      {
+       "key": "A",
+       "style": "box",
+       "color": "green"
+      },
+      {
+       "key": "B",
+       "style": "box",
+       "color": "blue"
+      },
+      {
+       "key": "C",
+       "style": "box",
+       "color": "orange"
+      }
+     ],
+     "add": [
+      {
+       "id": "tf",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "$A=C$",
+         "cells": [
+          "\\tc{green}{4x-3y}",
+          "=",
+          "\\tc{orange}{2x-7}"
+         ]
+        },
+        {
+         "key": "t1",
+         "label": "整理",
+         "cells": [
+          "2x-3y",
+          "=",
+          "-7",
+          {
+           "text": "……①"
+          }
+         ]
+        },
+        {
+         "key": "t2",
+         "label": "$B=C$",
+         "cells": [
+          "\\tc{blue}{-x+2y-5}",
+          "=",
+          "\\tc{orange}{2x-7}"
+         ]
+        },
+        {
+         "key": "t3",
+         "label": "整理",
+         "cells": [
+          "-3x+2y",
+          "=",
+          "-2",
+          {
+           "text": "……②"
+          }
+         ]
+        }
+       ],
+       "hide": [
+        "t1",
+        "t2",
+        "t3"
+       ],
+       "align": [
+        "r",
+        "c",
+        "l",
+        "l"
+       ]
+      }
+     ],
+     "comment": "どの2つを組み合わせてもよい。ここでは，$C$（$2x-7$）と $A$，$C$ と $B$ を組み合わせる。"
+    },
+    {
+     "id": "tidy",
+     "title": "整理する",
+     "reveal": [
+      "t1",
+      "t2",
+      "t3"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "t1",
+        "t3"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "文字を左辺，数を右辺に移項して整理する。"
+    },
+    {
+     "id": "calc",
+     "title": "加減法で解く",
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "①×2",
+         "cells": [
+          "4x",
+          "\\hl{cy1}{{}-6y}",
+          "=",
+          "-14"
+         ]
+        },
+        {
+         "label": "②×3",
+         "op": "[[op|+)]]",
+         "cells": [
+          "-9x",
+          "\\hl{cy2}{{}+6y}",
+          "=",
+          "-6"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "-5x",
+          "",
+          "=",
+          "-20"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "x",
+          "",
+          "=",
+          "\\hl{v1}{4}"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "box",
+       "color": "red"
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "red"
+      }
+     ],
+     "comment": "$y$ の係数を $6$ にそろえる（異符号 → たす）。"
+    },
+    {
+     "id": "x-value",
+     "title": "$x$ を求める",
+     "reveal": [
+      "r3",
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "strike",
+       "color": "red",
+       "persist": true
+      },
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$-5x=-20$ → $x=4$。"
+    },
+    {
+     "id": "substitute",
+     "title": "$y$ を求める",
+     "remove": [
+      "tf"
+     ],
+     "add": [
+      {
+       "id": "sub-label",
+       "type": "text",
+       "area": "right",
+       "text": "①に $x=4$ を代入"
+      },
+      {
+       "id": "sub",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "cells": [
+          "2\\times\\hl{sv}{4}-3y",
+          "=",
+          "-7"
+         ]
+        },
+        {
+         "cells": [
+          "-3y",
+          "=",
+          "-15"
+         ]
+        },
+        {
+         "cells": [
+          "y",
+          "=",
+          "5"
+         ]
+        }
+       ],
+       "size": "l"
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v1",
+        "sv"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "$8-3y=-7$ → $-3y=-15$ → $y=5$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "tex": "\\begin{cases} x=4 \\\\ y=5 \\end{cases}"
+      }
+     ]
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "A＝B＝C から2つの等式を取り出し，整理してから解く。",
+    "notes": [
+     {
+      "text": "指導書の答え：$x=4,\\ y=5$",
+      "source": "material"
+     },
+     {
+      "text": "組み合わせ方（$A=B$，$A=C$，$B=C$ のどれを使うか）は自由。ここでは $C$ を共通にした（提案）。",
+      "source": "draft"
+     }
+    ]
+   }
+  }
+ ]
+}

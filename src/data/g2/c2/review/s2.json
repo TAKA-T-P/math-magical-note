@@ -1,0 +1,758 @@
+{
+ "schema": 1,
+ "unit": {
+  "grade": "g2",
+  "chapter": "c2",
+  "section": "ex"
+ },
+ "group": "s2",
+ "contents": [
+  {
+   "id": "g2.simul.review.subst-y-form-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 38,
+     "number": "類2.1(1)"
+    }
+   },
+   "type": "similar",
+   "group": "s2",
+   "related": {
+    "original": [
+     "g2.simul.subst.q-y-form-1"
+    ]
+   },
+   "title": "代入法（y＝… の形）",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "次の連立方程式を解きなさい。"
+    },
+    {
+     "id": "q-eq",
+     "type": "math",
+     "area": "top",
+     "size": "l",
+     "tex": "\\begin{cases} y=\\hl{src}{x+3} \\cdots\\!\\cdots\\text{①} \\\\ x+\\hl{tgt}{y}=5 \\cdots\\!\\cdots\\text{②} \\end{cases}"
+    }
+   ],
+   "answer": {
+    "tex": "\\begin{cases} x=1 \\\\ y=4 \\end{cases}",
+    "values": {
+     "x": 1,
+     "y": 4
+    }
+   },
+   "check": {
+    "equations": [
+     "y=x+3",
+     "x+y=5"
+    ],
+    "solution": {
+     "x": 1,
+     "y": 4
+    },
+    "derived": [
+     "x+(x+3)=5",
+     "2*x+3=5",
+     "2*x=2"
+    ],
+    "identities": []
+   },
+   "hints": [
+    "①は「$y=\\cdots$」の形。",
+    "②の $y$ に $x+3$ を代入しよう。"
+   ],
+   "steps": [
+    {
+     "id": "focus",
+     "title": "代入する式を見つける",
+     "emphasis": [
+      {
+       "key": "src",
+       "style": "box",
+       "color": "green"
+      },
+      {
+       "key": "tgt",
+       "style": "box",
+       "color": "orange"
+      }
+     ],
+     "arrows": [
+      {
+       "from": "src",
+       "to": "tgt",
+       "color": "green"
+      }
+     ],
+     "add": [
+      {
+       "id": "plan",
+       "type": "callout",
+       "area": "right",
+       "tone": "point",
+       "text": "①の $y=x+3$ を，②の $y$ に代入する"
+      }
+     ],
+     "comment": "一方の式が「文字＝…」の形なので，**代入法** で解く。"
+    },
+    {
+     "id": "substitute",
+     "title": "代入して1つの文字を消す",
+     "anim": "slide-up",
+     "add": [
+      {
+       "id": "sb",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "②に①を代入",
+         "cells": [
+          "x+\\hl{sub}{(x+3)}",
+          "=",
+          "5"
+         ]
+        },
+        {
+         "key": "r2",
+         "cells": [
+          "2x+3",
+          "=",
+          "5"
+         ]
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "2x",
+          "=",
+          "2"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "x",
+          "=",
+          "\\hl{v1}{1}"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r2",
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "key": "sub",
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "②の $y$ のところに $(x+3)$ を入れる。$y$ が消えて $x$ だけの式になる。"
+    },
+    {
+     "id": "solve",
+     "title": "方程式を解く",
+     "reveal": [
+      "r2",
+      "r3",
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$2x+3=5$ → $2x=2$ → $x=1$。"
+    },
+    {
+     "id": "back",
+     "title": "もう1つの値を求める",
+     "remove": [
+      "plan"
+     ],
+     "add": [
+      {
+       "id": "back-label",
+       "type": "text",
+       "area": "right",
+       "text": "①に $x=1$ を代入"
+      },
+      {
+       "id": "bk",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "cells": [
+          "y",
+          "=",
+          "\\hl{sv}{1}+3"
+         ]
+        },
+        {
+         "cells": [
+          "",
+          "=",
+          "4"
+         ]
+        }
+       ],
+       "size": "l"
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v1",
+        "sv"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "$y=1+3=4$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "tex": "\\begin{cases} x=1 \\\\ y=4 \\end{cases}"
+      }
+     ],
+     "comment": "答えは $x$ と $y$ の値を組にして書く。"
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "「y＝…」の式をもう一方の式に代入して，1つの文字を消去する。",
+    "notes": [
+     {
+      "text": "指導書の答え：$x=1,\\ y=4$",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.subst-x-form-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 38,
+     "number": "類2.1(2)"
+    }
+   },
+   "type": "similar",
+   "group": "s2",
+   "related": {
+    "original": [
+     "g2.simul.subst.q-x-form-1"
+    ]
+   },
+   "title": "代入法（x＝… の形・かっこ）",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "次の連立方程式を解きなさい。"
+    },
+    {
+     "id": "q-eq",
+     "type": "math",
+     "area": "top",
+     "size": "l",
+     "tex": "\\begin{cases} x=\\hl{src}{2y-3} \\cdots\\!\\cdots\\text{①} \\\\ -3\\hl{tgt}{x}+5y=11 \\cdots\\!\\cdots\\text{②} \\end{cases}"
+    }
+   ],
+   "answer": {
+    "tex": "\\begin{cases} x=-7 \\\\ y=-2 \\end{cases}",
+    "values": {
+     "x": -7,
+     "y": -2
+    }
+   },
+   "check": {
+    "equations": [
+     "x=2*y-3",
+     "-3*x+5*y=11"
+    ],
+    "solution": {
+     "x": -7,
+     "y": -2
+    },
+    "derived": [
+     "-3*(2*y-3)+5*y=11",
+     "-y=2"
+    ],
+    "identities": [
+     "-3*(2*y-3)=-6*y+9",
+     "-6*y+9+5*y=-y+9"
+    ]
+   },
+   "hints": [
+    "①は「$x=\\cdots$」の形。",
+    "かっこをつけて代入し，分配法則でかっこをはずす。"
+   ],
+   "steps": [
+    {
+     "id": "focus",
+     "title": "代入する式を見つける",
+     "emphasis": [
+      {
+       "key": "src",
+       "style": "box",
+       "color": "green"
+      },
+      {
+       "key": "tgt",
+       "style": "box",
+       "color": "orange"
+      }
+     ],
+     "arrows": [
+      {
+       "from": "src",
+       "to": "tgt",
+       "color": "green"
+      }
+     ],
+     "add": [
+      {
+       "id": "plan",
+       "type": "callout",
+       "area": "right",
+       "tone": "point",
+       "text": "①の $x=2y-3$ を，②の $x$ に代入する\nかっこをつけて代入！"
+      }
+     ],
+     "comment": "一方の式が「文字＝…」の形なので，**代入法** で解く。"
+    },
+    {
+     "id": "substitute",
+     "title": "代入して1つの文字を消す",
+     "anim": "slide-up",
+     "add": [
+      {
+       "id": "sb",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "②に①を代入",
+         "cells": [
+          "-3\\hl{sub}{(2y-3)}+5y",
+          "=",
+          "11"
+         ]
+        },
+        {
+         "key": "r2",
+         "cells": [
+          "-6y+9+5y",
+          "=",
+          "11"
+         ]
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "-y",
+          "=",
+          "2"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "y",
+          "=",
+          "\\hl{v1}{-2}"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r2",
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "key": "sub",
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "②の $x$ に $(2y-3)$ を入れる。かっこをつけて代入する。"
+    },
+    {
+     "id": "solve",
+     "title": "方程式を解く",
+     "reveal": [
+      "r2",
+      "r3",
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$-3\\times2y=-6y$，$-3\\times(-3)=+9$。整理すると $-y=2$，$y=-2$。"
+    },
+    {
+     "id": "back",
+     "title": "もう1つの値を求める",
+     "remove": [
+      "plan"
+     ],
+     "add": [
+      {
+       "id": "back-label",
+       "type": "text",
+       "area": "right",
+       "text": "①に $y=-2$ を代入"
+      },
+      {
+       "id": "bk",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "cells": [
+          "x",
+          "=",
+          "2\\times(\\hl{sv}{-2})-3"
+         ]
+        },
+        {
+         "cells": [
+          "",
+          "=",
+          "-7"
+         ]
+        }
+       ],
+       "size": "l"
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v1",
+        "sv"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "$x=-4-3=-7$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "tex": "\\begin{cases} x=-7 \\\\ y=-2 \\end{cases}"
+      }
+     ],
+     "comment": "答えは $x$ と $y$ の値を組にして書く。"
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "かっこをつけて代入し，分配法則で符号に注意してかっこをはずす。",
+    "notes": [
+     {
+      "text": "指導書の答え：$x=-7,\\ y=-2$",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.subst-transform-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 38,
+     "number": "類2.2"
+    }
+   },
+   "type": "similar",
+   "group": "s2",
+   "related": {
+    "original": [
+     "g2.simul.subst.q-transform-1"
+    ]
+   },
+   "title": "代入法（式を変形してから代入）",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "連立方程式を __代入法__ で解きなさい。"
+    },
+    {
+     "id": "q-eq",
+     "type": "math",
+     "area": "top",
+     "size": "l",
+     "tex": "\\begin{cases} \\hl{e1}{x+2y=-13} \\cdots\\!\\cdots\\text{①} \\\\ 3\\hl{tgt}{x}-5y=5 \\cdots\\!\\cdots\\text{②} \\end{cases}"
+    }
+   ],
+   "answer": {
+    "tex": "\\begin{cases} x=-5 \\\\ y=-4 \\end{cases}",
+    "values": {
+     "x": -5,
+     "y": -4
+    }
+   },
+   "check": {
+    "equations": [
+     "x+2*y=-13",
+     "3*x-5*y=5"
+    ],
+    "solution": {
+     "x": -5,
+     "y": -4
+    },
+    "derived": [
+     "x=-2*y-13",
+     "3*(-2*y-13)-5*y=5",
+     "-11*y=44"
+    ],
+    "identities": [
+     "3*(-2*y-13)=-6*y-39",
+     "-6*y-39-5*y=-11*y-39"
+    ]
+   },
+   "hints": [
+    "①を「$x=\\cdots$」の形に変形しよう。",
+    "$x=-2y-13$ を②に代入する。"
+   ],
+   "steps": [
+    {
+     "id": "transform",
+     "title": "①を「x＝…」の形にする",
+     "emphasis": [
+      {
+       "key": "e1",
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "add": [
+      {
+       "id": "tf",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "①より",
+         "cells": [
+          "x",
+          "=",
+          "\\hl{src}{-2y-13}",
+          {
+           "text": "……①'"
+          }
+         ]
+        }
+       ],
+       "size": "l",
+       "align": [
+        "r",
+        "c",
+        "l",
+        "l"
+       ]
+      }
+     ],
+     "comment": "①の $2y$ を移項すると $x=-2y-13$。これを①' とする。"
+    },
+    {
+     "id": "substitute",
+     "title": "②に①' を代入する",
+     "anim": "slide-up",
+     "add": [
+      {
+       "id": "sb",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "②に①'を代入",
+         "cells": [
+          "3\\hl{sub}{(-2y-13)}-5y",
+          "=",
+          "5"
+         ]
+        },
+        {
+         "key": "r2",
+         "cells": [
+          "-6y-39-5y",
+          "=",
+          "5"
+         ]
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "-11y",
+          "=",
+          "44"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "y",
+          "=",
+          "\\hl{v1}{-4}"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r2",
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "src",
+        "tgt"
+       ],
+       "style": "box",
+       "color": "green"
+      },
+      {
+       "key": "sub",
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "arrows": [
+      {
+       "from": "src",
+       "to": "tgt",
+       "color": "green"
+      }
+     ],
+     "comment": "②の $x$ に $(-2y-13)$ をかっこごと代入する。"
+    },
+    {
+     "id": "solve",
+     "title": "方程式を解く",
+     "reveal": [
+      "r2",
+      "r3",
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$3\\times(-2y)=-6y$，$3\\times(-13)=-39$。$-11y=44$ より $y=-4$。"
+    },
+    {
+     "id": "back",
+     "title": "①'に代入して x を求める",
+     "add": [
+      {
+       "id": "bk",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "①'に代入",
+         "cells": [
+          "x",
+          "=",
+          "-2\\times(\\hl{sv}{-4})-13"
+         ]
+        },
+        {
+         "cells": [
+          "",
+          "=",
+          "-5"
+         ]
+        }
+       ],
+       "size": "l"
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v1",
+        "sv"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "$x=8-13=-5$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "tex": "\\begin{cases} x=-5 \\\\ y=-4 \\end{cases}"
+      }
+     ],
+     "comment": "答えは $x$ と $y$ の値を組にして書く。"
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "一方の式を「x＝…」の形に変形してから代入する。",
+    "notes": [
+     {
+      "text": "指導書の答え：$x=-5,\\ y=-4$",
+      "source": "material"
+     }
+    ]
+   }
+  }
+ ]
+}

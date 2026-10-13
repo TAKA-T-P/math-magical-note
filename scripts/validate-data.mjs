@@ -623,10 +623,16 @@ function walk(dir) {
 
 const catalog = JSON.parse(readFileSync(join(DATA_DIR, 'catalog.json'), 'utf8'));
 const referenced = new Set();
+const kindOfFile = new Map(); // データファイル → 区分（本編 main / 類題 review）
 for (const g of catalog.grades) {
   for (const ch of g.chapters) {
     for (const s of ch.sections) {
-      if (s.data) referenced.add(s.data);
+      // 類題のように、1つの区分を複数のファイル（節ごと）に分けてもよい
+      for (const d of [].concat(s.data ?? [])) {
+        referenced.add(d);
+        kindOfFile.set(d, s.kind === 'review' ? 'review' : 'main');
+      }
+      if (s.kind !== undefined && s.kind !== 'review') err(`catalog ${g.id}/${ch.id}/${s.id}`, `kind は review（類題）だけ指定できます: ${s.kind}`);
       for (const ed of catalog.editions) {
         if (typeof s.pages?.[ed] !== 'number') err(`catalog ${g.id}/${ch.id}/${s.id}`, `${ed}年度のページがありません`);
       }
@@ -635,6 +641,36 @@ for (const g of catalog.grades) {
 }
 
 const ids = new Set();
+const allContents = new Map(); // id → { c, rel, kind }
+
+// ---- 本編⇔類題の関連（related） ----
+//   本編：related.similar = [類題のID]、類題：related.original = [本編のID]（どちらも複数可）
+//   リンク先が存在するか、種類（本編／類題）が合っているか、同じ年度で使えるか、両方向がそろっているか、重複・自分自身へのリンクがないか
+const RELATED_KINDS = { similar: 'review', original: 'main' };
+const REVERSE = { similar: 'original', original: 'similar' };
+function checkRelated() {
+  for (const [id, { c, rel, kind }] of allContents) {
+    const w = `${rel} ${id}`;
+    const r = c.related ?? {};
+    for (const k of Object.keys(r)) if (!RELATED_KINDS[k]) err(w, `related の種類は similar（類題）か original（本編）です: ${k}`);
+    if (kind === 'review' && !(r.original ?? []).length) err(w, '類題には related.original（対応する本編の問題）が必要です');
+    if (kind === 'review' && r.similar) err(w, '類題に related.similar は指定できません');
+    if (kind === 'main' && r.original) err(w, '本編の問題に related.original は指定できません');
+    for (const [k, targets] of Object.entries(r)) {
+      if (!Array.isArray(targets) || !targets.length) { err(w, `related.${k} は1件以上の配列にしてください`); continue; }
+      if (new Set(targets).size !== targets.length) err(w, `related.${k} に同じIDが重複しています`);
+      for (const t of targets) {
+        if (t === id) { err(w, `related.${k} に自分自身が入っています`); continue; }
+        const to = allContents.get(t);
+        if (!to) { err(w, `related.${k} のリンク先 "${t}" がありません`); continue; }
+        if (to.kind !== RELATED_KINDS[k]) err(w, `related.${k} のリンク先 "${t}" は${RELATED_KINDS[k] === 'review' ? '類題' : '本編'}ではありません`);
+        for (const ed of Object.keys(c.editions ?? {})) if (!to.c.editions?.[ed]) err(w, `リンク先 "${t}" は ${ed}年度版にありません`);
+        if (!(to.c.related?.[REVERSE[k]] ?? []).includes(id)) err(w, `リンク先 "${t}" の related.${REVERSE[k]} に "${id}" がありません（両方向に登録してください）`);
+      }
+    }
+  }
+}
+
 const isMini = (p) => /^mini[\\/]/.test(relative(DATA_DIR, p));
 const files = walk(DATA_DIR).filter((p) => p.endsWith('.json') && !p.endsWith('catalog.json') && !isMini(p));
 let count = 0;
@@ -653,10 +689,12 @@ for (const p of files) {
   for (const c of unit.contents ?? []) {
     // アプリと同じく、年度ごとの掲載情報を edition として参照できるようにする
     checkContent(rel, { ...c, edition: Object.values(c.editions ?? {})[0] }, ids, catalog);
+    allContents.set(c.id, { c, rel, kind: kindOfFile.get(key) ?? 'main' });
     count++;
   }
 }
 referenced.forEach((k) => err('catalog.json', `データファイル ${k}.json がありません`));
+checkRelated();
 
 // ---- 授業ミニコンテンツ ----
 // 自動で検証できるのは「構成・参照・数式の構文・check に登録した計算」まで。

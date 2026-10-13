@@ -60,6 +60,7 @@
     },
     {
       "id": "g2.simul.subst.q-y-form-1",
+      "related": { "similar": ["g2.simul.review.subst-y-form-1"] },
       "rev": 1,
       "editions": {
         "2026": { "page": 26, "number": "問2.1(1)", "tags": ["定期"], "ref": "Ⓢp.35[3](1)〜(5)" }
@@ -193,6 +194,7 @@
     },
     {
       "id": "g2.simul.subst.q-x-form-1",
+      "related": { "similar": ["g2.simul.review.subst-x-form-1"] },
       "rev": 1,
       "editions": {
         "2026": { "page": 26, "number": "問2.1(2)", "tags": ["定期"], "ref": "Ⓢp.35[3](1)〜(5)" }
@@ -360,6 +362,7 @@
     },
     {
       "id": "g2.simul.subst.q-transform-1",
+      "related": { "similar": ["g2.simul.review.subst-transform-1"] },
       "rev": 1,
       "editions": {
         "2026": { "page": 26, "number": "↗問2.2", "ref": "Ⓢp.35[3](6)〜(9)" }

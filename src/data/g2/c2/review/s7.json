@@ -1,0 +1,1400 @@
+{
+ "schema": 1,
+ "unit": {
+  "grade": "g2",
+  "chapter": "c2",
+  "section": "ex"
+ },
+ "group": "s7",
+ "contents": [
+  {
+   "id": "g2.simul.review.speed-distance-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 41,
+     "number": "類7.1"
+    }
+   },
+   "type": "similar",
+   "group": "s7",
+   "related": {
+    "original": [
+     "g2.simul.speed.q-distance-unknown-1"
+    ]
+   },
+   "title": "A町からC町まで（道のりを求める）",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "A町から[[d16|16km]]離れたC町まで行くのに，途中のB町までは[[v3|時速3km]]で，残りの道のりは[[v5|時速5km]]で進んだところ，[[t4|全部で4時間]]かかった。[[goal|A町からB町までの道のり]]を求めなさい。"
+    },
+    {
+     "id": "route",
+     "type": "route",
+     "area": "left",
+     "width": 700,
+     "icon": "walker",
+     "hide": [
+      "rx",
+      "ry",
+      "r16",
+      "rv3",
+      "rv5",
+      "rt3",
+      "rt5",
+      "r4"
+     ],
+     "points": [
+      {
+       "text": "A"
+      },
+      {
+       "text": "B"
+      },
+      {
+       "text": "C"
+      }
+     ],
+     "total": {
+      "text": "16km",
+      "key": "r16"
+     },
+     "side": {
+      "text": "合計 4時間",
+      "key": "r4"
+     },
+     "segments": [
+      {
+       "w": 1,
+       "top": {
+        "text": "$\\tc{blue}{x}$ km",
+        "key": "rx"
+       },
+       "bottom": [
+        {
+         "text": "時速3km →",
+         "key": "rv3"
+        },
+        {
+         "text": "$\\frac{x}{3}$ 時間",
+         "key": "rt3"
+        }
+       ]
+      },
+      {
+       "w": 1,
+       "top": {
+        "text": "$\\tc{orange}{y}$ km",
+        "key": "ry"
+       },
+       "bottom": [
+        {
+         "text": "時速5km →",
+         "key": "rv5"
+        },
+        {
+         "text": "$\\frac{y}{5}$ 時間",
+         "key": "rt5"
+        }
+       ]
+      }
+     ],
+     "note": "※ 模式図（線の長さは実際の道のりの比ではありません）",
+     "states": [
+      {
+       "id": "concept"
+      }
+     ]
+    }
+   ],
+   "answer": {
+    "text": "6km",
+    "values": {
+     "x": 6,
+     "y": 10
+    }
+   },
+   "check": {
+    "equations": [
+     "x+y=16",
+     "x/3+y/5=4"
+    ],
+    "solution": {
+     "x": 6,
+     "y": 10
+    },
+    "derived": [
+     "5*x+3*y=60",
+     "3*x+3*y=48",
+     "2*x=12"
+    ],
+    "identities": [
+     "15*(x/3+y/5)=5*x+3*y",
+     "3*(x+y)=3*x+3*y",
+     "(5*x+3*y)-(3*x+3*y)=2*x",
+     "6/3+10/5=4"
+    ],
+    "nonSolutions": [
+     {
+      "x": 10,
+      "y": 6
+     }
+    ]
+   },
+   "hints": [
+    "AB間を $x$ km，BC間を $y$ km とおこう。",
+    "時間＝道のり÷速さ。"
+   ],
+   "steps": [
+    {
+     "id": "letters",
+     "title": "道のりを $x$，$y$ とおく",
+     "reveal": [
+      "rx",
+      "ry",
+      "r16"
+     ],
+     "add": [
+      {
+       "id": "let",
+       "type": "text",
+       "area": "right",
+       "text": "A町〜B町の道のりを $\\tc{blue}{x}$ km，B町〜C町の道のりを $\\tc{orange}{y}$ km とする。"
+      }
+     ],
+     "emphasis": [
+      {
+       "key": "goal",
+       "style": "box",
+       "color": "red"
+      },
+      {
+       "keys": [
+        "d16",
+        "r16"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "求めるのはAB間の道のりだが，BC間もわからないので2つの文字をおく。",
+     "teacherNote": {
+      "text": "指導書の解答：A町〜B町の道のりを $x$ km，B町〜C町の道のりを $y$ km とする。",
+      "source": "material"
+     }
+    },
+    {
+     "id": "eq1",
+     "title": "道のりの式",
+     "add": [
+      {
+       "id": "eqs",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "key": "e1",
+         "label": "道のり",
+         "cells": [
+          "\\tc{blue}{x}+\\tc{orange}{y}",
+          "=",
+          "16",
+          {
+           "text": "……①"
+          }
+         ]
+        },
+        {
+         "key": "e2",
+         "label": "時間",
+         "cells": [
+          "\\dfrac{x}{3}+\\dfrac{y}{5}",
+          "=",
+          "4",
+          {
+           "text": "……②"
+          }
+         ]
+        }
+       ],
+       "hide": [
+        "e2"
+       ],
+       "align": [
+        "r",
+        "c",
+        "l",
+        "l"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "r16",
+        "e1"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$x+y=16$"
+    },
+    {
+     "id": "time",
+     "title": "時間＝道のり÷速さ",
+     "reveal": [
+      "rv3",
+      "rv5",
+      "rt3",
+      "rt5",
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v3",
+        "v5",
+        "t4"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      },
+      {
+       "keys": [
+        "rt3",
+        "rt5"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "AB間は $x\\div3=\\frac{x}{3}$ 時間，BC間は $\\frac{y}{5}$ 時間。"
+    },
+    {
+     "id": "eq2",
+     "title": "時間の式",
+     "reveal": [
+      "e2"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "rt3",
+        "rt5",
+        "r4",
+        "e2"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$\\frac{x}{3}+\\frac{y}{5}=4$"
+    },
+    {
+     "id": "calc",
+     "title": "②×15，①×3 で解く",
+     "remove": [
+      "route",
+      "let"
+     ],
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "②×15",
+         "cells": [
+          "5x",
+          "\\hl{cy1}{{}+3y}",
+          "=",
+          "60"
+         ]
+        },
+        {
+         "label": "①×3",
+         "op": "[[op|−)]]",
+         "cells": [
+          "3x",
+          "\\hl{cy2}{{}+3y}",
+          "=",
+          "48"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "2x",
+          "",
+          "=",
+          "12"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "x",
+          "",
+          "=",
+          "6"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "box",
+       "color": "red"
+      }
+     ],
+     "comment": "②の分母 3，5 の最小公倍数15をかけて $5x+3y=60$。①を3倍して $y$ の係数をそろえる。"
+    },
+    {
+     "id": "x-value",
+     "title": "ひいて $x$ を求める",
+     "reveal": [
+      "r3",
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "strike",
+       "color": "blue",
+       "persist": true
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "blue"
+      },
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$2x=12$ → $x=6$。（$y=16-6=10$）"
+    },
+    {
+     "id": "answer",
+     "title": "答え：実際の比の図で確かめる",
+     "remove": [
+      "el"
+     ],
+     "add": [
+      {
+       "id": "route2",
+       "type": "route",
+       "area": "left",
+       "width": 700,
+       "icon": "walker",
+       "points": [
+        {
+         "text": "A"
+        },
+        {
+         "text": "B"
+        },
+        {
+         "text": "C"
+        }
+       ],
+       "total": {
+        "text": "16km"
+       },
+       "side": {
+        "text": "合計 4時間"
+       },
+       "segments": [
+        {
+         "w": 6,
+         "top": {
+          "text": "$6$ km"
+         },
+         "bottom": [
+          {
+           "text": "時速3km →"
+          },
+          {
+           "text": "$6\\div3=2$ 時間"
+          }
+         ]
+        },
+        {
+         "w": 10,
+         "top": {
+          "text": "$10$ km"
+         },
+         "bottom": [
+          {
+           "text": "時速5km →"
+          },
+          {
+           "text": "$10\\div5=2$ 時間"
+          }
+         ]
+        }
+       ],
+       "states": [
+        {
+         "id": "real",
+         "note": "※ 線の長さは実際の道のりの比（6：10）",
+         "motion": {
+          "legs": [
+           {
+            "distance": 6,
+            "speed": 3,
+            "distanceVar": "x"
+           },
+           {
+            "distance": 10,
+            "speed": 5,
+            "distanceVar": "y"
+           }
+          ],
+          "expect": {
+           "time": 4,
+           "distance": 16
+          },
+          "timeUnit": "時間",
+          "secondsPerUnit": 1.5,
+          "scaleText": "（1時間を1.5秒で再生）"
+         }
+        }
+       ]
+      },
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "text": "6km"
+      }
+     ],
+     "comment": "問題は「A町からB町までの道のり」なので，答えは6km。確かめ：$6+10=16$，$6\\div3+10\\div5=4$。"
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "道のりを x，y とおき，時間＝道のり÷速さ で時間の式をつくる（問7.1 の復習）。",
+    "notes": [
+     {
+      "text": "指導書の解答：A町〜B町の道のりを $x$ km，B町〜C町の道のりを $y$ km とすると，$x+y=16$，$\\frac{x}{3}+\\frac{y}{5}=4$。これを解くと $x=6,\\ y=10$。6km",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.speed-time-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 41,
+     "number": "類7.2"
+    }
+   },
+   "type": "similar",
+   "group": "s7",
+   "related": {
+    "original": [
+     "g2.simul.speed.q-time-unknown-1"
+    ]
+   },
+   "title": "家から駅まで（時間を求める）",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "家から[[d1100|1100m]]離れた駅まで行くのに，はじめは[[v70|分速70m]]で歩き，途中から[[v100|分速100m]]で走ったところ，[[t14|全部で14分]]かかりました。歩いた時間と走った時間を求めなさい。"
+    },
+    {
+     "id": "route",
+     "type": "route",
+     "area": "left",
+     "width": 700,
+     "icon": "walker",
+     "hide": [
+      "rx",
+      "ry",
+      "r1100",
+      "rv70",
+      "rv100",
+      "r14"
+     ],
+     "points": [
+      {
+       "text": "家"
+      },
+      {
+       "text": ""
+      },
+      {
+       "text": "駅"
+      }
+     ],
+     "total": {
+      "text": "1100m",
+      "key": "r1100"
+     },
+     "side": {
+      "text": "全部で14分",
+      "key": "r14"
+     },
+     "segments": [
+      {
+       "w": 1,
+       "top": {
+        "text": "歩く"
+       },
+       "bottom": [
+        {
+         "text": "分速70m →",
+         "key": "rv70"
+        },
+        {
+         "text": "$\\tc{blue}{x}$ 分",
+         "key": "rx"
+        }
+       ]
+      },
+      {
+       "w": 1,
+       "top": {
+        "text": "走る"
+       },
+       "bottom": [
+        {
+         "text": "分速100m →",
+         "key": "rv100"
+        },
+        {
+         "text": "$\\tc{orange}{y}$ 分",
+         "key": "ry"
+        }
+       ]
+      }
+     ],
+     "note": "※ 模式図（線の長さは実際の道のりの比ではありません）",
+     "states": [
+      {
+       "id": "concept"
+      }
+     ]
+    }
+   ],
+   "answer": {
+    "text": "歩いた時間 10分，走った時間 4分",
+    "values": {
+     "x": 10,
+     "y": 4
+    }
+   },
+   "check": {
+    "equations": [
+     "x+y=14",
+     "70*x+100*y=1100"
+    ],
+    "solution": {
+     "x": 10,
+     "y": 4
+    },
+    "derived": [
+     "7*x+10*y=110",
+     "7*x+7*y=98",
+     "3*y=12"
+    ],
+    "identities": [
+     "(70*x+100*y)/10=7*x+10*y",
+     "7*(x+y)=7*x+7*y",
+     "(7*x+10*y)-(7*x+7*y)=3*y",
+     "70*10+100*4=1100"
+    ],
+    "nonSolutions": [
+     {
+      "x": 4,
+      "y": 10
+     }
+    ]
+   },
+   "hints": [
+    "時間を $x$，$y$ とおこう。",
+    "道のり＝速さ×時間。"
+   ],
+   "steps": [
+    {
+     "id": "letters",
+     "title": "時間を $x$，$y$ とおく",
+     "reveal": [
+      "rx",
+      "ry",
+      "r14"
+     ],
+     "add": [
+      {
+       "id": "let",
+       "type": "text",
+       "area": "right",
+       "text": "歩いた時間を $\\tc{blue}{x}$ 分，走った時間を $\\tc{orange}{y}$ 分とする。"
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "t14",
+        "r14"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "求めるのは時間なので，**時間** を $x$，$y$ とおく。"
+    },
+    {
+     "id": "eq1",
+     "title": "時間の式",
+     "add": [
+      {
+       "id": "eqs",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "key": "e1",
+         "label": "時間",
+         "cells": [
+          "\\tc{blue}{x}+\\tc{orange}{y}",
+          "=",
+          "14",
+          {
+           "text": "……①"
+          }
+         ]
+        },
+        {
+         "key": "e2",
+         "label": "道のり",
+         "cells": [
+          "\\tc{blue}{70x}+\\tc{orange}{100y}",
+          "=",
+          "1100",
+          {
+           "text": "……②"
+          }
+         ]
+        }
+       ],
+       "hide": [
+        "e2"
+       ],
+       "align": [
+        "r",
+        "c",
+        "l",
+        "l"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "r14",
+        "e1"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$x+y=14$"
+    },
+    {
+     "id": "dist",
+     "title": "道のり＝速さ×時間",
+     "reveal": [
+      "rv70",
+      "rv100",
+      "r1100",
+      "e2"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v70",
+        "v100",
+        "d1100"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      },
+      {
+       "key": "e2",
+       "style": "marker",
+       "color": "green"
+      }
+     ],
+     "comment": "歩いた道のりは $70x$ m，走った道のりは $100y$ m。合わせて1100m → $70x+100y=1100$。"
+    },
+    {
+     "id": "calc",
+     "title": "②÷10，①×7 で解く",
+     "remove": [
+      "route",
+      "let"
+     ],
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "②÷10",
+         "cells": [
+          "\\hl{cx1}{7x}",
+          "{}+10y",
+          "=",
+          "110"
+         ]
+        },
+        {
+         "label": "①×7",
+         "op": "[[op|−)]]",
+         "cells": [
+          "\\hl{cx2}{7x}",
+          "{}+7y",
+          "=",
+          "98"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "",
+          "3y",
+          "=",
+          "12"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "",
+          "y",
+          "=",
+          "4"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cx1",
+        "cx2"
+       ],
+       "style": "box",
+       "color": "red"
+      }
+     ],
+     "comment": "②を10でわると $7x+10y=110$。①を7倍して $x$ の係数をそろえる。"
+    },
+    {
+     "id": "y-value",
+     "title": "ひいて $y$ を求める",
+     "reveal": [
+      "r3",
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cx1",
+        "cx2"
+       ],
+       "style": "strike",
+       "color": "blue",
+       "persist": true
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "blue"
+      },
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$3y=12$ → $y=4$。$x=14-4=10$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え：実際の比の図で確かめる",
+     "remove": [
+      "el"
+     ],
+     "add": [
+      {
+       "id": "route2",
+       "type": "route",
+       "area": "left",
+       "width": 700,
+       "icon": "walker",
+       "points": [
+        {
+         "text": "家"
+        },
+        {
+         "text": ""
+        },
+        {
+         "text": "駅"
+        }
+       ],
+       "total": {
+        "text": "1100m"
+       },
+       "side": {
+        "text": "全部で14分"
+       },
+       "segments": [
+        {
+         "w": 700,
+         "top": {
+          "text": "歩き 700m"
+         },
+         "bottom": [
+          {
+           "text": "分速70m →"
+          },
+          {
+           "text": "$10$ 分"
+          }
+         ]
+        },
+        {
+         "w": 400,
+         "top": {
+          "text": "走り 400m"
+         },
+         "bottom": [
+          {
+           "text": "分速100m →"
+          },
+          {
+           "text": "$4$ 分"
+          }
+         ]
+        }
+       ],
+       "states": [
+        {
+         "id": "real",
+         "note": "※ 線の長さは実際の道のりの比（700：400）",
+         "motion": {
+          "legs": [
+           {
+            "distance": 700,
+            "speed": 70,
+            "timeVar": "x",
+            "icon": "walker"
+           },
+           {
+            "distance": 400,
+            "speed": 100,
+            "timeVar": "y",
+            "icon": "runner"
+           }
+          ],
+          "expect": {
+           "time": 14,
+           "distance": 1100
+          },
+          "timeUnit": "分",
+          "secondsPerUnit": 0.5,
+          "scaleText": "（1分を0.5秒で再生）"
+         }
+        }
+       ]
+      },
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "text": "歩いた時間 10分\n走った時間 4分"
+      }
+     ],
+     "comment": "確かめ：$10+4=14$（分），$70\\times10+100\\times4=1100$（m）。"
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "時間を x，y とおき，道のり＝速さ×時間 で道のりの式をつくる（問7.2 の復習）。",
+    "notes": [
+     {
+      "text": "指導書の解答：歩いた時間を $x$ 分，走った時間を $y$ 分とすると，$x+y=14$，$70x+100y=1100$。これを解くと $x=10,\\ y=4$。歩いた時間10分，走った時間4分",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.speed-pond-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 41,
+     "number": "類7.3"
+    }
+   },
+   "type": "similar",
+   "group": "s7",
+   "related": {
+    "original": [
+     "g2.simul.speed.q-pond-1"
+    ]
+   },
+   "title": "池の周りを走る2人",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "池の周りに[[l1800|1周1800m]]の道がある。兄，妹の2人が同じ場所から同時に出発し，この道を一定の速さで走り続ける。[[op5|2人が反対方向に回ると出発してから5分後に出会い]]，[[sm45|同じ方向に走ると45分後に兄が妹をはじめて追いぬく]]。2人の速さをそれぞれ求めなさい。"
+    }
+   ],
+   "answer": {
+    "text": "兄 分速200m，妹 分速160m",
+    "values": {
+     "x": 200,
+     "y": 160
+    }
+   },
+   "check": {
+    "equations": [
+     "5*x+5*y=1800",
+     "45*x-45*y=1800"
+    ],
+    "solution": {
+     "x": 200,
+     "y": 160
+    },
+    "derived": [
+     "x+y=360",
+     "x-y=40",
+     "2*x=400",
+     "200+y=360"
+    ],
+    "identities": [
+     "(5*x+5*y)/5=x+y",
+     "(45*x-45*y)/45=x-y",
+     "5*(200+160)=1800",
+     "45*(200-160)=1800"
+    ],
+    "nonSolutions": [
+     {
+      "x": 160,
+      "y": 200
+     }
+    ]
+   },
+   "hints": [
+    "反対方向に回って出会うとき，2人の道のりの和が1周。",
+    "同じ方向で追いぬくとき，2人の道のりの差が1周。"
+   ],
+   "steps": [
+    {
+     "id": "letters",
+     "title": "兄の速さ $x$，妹の速さ $y$",
+     "add": [
+      {
+       "id": "let",
+       "type": "text",
+       "area": "right",
+       "text": "兄の速さを分速 $\\tc{blue}{x}$ m，妹の速さを分速 $\\tc{orange}{y}$ m とする。"
+      }
+     ],
+     "emphasis": [
+      {
+       "key": "l1800",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "池の周りの道は1周1800m。"
+    },
+    {
+     "id": "opposite",
+     "title": "反対方向：和が1周",
+     "add": [
+      {
+       "id": "c-op",
+       "type": "circle",
+       "area": "left",
+       "inline": true,
+       "size": 250,
+       "length": 1800,
+       "center": "池",
+       "lengthLabel": {
+        "text": "1周 1800m",
+        "key": "cl1"
+       },
+       "hide": null,
+       "runners": [
+        {
+         "id": "ani",
+         "name": "兄",
+         "color": "blue"
+        },
+        {
+         "id": "imo",
+         "name": "妹",
+         "color": "orange"
+        }
+       ],
+       "states": [
+        {
+         "id": "schematic",
+         "mode": "opposite",
+         "view": "schematic",
+         "frac": 0.6,
+         "caption": "● 反対方向\n（2人の道のりの和）＝（1周）",
+         "labels": {
+          "ani": {
+           "text": "兄 $5\\tc{blue}{x}$ m"
+          },
+          "imo": {
+           "text": "妹 $5\\tc{orange}{y}$ m"
+          },
+          "meet": {
+           "text": "5分後"
+          }
+         }
+        },
+        {
+         "id": "play",
+         "mode": "opposite",
+         "view": "play",
+         "speeds": {
+          "ani": 200,
+          "imo": 160
+         },
+         "vars": {
+          "ani": "x",
+          "imo": "y"
+         },
+         "until": 5,
+         "unit": "m",
+         "timeUnit": "分",
+         "secondsPerUnit": 0.7,
+         "caption": "● 反対方向（1分＝0.7秒）"
+        }
+       ]
+      },
+      {
+       "id": "eqs",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "反対方向",
+         "cells": [
+          "5x+5y",
+          "=",
+          "1800"
+         ]
+        },
+        {
+         "key": "q2",
+         "label": "÷5",
+         "cells": [
+          "x+y",
+          "=",
+          "360",
+          {
+           "text": "……①"
+          }
+         ]
+        },
+        {
+         "key": "q3",
+         "label": "同じ方向",
+         "cells": [
+          "45x-45y",
+          "=",
+          "1800"
+         ]
+        },
+        {
+         "key": "q4",
+         "label": "÷45",
+         "cells": [
+          "x-y",
+          "=",
+          "40",
+          {
+           "text": "……②"
+          }
+         ]
+        }
+       ],
+       "hide": [
+        "q2",
+        "q3",
+        "q4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "key": "op5",
+       "style": "marker",
+       "color": "yellow"
+      },
+      {
+       "key": "cl1",
+       "style": "marker",
+       "color": "green"
+      }
+     ],
+     "comment": "5分間に兄は $5x$ m，妹は $5y$ m。出会うまでに2人で1周 → $5x+5y=1800$。（図は模式図）"
+    },
+    {
+     "id": "simplify-op",
+     "title": "5でわって整理",
+     "reveal": [
+      "q2"
+     ],
+     "emphasis": [
+      {
+       "key": "q2",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$x+y=360$（速さの和）"
+    },
+    {
+     "id": "same",
+     "title": "同じ方向：差が1周",
+     "add": [
+      {
+       "id": "c-same",
+       "type": "circle",
+       "area": "left",
+       "inline": true,
+       "size": 250,
+       "length": 1800,
+       "center": "池",
+       "lengthLabel": {
+        "text": "1周 1800m",
+        "key": "cl2"
+       },
+       "hide": null,
+       "runners": [
+        {
+         "id": "ani",
+         "name": "兄",
+         "color": "blue"
+        },
+        {
+         "id": "imo",
+         "name": "妹",
+         "color": "orange"
+        }
+       ],
+       "states": [
+        {
+         "id": "schematic",
+         "mode": "same",
+         "view": "schematic",
+         "frac": 0.35,
+         "caption": "● 同じ方向\n（2人の道のりの差）＝（1周）",
+         "labels": {
+          "ani": {
+           "text": "兄 $45\\tc{blue}{x}$ m"
+          },
+          "imo": {
+           "text": "妹 $45\\tc{orange}{y}$ m"
+          },
+          "meet": {
+           "text": "45分後 追いぬく"
+          }
+         }
+        },
+        {
+         "id": "play",
+         "mode": "same",
+         "view": "play",
+         "speeds": {
+          "ani": 200,
+          "imo": 160
+         },
+         "vars": {
+          "ani": "x",
+          "imo": "y"
+         },
+         "until": 45,
+         "unit": "m",
+         "timeUnit": "分",
+         "secondsPerUnit": 0.2,
+         "caption": "● 同じ方向（1分＝0.2秒）"
+        }
+       ]
+      }
+     ],
+     "reveal": [
+      "q3"
+     ],
+     "emphasis": [
+      {
+       "key": "sm45",
+       "style": "marker",
+       "color": "yellow"
+      },
+      {
+       "key": "cl2",
+       "style": "marker",
+       "color": "green"
+      }
+     ],
+     "comment": "45分間に兄は妹より1周多く走る → $45x-45y=1800$。"
+    },
+    {
+     "id": "simplify-same",
+     "title": "45でわって整理",
+     "reveal": [
+      "q4"
+     ],
+     "emphasis": [
+      {
+       "key": "q4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$x-y=40$（速さの差）"
+    },
+    {
+     "id": "solve",
+     "title": "①＋②で解く",
+     "remove": [
+      "eqs",
+      "let"
+     ],
+     "add": [
+      {
+       "id": "sys",
+       "type": "math",
+       "area": "right",
+       "size": "l",
+       "tex": "\\begin{cases} x+y=360 \\cdots\\!\\cdots\\text{①} \\\\ x-y=40 \\cdots\\!\\cdots\\text{②} \\end{cases}"
+      },
+      {
+       "id": "sv",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "①＋②",
+         "cells": [
+          "2x",
+          "=",
+          "400"
+         ]
+        },
+        {
+         "cells": [
+          "x",
+          "=",
+          "200"
+         ]
+        },
+        {
+         "label": "①に代入",
+         "cells": [
+          "200+y",
+          "=",
+          "360"
+         ]
+        },
+        {
+         "cells": [
+          "y",
+          "=",
+          "160"
+         ]
+        }
+       ]
+      }
+     ],
+     "comment": "$2x=400$ → $x=200$。$200+y=360$ → $y=160$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "remove": [
+      "sv"
+     ],
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "text": "兄 分速200m，妹 分速160m"
+      }
+     ],
+     "comment": "兄は分速200m，妹は分速160m。"
+    },
+    {
+     "id": "play",
+     "title": "実際の速さで動かして確かめる",
+     "set": {
+      "c-op": "play",
+      "c-same": "play"
+     },
+     "comment": "▶ 再生すると，反対方向は5分後に出会い，同じ方向は45分後にはじめて追いぬく。検算：$5\\times(200+160)=1800$，$45\\times(200-160)=1800$。",
+     "teacherNote": "同じ方向では，45分で妹がちょうど4周，兄が5周走り，出発点で追いぬく。"
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "反対方向は道のりの和，同じ方向は道のりの差が1周になることから式をつくる（↗問7.3 の復習）。",
+    "notes": [
+     {
+      "text": "指導書の解答：兄の速さを分速 $x$ m，妹の速さを分速 $y$ m とすると，$5x+5y=1800$，$45x-45y=1800$。これを解くと $x=200,\\ y=160$。兄：分速200m，妹：分速160m",
+      "source": "material"
+     }
+    ]
+   }
+  }
+ ]
+}

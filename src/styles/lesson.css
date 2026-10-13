@@ -103,6 +103,8 @@
 .kw { color: var(--c-red); font-weight: 800; }
 /* 文章中に連立方程式（cases）を置くと、大きな分数などが行からはみ出すため余白を取る */
 .blk-text:has(.mtable) { padding: 0.15em 0 0.5em; }
+/* 分数の連立方程式など、背の高い数式ブロック（tone: "tall"）も同じように余白を取る */
+.blk-math.tone-tall { padding: 0.3em 0 0.6em; }
 
 .blk-callout {
   padding: 14px 22px;
@@ -726,3 +728,12 @@
 .bk-read { display: grid; gap: 0; font-size: 0.6em; font-weight: 700; margin-top: 4px; }
 .bk-read b { color: var(--c-red); }
 .bk-line:empty { display: none; }
+
+/* 本編⇔類題 */
+.stage.is-review .stage-header { background: #0f6b5c; }
+.crumb-review { padding: 0 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.2); font-weight: 800; }
+.meta .tag-review { background: #ffe08a; color: #5b4300; font-weight: 800; }
+.tbtn-related { min-width: 92px; border: 2px solid currentColor; }
+.tbtn-related.to-review { color: #0f6b5c; }
+.tbtn-related.to-main { color: var(--navy); }
+.tbtn-related:hover:not(:disabled) { background: #e3f2ef; }

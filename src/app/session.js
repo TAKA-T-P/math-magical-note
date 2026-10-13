@@ -62,3 +62,17 @@ export function consumeEnterAtEnd(lessonPath) {
   set('mmn.enterEnd', null);
   return r === lessonPath;
 }
+
+// 本編 → 類題 へ移ったときの戻り先（from：本編のパス，to：類題のパス，edition：教材年度）。
+// 類題の画面では「本編に戻る」で from の同じ表示モード・ステップに戻る。関係のない教材を開くと消える。
+export function setReviewReturn(ctx) {
+  set('mmn.reviewReturn', ctx);
+}
+
+export function getReviewReturn() {
+  return get('mmn.reviewReturn');
+}
+
+export function clearReviewReturn() {
+  set('mmn.reviewReturn', null);
+}

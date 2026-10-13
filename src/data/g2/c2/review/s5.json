@@ -1,0 +1,883 @@
+{
+ "schema": 1,
+ "unit": {
+  "grade": "g2",
+  "chapter": "c2",
+  "section": "ex"
+ },
+ "group": "s5",
+ "contents": [
+  {
+   "id": "g2.simul.review.apply-fruits-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 40,
+     "number": "類5.1"
+    }
+   },
+   "type": "similar",
+   "group": "s5",
+   "related": {
+    "original": [
+     "g2.simul.apply.q-vegetables-1"
+    ]
+   },
+   "title": "りんごとみかんの個数と代金",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "inline": true,
+     "width": 1000,
+     "text": "[[pa|1個150円のりんご]]と，[[pm|1個80円のみかん]]を[[p9|合わせて9個]]買ったら，[[p930|代金が930円]]になった。それぞれ何個買いましたか。"
+    },
+    {
+     "id": "illust",
+     "type": "illust",
+     "area": "top",
+     "inline": true,
+     "height": 96,
+     "items": [
+      {
+       "asset": "apple",
+       "name": "りんご",
+       "color": "blue",
+       "lines": [
+        "1個 150円",
+        "何個？"
+       ]
+      },
+      {
+       "asset": "mikan",
+       "name": "みかん",
+       "color": "orange",
+       "lines": [
+        "1個 80円",
+        "何個？"
+       ]
+      }
+     ]
+    }
+   ],
+   "answer": {
+    "text": "りんご 3個，みかん 6個",
+    "values": {
+     "x": 3,
+     "y": 6
+    }
+   },
+   "check": {
+    "equations": [
+     "x+y=9",
+     "150*x+80*y=930"
+    ],
+    "solution": {
+     "x": 3,
+     "y": 6
+    },
+    "derived": [
+     "8*x+8*y=72",
+     "15*x+8*y=93",
+     "-7*x=-21",
+     "3+y=9"
+    ],
+    "identities": [
+     "8*(x+y)=8*x+8*y",
+     "(150*x+80*y)/10=15*x+8*y",
+     "(8*x+8*y)-(15*x+8*y)=-7*x",
+     "150*3+80*6=930"
+    ],
+    "nonSolutions": [
+     {
+      "x": 6,
+      "y": 3
+     }
+    ]
+   },
+   "hints": [
+    "りんごを $x$ 個，みかんを $y$ 個とおこう。",
+    "個数の式と代金の式をつくる。"
+   ],
+   "steps": [
+    {
+     "id": "letters",
+     "title": "個数を $x$，$y$ とおく",
+     "add": [
+      {
+       "id": "let",
+       "type": "text",
+       "area": "left",
+       "text": "りんごの個数を $\\tc{blue}{x}$ 個，みかんの個数を $\\tc{orange}{y}$ 個とする。"
+      },
+      {
+       "id": "table",
+       "type": "table",
+       "area": "left",
+       "hide": [
+        "tn",
+        "tp",
+        "tc"
+       ],
+       "head": [
+        "",
+        {
+         "text": "りんご",
+         "color": "blue"
+        },
+        {
+         "text": "みかん",
+         "color": "orange"
+        },
+        "合計"
+       ],
+       "rows": [
+        {
+         "key": "tp",
+         "cells": [
+          "1個の値段",
+          "150円",
+          "80円",
+          "—"
+         ]
+        },
+        {
+         "key": "tn",
+         "cells": [
+          "個数",
+          "$\\tc{blue}{x}$ 個",
+          "$\\tc{orange}{y}$ 個",
+          "9個"
+         ]
+        },
+        {
+         "key": "tc",
+         "cells": [
+          "代金",
+          "$\\tc{blue}{150x}$ 円",
+          "$\\tc{orange}{80y}$ 円",
+          "930円"
+         ]
+        }
+       ]
+      }
+     ],
+     "comment": "わからないもの（りんごの個数，みかんの個数）を $x$，$y$ とおく。"
+    },
+    {
+     "id": "count",
+     "title": "個数の式",
+     "reveal": [
+      "tn"
+     ],
+     "add": [
+      {
+       "id": "eqs",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "key": "e1",
+         "label": "個数",
+         "cells": [
+          "\\tc{blue}{x}+\\tc{orange}{y}",
+          "=",
+          "9",
+          {
+           "text": "……①"
+          }
+         ]
+        },
+        {
+         "key": "e2",
+         "label": "代金",
+         "cells": [
+          "\\tc{blue}{150x}+\\tc{orange}{80y}",
+          "=",
+          "930",
+          {
+           "text": "……②"
+          }
+         ]
+        }
+       ],
+       "hide": [
+        "e2"
+       ],
+       "align": [
+        "r",
+        "c",
+        "l",
+        "l"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "p9",
+        "tn",
+        "e1"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "「合わせて9個」→ $x+y=9$"
+    },
+    {
+     "id": "cost",
+     "title": "代金の式",
+     "reveal": [
+      "tp",
+      "tc",
+      "e2"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "pa",
+        "pm",
+        "p930",
+        "tc",
+        "e2"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "代金＝1個の値段×個数。$150x+80y=930$"
+    },
+    {
+     "id": "calc",
+     "title": "①×8，②÷10 で解く",
+     "remove": [
+      "table",
+      "let"
+     ],
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "①×8",
+         "cells": [
+          "8x",
+          "\\hl{cy1}{{}+8y}",
+          "=",
+          "72"
+         ]
+        },
+        {
+         "label": "②÷10",
+         "op": "[[op|−)]]",
+         "cells": [
+          "15x",
+          "\\hl{cy2}{{}+8y}",
+          "=",
+          "93"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "-7x",
+          "",
+          "=",
+          "-21"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "x",
+          "",
+          "=",
+          "\\hl{v1}{3}"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "box",
+       "color": "red"
+      }
+     ],
+     "comment": "②を10でわると $15x+8y=93$。①を8倍して $y$ の係数をそろえる。"
+    },
+    {
+     "id": "x-value",
+     "title": "ひいて $x$ を求める",
+     "reveal": [
+      "r3",
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "strike",
+       "color": "blue",
+       "persist": true
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "blue"
+      },
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$-7x=-21$ → $x=3$。"
+    },
+    {
+     "id": "y-value",
+     "title": "$y$ を求める",
+     "add": [
+      {
+       "id": "sub",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "①に代入",
+         "cells": [
+          "\\hl{sv}{3}+y",
+          "=",
+          "9"
+         ]
+        },
+        {
+         "cells": [
+          "y",
+          "=",
+          "6"
+         ]
+        }
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v1",
+        "sv"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "$3+y=9$ → $y=6$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "remove": [
+      "illust"
+     ],
+     "add": [
+      {
+       "id": "illust-ans",
+       "type": "illust",
+       "area": "top",
+       "inline": true,
+       "height": 56,
+       "items": [
+        {
+         "asset": "apple",
+         "name": "りんご",
+         "color": "blue",
+         "count": 3,
+         "lines": [
+          "**3個**"
+         ]
+        },
+        {
+         "asset": "mikan",
+         "name": "みかん",
+         "color": "orange",
+         "count": 6,
+         "lines": [
+          "**6個**"
+         ]
+        }
+       ]
+      },
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "text": "りんご 3個，みかん 6個"
+      }
+     ],
+     "comment": "確かめ：個数 $3+6=9$，代金 $150\\times3+80\\times6=450+480=930$（円）。",
+     "teacherNote": "答えは「何個」で答える（$x=3,\\ y=6$ のままにしない）。"
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "個数の関係と代金の関係から2つの方程式をつくる（問5.1 の復習）。",
+    "notes": [
+     {
+      "text": "指導書の解答：りんごの個数を $x$ 個，みかんの個数を $y$ 個とすると，$x+y=9$，$150x+80y=930$。これを解くと $x=3,\\ y=6$。りんご3個，みかん6個",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.apply-stationery-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 40,
+     "number": "類5.2"
+    }
+   },
+   "type": "similar",
+   "group": "s5",
+   "related": {
+    "original": [
+     "g2.simul.apply.q-stationery-1"
+    ]
+   },
+   "title": "鉛筆とボールペンの値段",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "inline": true,
+     "width": 1040,
+     "text": "[[pa|鉛筆を5本とボールペンを3本買うと800円]]，[[pb|鉛筆を7本とボールペンを2本買うと790円]]になる。鉛筆1本の値段，ボールペン1本の値段はそれぞれ何円か求めなさい。"
+    },
+    {
+     "id": "illust",
+     "type": "illust",
+     "area": "top",
+     "inline": true,
+     "height": 96,
+     "items": [
+      {
+       "asset": "pencil",
+       "name": "鉛筆",
+       "color": "blue",
+       "lines": [
+        "1本 ？円"
+       ]
+      },
+      {
+       "asset": "ballpen",
+       "name": "ボールペン",
+       "color": "orange",
+       "lines": [
+        "1本 ？円"
+       ]
+      }
+     ]
+    }
+   ],
+   "answer": {
+    "text": "鉛筆 70円，ボールペン 150円",
+    "values": {
+     "x": 70,
+     "y": 150
+    }
+   },
+   "check": {
+    "equations": [
+     "5*x+3*y=800",
+     "7*x+2*y=790"
+    ],
+    "solution": {
+     "x": 70,
+     "y": 150
+    },
+    "derived": [
+     "10*x+6*y=1600",
+     "21*x+6*y=2370",
+     "-11*x=-770",
+     "350+3*y=800"
+    ],
+    "identities": [
+     "2*(5*x+3*y)=10*x+6*y",
+     "3*(7*x+2*y)=21*x+6*y",
+     "(10*x+6*y)-(21*x+6*y)=-11*x",
+     "5*70+3*150=800",
+     "7*70+2*150=790"
+    ],
+    "nonSolutions": [
+     {
+      "x": 150,
+      "y": 70
+     }
+    ]
+   },
+   "hints": [
+    "鉛筆1本を $x$ 円，ボールペン1本を $y$ 円とおこう。",
+    "2通りの買い方から，2つの式ができる。"
+   ],
+   "steps": [
+    {
+     "id": "letters",
+     "title": "1本の値段を $x$，$y$ とおく",
+     "add": [
+      {
+       "id": "let",
+       "type": "text",
+       "area": "left",
+       "text": "鉛筆1本を $\\tc{blue}{x}$ 円，ボールペン1本を $\\tc{orange}{y}$ 円とする。"
+      },
+      {
+       "id": "table",
+       "type": "table",
+       "area": "left",
+       "hide": [
+        "ta",
+        "tb"
+       ],
+       "head": [
+        "",
+        {
+         "text": "鉛筆",
+         "color": "blue"
+        },
+        {
+         "text": "ボールペン",
+         "color": "orange"
+        },
+        "合計"
+       ],
+       "rows": [
+        {
+         "cells": [
+          "1本の値段",
+          "$\\tc{blue}{x}$ 円",
+          "$\\tc{orange}{y}$ 円",
+          "—"
+         ]
+        },
+        {
+         "key": "ta",
+         "cells": [
+          "買い方A",
+          "5本",
+          "3本",
+          "800円"
+         ]
+        },
+        {
+         "key": "tb",
+         "cells": [
+          "買い方B",
+          "7本",
+          "2本",
+          "790円"
+         ]
+        }
+       ]
+      }
+     ],
+     "comment": "求めるのは1本の値段。それぞれ $x$ 円，$y$ 円とおく。"
+    },
+    {
+     "id": "eq-a",
+     "title": "1つ目の買い方の式",
+     "reveal": [
+      "ta"
+     ],
+     "add": [
+      {
+       "id": "eqs",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "key": "e1",
+         "cells": [
+          "5\\tc{blue}{x}+3\\tc{orange}{y}",
+          "=",
+          "800",
+          {
+           "text": "……①"
+          }
+         ]
+        },
+        {
+         "key": "e2",
+         "cells": [
+          "7\\tc{blue}{x}+2\\tc{orange}{y}",
+          "=",
+          "790",
+          {
+           "text": "……②"
+          }
+         ]
+        }
+       ],
+       "hide": [
+        "e2"
+       ],
+       "align": [
+        "r",
+        "c",
+        "l",
+        "l"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "pa",
+        "ta",
+        "e1"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "鉛筆5本で $5x$ 円，ボールペン3本で $3y$ 円。合わせて800円。"
+    },
+    {
+     "id": "eq-b",
+     "title": "2つ目の買い方の式",
+     "reveal": [
+      "tb",
+      "e2"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "pb",
+        "tb",
+        "e2"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "鉛筆7本で $7x$ 円，ボールペン2本で $2y$ 円。合わせて790円。"
+    },
+    {
+     "id": "calc",
+     "title": "①×2，②×3 で解く",
+     "remove": [
+      "table",
+      "let"
+     ],
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "left",
+       "rows": [
+        {
+         "label": "①×2",
+         "cells": [
+          "10x",
+          "\\hl{cy1}{{}+6y}",
+          "=",
+          "1600"
+         ]
+        },
+        {
+         "label": "②×3",
+         "op": "[[op|−)]]",
+         "cells": [
+          "21x",
+          "\\hl{cy2}{{}+6y}",
+          "=",
+          "2370"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "-11x",
+          "",
+          "=",
+          "-770"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "x",
+          "",
+          "=",
+          "\\hl{v1}{70}"
+         ]
+        }
+       ],
+       "size": "l",
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "box",
+       "color": "red"
+      }
+     ],
+     "comment": "$y$ の係数を $6$ にそろえる。"
+    },
+    {
+     "id": "x-value",
+     "title": "ひいて $x$ を求める",
+     "reveal": [
+      "r3",
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "strike",
+       "color": "blue",
+       "persist": true
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "blue"
+      },
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$-11x=-770$ → $x=70$。"
+    },
+    {
+     "id": "y-value",
+     "title": "$y$ を求める",
+     "add": [
+      {
+       "id": "sub",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "①に代入",
+         "cells": [
+          "5\\times\\hl{sv}{70}+3y",
+          "=",
+          "800"
+         ]
+        },
+        {
+         "cells": [
+          "3y",
+          "=",
+          "450"
+         ]
+        },
+        {
+         "cells": [
+          "y",
+          "=",
+          "150"
+         ]
+        }
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "v1",
+        "sv"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "$350+3y=800$ → $3y=450$ → $y=150$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "remove": [
+      "illust"
+     ],
+     "add": [
+      {
+       "id": "illust-ans",
+       "type": "illust",
+       "area": "top",
+       "inline": true,
+       "height": 96,
+       "items": [
+        {
+         "asset": "pencil",
+         "name": "鉛筆",
+         "color": "blue",
+         "lines": [
+          "**1本 70円**"
+         ]
+        },
+        {
+         "asset": "ballpen",
+         "name": "ボールペン",
+         "color": "orange",
+         "lines": [
+          "**1本 150円**"
+         ]
+        }
+       ]
+      },
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "text": "鉛筆 70円，ボールペン 150円"
+      }
+     ],
+     "comment": "確かめ：$5\\times70+3\\times150=800$，$7\\times70+2\\times150=790$。"
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "2通りの買い方からそれぞれ方程式をつくる（問5.2 の復習）。",
+    "notes": [
+     {
+      "text": "指導書の解答：鉛筆1本の値段を $x$ 円，ボールペン1本の値段を $y$ 円とすると，$5x+3y=800$，$7x+2y=790$。これを解くと $x=70,\\ y=150$。鉛筆70円，ボールペン150円",
+      "source": "material"
+     }
+    ]
+   }
+  }
+ ]
+}

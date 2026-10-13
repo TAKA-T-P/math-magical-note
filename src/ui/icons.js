@@ -18,6 +18,7 @@ const P = {
   help: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 015 0c0 2-2.5 2-2.5 4"/><circle cx="12" cy="17" r=".6"/>',
   close: '<path d="M6 6l12 12M18 6L6 18"/>',
   play: '<path d="M7 4l13 8-13 8z"/>',
+  practice: '<path d="M4 4h12v12H4z"/><path d="M8 20h12V8"/><path d="M7 10l2 2 4-4"/>',
   book: '<path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 19V5"/>',
   sparkle: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>',
   choice3: '<rect x="3" y="3" width="18" height="5" rx="1.5"/><rect x="3" y="10" width="18" height="5" rx="1.5"/><rect x="3" y="17" width="18" height="4" rx="1.5"/><path d="M6 12.5l1.5 1.5L10 11"/>',

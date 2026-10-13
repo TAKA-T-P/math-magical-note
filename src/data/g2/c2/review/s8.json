@@ -1,0 +1,987 @@
+{
+ "schema": 1,
+ "unit": {
+  "grade": "g2",
+  "chapter": "c2",
+  "section": "ex"
+ },
+ "group": "s8",
+ "contents": [
+  {
+   "id": "g2.simul.review.ratio-students-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 41,
+     "number": "類8.1"
+    }
+   },
+   "type": "similar",
+   "group": "s8",
+   "related": {
+    "original": [
+     "g2.simul.ratio.q-students-1"
+    ]
+   },
+   "title": "生徒数の増減（男子5％増，女子8％減）",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "ある中学校の[[p555|昨年の生徒数は555人]]であった。今年は昨年に比べて[[m5|男子が5％増え]]，[[f8|女子が8％減った]]ため，[[p8|全体では8人減った]]という。[[goal|今年の男子と女子の生徒数]]をそれぞれ求めなさい。"
+    }
+   ],
+   "answer": {
+    "text": "男子 294人，女子 253人",
+    "values": {
+     "x": 280,
+     "y": 275
+    }
+   },
+   "check": {
+    "equations": [
+     "x+y=555",
+     "0.05*x-0.08*y=-8"
+    ],
+    "solution": {
+     "x": 280,
+     "y": 275
+    },
+    "derived": [
+     "5*x-8*y=-800",
+     "8*x+8*y=4440",
+     "13*x=3640",
+     "1.05*x+0.92*y=547"
+    ],
+    "identities": [
+     "100*(0.05*x-0.08*y)=5*x-8*y",
+     "8*(x+y)=8*x+8*y",
+     "(5*x-8*y)+(8*x+8*y)=13*x",
+     "280*1.05=294",
+     "275*0.92=253",
+     "294+253=547"
+    ],
+    "nonSolutions": [
+     {
+      "x": 275,
+      "y": 280
+     }
+    ]
+   },
+   "hints": [
+    "文字でおくのは昨年の人数。",
+    "5％増→1.05倍，8％減→0.92倍。増減した人数は $0.05x$，$0.08y$。"
+   ],
+   "steps": [
+    {
+     "id": "letters",
+     "title": "昨年の人数を $x$，$y$ とおく",
+     "add": [
+      {
+       "id": "table",
+       "type": "table",
+       "area": "left",
+       "hide": [
+        "d5",
+        "d8",
+        "dm8",
+        "n105",
+        "n92",
+        "t547"
+       ],
+       "head": [
+        "",
+        {
+         "text": "男子",
+         "color": "blue"
+        },
+        {
+         "text": "女子",
+         "color": "orange"
+        },
+        "全体"
+       ],
+       "rows": [
+        {
+         "key": "tr1",
+         "cells": [
+          "昨年",
+          "$\\tc{blue}{x}$",
+          "$\\tc{orange}{y}$",
+          "$555$"
+         ]
+        },
+        {
+         "key": "tr2",
+         "cells": [
+          "（増減）",
+          {
+           "text": "$+0.05\\tc{blue}{x}$",
+           "key": "d5"
+          },
+          {
+           "text": "$-0.08\\tc{orange}{y}$",
+           "key": "d8"
+          },
+          {
+           "text": "$-8$",
+           "key": "dm8"
+          }
+         ]
+        },
+        {
+         "key": "tr3",
+         "cells": [
+          "今年",
+          {
+           "text": "$1.05\\tc{blue}{x}$",
+           "key": "n105"
+          },
+          {
+           "text": "$0.92\\tc{orange}{y}$",
+           "key": "n92"
+          },
+          {
+           "text": "$547$",
+           "key": "t547"
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "key": "goal",
+       "style": "box",
+       "color": "red"
+      },
+      {
+       "key": "tr1",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "求めるのは今年の人数だが，文字でおくのは **昨年** の男子 $x$ 人，女子 $y$ 人。"
+    },
+    {
+     "id": "rates",
+     "title": "5％増→1.05倍，8％減→0.92倍",
+     "reveal": [
+      "n105",
+      "n92"
+     ],
+     "add": [
+      {
+       "id": "bars",
+       "type": "ratio",
+       "area": "right",
+       "width": 700,
+       "max": 112,
+       "rows": [
+        {
+         "id": "m",
+         "label": {
+          "text": "男子"
+         },
+         "color": "blue"
+        },
+        {
+         "id": "f",
+         "label": {
+          "text": "女子"
+         },
+         "color": "orange"
+        }
+       ],
+       "note": "※ それぞれの昨年を100％とした図（男子と女子の人数の比ではありません）",
+       "states": [
+        {
+         "id": "mf",
+         "rows": {
+          "m": {
+           "pct": 105,
+           "rate": 0.05,
+           "base": {
+            "text": "昨年 $x$ 人（100％）"
+           },
+           "delta": {
+            "text": "+5％",
+            "key": "rd5"
+           },
+           "result": {
+            "text": "$1.05x$ 人"
+           }
+          },
+          "f": {
+           "pct": 92,
+           "rate": -0.08,
+           "base": {
+            "text": "92％"
+           },
+           "delta": {
+            "text": "−8％",
+            "key": "rd8"
+           },
+           "result": {
+            "text": "$0.92y$ 人"
+           }
+          }
+         }
+        }
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "m5",
+        "f8"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "男子は100％＋5％＝105％（1.05倍），女子は100％−8％＝92％（0.92倍）。"
+    },
+    {
+     "id": "change",
+     "title": "増減した人数で式をつくる",
+     "reveal": [
+      "d5",
+      "d8",
+      "dm8",
+      "t547"
+     ],
+     "add": [
+      {
+       "id": "eqs",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "key": "e1",
+         "label": "（昨年）",
+         "cells": [
+          "\\tc{blue}{x}+\\tc{orange}{y}",
+          "=",
+          "555",
+          {
+           "text": "……①"
+          }
+         ]
+        },
+        {
+         "key": "e2",
+         "label": "（増減）",
+         "cells": [
+          "0.05\\tc{blue}{x}-0.08\\tc{orange}{y}",
+          "=",
+          "-8",
+          {
+           "text": "……②"
+          }
+         ]
+        }
+       ],
+       "align": [
+        "r",
+        "c",
+        "l",
+        "l"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "rd5",
+        "d5"
+       ],
+       "style": "box",
+       "color": "green"
+      },
+      {
+       "keys": [
+        "rd8",
+        "d8"
+       ],
+       "style": "box",
+       "color": "red"
+      },
+      {
+       "keys": [
+        "p8",
+        "dm8"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "男子は $0.05x$ 人増え，女子は $0.08y$ 人減って，全体で8人減った → $0.05x-0.08y=-8$。"
+    },
+    {
+     "id": "calc",
+     "title": "②×100，①×8 で解く",
+     "remove": [
+      "bars"
+     ],
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "②×100",
+         "cells": [
+          "5x",
+          "\\hl{cy1}{{}-8y}",
+          "=",
+          "-800"
+         ]
+        },
+        {
+         "label": "①×8",
+         "op": "[[op|+)]]",
+         "cells": [
+          "8x",
+          "\\hl{cy2}{{}+8y}",
+          "=",
+          "4440"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "13x",
+          "",
+          "=",
+          "3640"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "x",
+          "",
+          "=",
+          "280"
+         ]
+        }
+       ],
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "box",
+       "color": "red"
+      }
+     ],
+     "comment": "$y$ の係数を $8$ にそろえる（異符号 → たす）。"
+    },
+    {
+     "id": "last-year",
+     "title": "昨年の人数",
+     "reveal": [
+      "r3",
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cy1",
+        "cy2"
+       ],
+       "style": "strike",
+       "color": "red",
+       "persist": true
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "red"
+      },
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$13x=3640$ → $x=280$。①より $y=555-280=275$。**これは昨年の人数**。"
+    },
+    {
+     "id": "this-year",
+     "title": "今年の人数を求める",
+     "remove": [
+      "el"
+     ],
+     "add": [
+      {
+       "id": "today",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "男子",
+         "cells": [
+          "280\\times1.05",
+          "=",
+          "294"
+         ]
+        },
+        {
+         "label": "女子",
+         "cells": [
+          "275\\times0.92",
+          "=",
+          "253"
+         ]
+        }
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "n105",
+        "n92"
+       ],
+       "style": "box",
+       "color": "green"
+      }
+     ],
+     "comment": "今年の男子は $280\\times1.05=294$（人），女子は $275\\times0.92=253$（人）。"
+    },
+    {
+     "id": "answer",
+     "title": "答え",
+     "remove": [
+      "eqs"
+     ],
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "text": "男子 294人，女子 253人"
+      }
+     ],
+     "comment": "確かめ：$294+253=547$，$547-555=-8$（8人減）。"
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "増減前（昨年）の人数を文字でおき，増減の式をつくる（問8.1 の復習）。",
+    "notes": [
+     {
+      "text": "指導書の解答：昨年の男子の生徒数を $x$ 人，女子の生徒数を $y$ 人とすると，$x+y=555$，$0.05x-0.08y=-8$。これを解くと $x=280,\\ y=275$。$280\\times1.05=294$，$275\\times0.92=253$。男子294人，女子253人",
+      "source": "material"
+     }
+    ]
+   }
+  },
+  {
+   "id": "g2.simul.review.ratio-salt-water-1",
+   "rev": 1,
+   "editions": {
+    "2026": {
+     "page": 41,
+     "number": "類8.2"
+    }
+   },
+   "type": "similar",
+   "group": "s8",
+   "related": {
+    "original": [
+     "g2.simul.ratio.q-salt-water-1"
+    ]
+   },
+   "title": "食塩水を混ぜる（8％と15％で11％）",
+   "statement": [
+    {
+     "id": "q-text",
+     "type": "text",
+     "area": "top",
+     "text": "[[a8|8％の食塩水A]]と[[b15|15％の食塩水B]]がある。これらを混ぜると[[m11|11％の食塩水]]が[[m700|700g]]できた。食塩水A，食塩水Bはそれぞれ何gか求めなさい。"
+    },
+    {
+     "id": "bk",
+     "type": "beakers",
+     "area": "left",
+     "capacity": 800,
+     "unknownLevel": 0.45,
+     "between": [
+      "＋",
+      "→"
+     ],
+     "note": "※ 液の色は模式的なもの（実際の食塩水に色はない）。濃さは数値で確かめる",
+     "items": [
+      {
+       "id": "A",
+       "name": "食塩水A",
+       "color": "blue",
+       "tint": 0.3
+      },
+      {
+       "id": "B",
+       "name": "食塩水B",
+       "color": "orange",
+       "tint": 0.7
+      },
+      {
+       "id": "M",
+       "name": "混ぜた後",
+       "color": "green",
+       "tint": 0.5
+      }
+     ],
+     "states": [
+      {
+       "id": "s0",
+       "items": {
+        "A": {
+         "conc": {
+          "text": "濃度 8％"
+         },
+         "water": {
+          "text": "？g"
+         }
+        },
+        "B": {
+         "conc": {
+          "text": "濃度 15％"
+         },
+         "water": {
+          "text": "？g"
+         }
+        },
+        "M": {
+         "ghost": true
+        }
+       }
+      },
+      {
+       "id": "xy",
+       "items": {
+        "A": {
+         "conc": {
+          "text": "濃度 8％"
+         },
+         "water": {
+          "text": "$\\tc{blue}{x}$ g",
+          "key": "wa"
+         }
+        },
+        "B": {
+         "conc": {
+          "text": "濃度 15％"
+         },
+         "water": {
+          "text": "$\\tc{orange}{y}$ g",
+          "key": "wb"
+         }
+        },
+        "M": {
+         "amount": 700,
+         "conc": {
+          "text": "濃度 11％"
+         },
+         "water": {
+          "text": "700g",
+          "key": "wm"
+         }
+        }
+       }
+      },
+      {
+       "id": "salt",
+       "items": {
+        "A": {
+         "conc": {
+          "text": "濃度 8％"
+         },
+         "water": {
+          "text": "$\\tc{blue}{x}$ g",
+          "key": "wa"
+         },
+         "saltText": {
+          "text": "食塩 $0.08x$ g",
+          "key": "sa"
+         }
+        },
+        "B": {
+         "conc": {
+          "text": "濃度 15％"
+         },
+         "water": {
+          "text": "$\\tc{orange}{y}$ g",
+          "key": "wb"
+         },
+         "saltText": {
+          "text": "食塩 $0.15y$ g",
+          "key": "sb"
+         }
+        },
+        "M": {
+         "amount": 700,
+         "pct": 11,
+         "salt": 77,
+         "conc": {
+          "text": "濃度 11％"
+         },
+         "water": {
+          "text": "700g",
+          "key": "wm"
+         },
+         "saltText": {
+          "text": "食塩 $0.11\\times700$ g",
+          "key": "sm"
+         }
+        }
+       }
+      },
+      {
+       "id": "num",
+       "items": {
+        "A": {
+         "amount": 400,
+         "pct": 8,
+         "salt": 32,
+         "amountVar": "x",
+         "conc": {
+          "text": "濃度 8％"
+         },
+         "water": {
+          "text": "400g"
+         },
+         "saltText": {
+          "text": "食塩 32g"
+         }
+        },
+        "B": {
+         "amount": 300,
+         "pct": 15,
+         "salt": 45,
+         "amountVar": "y",
+         "conc": {
+          "text": "濃度 15％"
+         },
+         "water": {
+          "text": "300g"
+         },
+         "saltText": {
+          "text": "食塩 45g"
+         }
+        },
+        "M": {
+         "amount": 700,
+         "pct": 11,
+         "salt": 77,
+         "conc": {
+          "text": "濃度 11％"
+         },
+         "water": {
+          "text": "700g"
+         },
+         "saltText": {
+          "text": "食塩 77g"
+         }
+        }
+       },
+       "mix": {
+        "from": [
+         "A",
+         "B"
+        ],
+        "to": "M",
+        "seconds": 4
+       }
+      }
+     ]
+    }
+   ],
+   "answer": {
+    "text": "A 400g，B 300g",
+    "values": {
+     "x": 400,
+     "y": 300
+    }
+   },
+   "check": {
+    "equations": [
+     "x+y=700",
+     "0.08*x+0.15*y=0.11*700"
+    ],
+    "solution": {
+     "x": 400,
+     "y": 300
+    },
+    "derived": [
+     "8*x+15*y=7700",
+     "8*x+8*y=5600",
+     "7*y=2100"
+    ],
+    "identities": [
+     "100*(0.08*x+0.15*y)=8*x+15*y",
+     "8*(x+y)=8*x+8*y",
+     "(8*x+15*y)-(8*x+8*y)=7*y",
+     "400*0.08=32",
+     "300*0.15=45",
+     "32+45=77",
+     "77/700=0.11"
+    ],
+    "nonSolutions": [
+     {
+      "x": 300,
+      "y": 400
+     }
+    ]
+   },
+   "hints": [
+    "A，Bの重さを $x$ g，$y$ g とおこう。",
+    "(食塩)＝(食塩水)×(濃度)。食塩の量で式をつくる。"
+   ],
+   "steps": [
+    {
+     "id": "letters",
+     "title": "A，Bの重さを $x$ g，$y$ g とする",
+     "set": {
+      "bk": "xy"
+     },
+     "add": [
+      {
+       "id": "let",
+       "type": "text",
+       "area": "right",
+       "text": "食塩水Aを $\\tc{blue}{x}$ g，食塩水Bを $\\tc{orange}{y}$ g 混ぜたとする。"
+      },
+      {
+       "id": "eqs",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "key": "e1",
+         "label": "食塩水",
+         "cells": [
+          "\\tc{blue}{x}+\\tc{orange}{y}",
+          "=",
+          "700",
+          {
+           "text": "……①"
+          }
+         ]
+        },
+        {
+         "key": "e2",
+         "label": "食塩",
+         "cells": [
+          "0.08\\tc{blue}{x}+0.15\\tc{orange}{y}",
+          "=",
+          "0.11\\times700",
+          {
+           "text": "……②"
+          }
+         ]
+        }
+       ],
+       "hide": [
+        "e2"
+       ],
+       "align": [
+        "r",
+        "c",
+        "l",
+        "l"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "m700",
+        "wm",
+        "e1"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "食塩水の量：$x+y=700$。（ビーカーの液の高さは量の比ではない）"
+    },
+    {
+     "id": "salt",
+     "title": "食塩の量の式",
+     "set": {
+      "bk": "salt"
+     },
+     "reveal": [
+      "e2"
+     ],
+     "add": [
+      {
+       "id": "rule",
+       "type": "callout",
+       "area": "left",
+       "tone": "point",
+       "text": "**(食塩)＝(食塩水)×(濃度)**"
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "sa",
+        "sb",
+        "sm",
+        "e2"
+       ],
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "食塩：Aに $0.08x$ g，Bに $0.15y$ g，混ぜた後に $0.11\\times700=77$（g）。"
+    },
+    {
+     "id": "calc",
+     "title": "②×100，①×8 で解く",
+     "remove": [
+      "let"
+     ],
+     "add": [
+      {
+       "id": "el",
+       "type": "calc",
+       "area": "right",
+       "rows": [
+        {
+         "label": "②×100",
+         "cells": [
+          "\\hl{cx1}{8x}",
+          "{}+15y",
+          "=",
+          "7700"
+         ]
+        },
+        {
+         "label": "①×8",
+         "op": "[[op|−)]]",
+         "cells": [
+          "\\hl{cx2}{8x}",
+          "{}+8y",
+          "=",
+          "5600"
+         ],
+         "rule": true
+        },
+        {
+         "key": "r3",
+         "cells": [
+          "",
+          "7y",
+          "=",
+          "2100"
+         ]
+        },
+        {
+         "key": "r4",
+         "cells": [
+          "",
+          "y",
+          "=",
+          "300"
+         ]
+        }
+       ],
+       "hide": [
+        "r3",
+        "r4"
+       ]
+      }
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cx1",
+        "cx2"
+       ],
+       "style": "box",
+       "color": "red"
+      }
+     ],
+     "comment": "②を100倍すると $8x+15y=7700$。①を8倍して $x$ の係数をそろえる。"
+    },
+    {
+     "id": "solve",
+     "title": "ひいて $y$，$x$ を求める",
+     "reveal": [
+      "r3",
+      "r4"
+     ],
+     "emphasis": [
+      {
+       "keys": [
+        "cx1",
+        "cx2"
+       ],
+       "style": "strike",
+       "color": "blue",
+       "persist": true
+      },
+      {
+       "key": "op",
+       "style": "color",
+       "color": "blue"
+      },
+      {
+       "key": "r4",
+       "style": "marker",
+       "color": "yellow"
+      }
+     ],
+     "comment": "$7y=2100$ → $y=300$。①より $x=700-300=400$。"
+    },
+    {
+     "id": "answer",
+     "title": "答え：実際の量で混ぜてみる",
+     "set": {
+      "bk": "num"
+     },
+     "remove": [
+      "rule",
+      "el"
+     ],
+     "add": [
+      {
+       "id": "ans",
+       "type": "answer",
+       "area": "right",
+       "text": "A 400g，B 300g"
+      }
+     ],
+     "comment": "A 400g（食塩32g）と B 300g（食塩45g）で，合わせて700g・食塩77g・濃度 $77\\div700=0.11$ → 11％。▶ 再生で確かめられる。"
+    }
+   ],
+   "teacher": {
+    "status": "draft",
+    "aim": "食塩水の量と食塩の量で2つの方程式をつくる（問8.2 の復習）。",
+    "notes": [
+     {
+      "text": "指導書の解答：食塩水Aを $x$ g，食塩水Bを $y$ g 混ぜたとすると，$x+y=700$，$0.08x+0.15y=0.11\\times700$。これを解くと $x=400,\\ y=300$。A 400g，B 300g",
+      "source": "material"
+     }
+    ]
+   }
+  }
+ ]
+}

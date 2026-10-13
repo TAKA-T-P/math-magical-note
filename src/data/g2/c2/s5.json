@@ -71,6 +71,7 @@
     },
     {
       "id": "g2.simul.apply.q-vegetables-1",
+      "related": { "similar": ["g2.simul.review.apply-fruits-1"] },
       "rev": 1,
       "editions": { "2026": { "page": 31, "number": "問5.1", "tags": ["定期"], "ref": "Ⓢp.48[3]" }},
       "type": "exercise",
@@ -471,6 +472,7 @@
     },
     {
       "id": "g2.simul.apply.q-stationery-1",
+      "related": { "similar": ["g2.simul.review.apply-stationery-1"] },
       "rev": 1,
       "editions": { "2026": { "page": 32, "number": "問5.2", "tags": ["定期"], "ref": "Ⓢp.49[4]" }},
       "type": "exercise",
