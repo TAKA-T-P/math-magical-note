@@ -319,6 +319,12 @@
 .em-dim { opacity: 0.25; }
 
 .em-box.em-narrow::after { inset: 0 1px; }
+/* 連立方程式（cases）・分数など行より高い式にキーを付けたとき：KaTeX の \htmlClass は inline の span なので
+   そのままでは1行分の高さしかなく、枠・マーカーが式の途中で切れる。inline-block にして式全体の高さにする */
+.katex .enclosing:has(.mtable, .mfrac) { display: inline-block; }
+.katex .enclosing.em-box:has(.mtable)::after { inset: 0 -2px; }
+/* 分数の分子・分母の中の語句：上下の余白を詰め、枠が分数の横線にかからないようにする */
+.katex .mfrac .enclosing.em-box::after { inset: 0.08em 1px 0.1em; outline-width: 2.5px; outline-offset: 1px; }
 /* 文章中の語句（[[key|…]]）の囲みは、枠の線が語句の外周にくるようにする（最初・最後の文字にも、隣の文字にもかかりにくい） */
 .kspan.em-box:not(.em-narrow)::after { inset: 0 3px; }
 /* 行をまたぐ語句：疑似要素では1つの四角になってしまうため、行ごとに背景・枠を付ける */
