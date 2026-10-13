@@ -13,9 +13,10 @@ import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import katex from 'katex';
 import { KATEX_OPTIONS, keysInTex } from '../src/math/katex-config.js';
+import { routeTimeline, firstCoincidence, dirsOf } from '../src/lesson/motion.js';
 
 const DATA_DIR = new URL('../src/data/', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
-const BLOCK_TYPES = new Set(['text', 'math', 'callout', 'answer', 'pointbox', 'title-card', 'calc', 'image', 'table', 'illust', 'place', 'bars']);
+const BLOCK_TYPES = new Set(['text', 'math', 'callout', 'answer', 'pointbox', 'title-card', 'calc', 'image', 'table', 'illust', 'place', 'bars', 'route', 'circle']);
 const PUBLIC_DIR = new URL('../public/', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
 const CONTENT_TYPES = new Set(['title', 'point', 'exercise', 'similar', 'advanced', 'lab']);
 const EMPHASIS_STYLES = new Set(['color', 'box', 'marker', 'strike', 'dim']);
@@ -105,7 +106,7 @@ function checkBlock(where, b, keys, blockIds) {
     }
   }
   if (b.states !== undefined) {
-    if (!['place', 'bars'].includes(b.type)) err(w, `states を持てるのは place / bars ブロックだけです`);
+    if (!['place', 'bars', 'route', 'circle'].includes(b.type)) err(w, `states を持てるのは place / bars / route / circle ブロックだけです`);
     if (!Array.isArray(b.states) || !b.states.length) err(w, 'states が空です');
     const sids = new Set();
     for (const st of b.states ?? []) {
@@ -171,6 +172,8 @@ function checkBlock(where, b, keys, blockIds) {
       }
     }
   }
+  if (b.type === 'route') checkRoute(w, b, local);
+  if (b.type === 'circle') checkCircle(w, b, local);
   if (b.type === 'table') {
     if (!Array.isArray(b.rows) || !b.rows.length) err(w, 'table には rows が必要です');
     const width = b.head?.length ?? b.rows?.[0]?.cells?.length;
@@ -203,6 +206,88 @@ function checkBlock(where, b, keys, blockIds) {
   }
   for (const k of b.hide ?? []) if (!local.has(k)) err(w, `hide のキー "${k}" がブロック内にありません`);
   local.forEach((k) => keys.add(k));
+}
+
+// ---- 速さの図（線分図 route・円周移動図 circle） ----
+const near = (a, b, eps = 1e-6) => Math.abs(a - b) <= eps * Math.max(1, Math.abs(a), Math.abs(b));
+const asList = (v) => (v == null ? [] : Array.isArray(v) ? v : [v]);
+
+function checkRoute(w, b, local) {
+  if (!b.icon || !existsSync(join(PUBLIC_DIR, 'illust', `${b.icon}.svg`))) {
+    if (b.icon || (b.states ?? []).some((s) => s.motion)) err(w, `移動する人の絵が public/illust/ にありません: ${b.icon}`);
+  }
+  (b.points ?? []).forEach((p) => checkText(w, p.text, local));
+  if (!b.states) err(w, 'route には states が必要です');
+  for (const st of [b, ...(b.states ?? [])]) {
+    const ws = st === b ? w : `${w} state:${st.id}`;
+    const segs = st.segments ?? b.segments ?? [];
+    if (segs.length + 1 !== (b.points ?? []).length) err(ws, `地点の数（${b.points?.length}）は区間の数（${segs.length}）より1つ多くしてください`);
+    for (const o of [st.total ?? b.total, st.side ?? b.side, ...segs.flatMap((s) => [...asList(s.top), ...asList(s.bottom)])].filter(Boolean)) {
+      checkText(ws, o.text, local);
+      if (o.key) local.add(o.key);
+    }
+    segs.forEach((s) => s.key && local.add(s.key));
+    if (st.note ?? b.note) checkText(ws, st.note ?? b.note, local);
+    const m = st.motion;
+    if (!m) continue;
+    // 再生：区間ごとの道のり・速さが正の数で、図の長さ（w）が道のりに比例していること
+    if (!Array.isArray(m.legs) || m.legs.length !== segs.length) { err(ws, 'motion.legs は区間と同じ数だけ必要です'); continue; }
+    if (m.legs.some((l) => !(l.distance > 0 && l.speed > 0))) err(ws, 'motion.legs の distance・speed は正の数にしてください');
+    for (const l of m.legs) if (l.icon && !existsSync(join(PUBLIC_DIR, 'illust', `${l.icon}.svg`))) err(ws, `区間の絵が public/illust/ にありません: ${l.icon}`);
+    const ratio = Number(segs[0].w ?? 1) / m.legs[0].distance;
+    if (segs.some((s, i) => !near(Number(s.w ?? 1) / m.legs[i].distance, ratio))) err(ws, '再生する図では、区間の長さ w を道のりに比例させてください（見た目の長さと移動が一致しない）');
+    const tl = routeTimeline(m.legs);
+    if (m.expect?.time !== undefined && !near(tl.total, m.expect.time)) err(ws, `移動にかかる時間 ${tl.total} が問題の ${m.expect.time} と一致しません`);
+    if (m.expect?.distance !== undefined && !near(tl.distance, m.expect.distance)) err(ws, `道のりの合計 ${tl.distance} が問題の ${m.expect.distance} と一致しません`);
+    if (!(m.secondsPerUnit > 0)) err(ws, 'motion.secondsPerUnit（1単位を何秒で再生するか）を正の数で指定してください');
+  }
+}
+
+function checkCircle(w, b, local) {
+  if (!(b.length > 0)) err(w, 'circle には length（1周の長さ）が必要です');
+  if ((b.runners ?? []).length !== 2) err(w, 'circle の runners は2人にしてください');
+  for (const r of b.runners ?? []) {
+    if (!r.id || !r.name) err(w, '走る人には id と name が必要です');
+    if (r.color && !COLORS.has(r.color)) err(w, `不明な色: ${r.color}`);
+  }
+  if (b.lengthLabel) { checkText(w, b.lengthLabel.text, local); if (b.lengthLabel.key) local.add(b.lengthLabel.key); }
+  if (!b.states) err(w, 'circle には states が必要です');
+  for (const st of b.states ?? []) {
+    const ws = `${w} state:${st.id}`;
+    if (!['opposite', 'same'].includes(st.mode)) err(ws, `mode は opposite（反対方向）か same（同じ方向）: ${st.mode}`);
+    if (!['schematic', 'play'].includes(st.view)) err(ws, `view は schematic（模式図）か play（実際の数値で再生）: ${st.view}`);
+    if (st.caption) checkText(ws, st.caption, local);
+    for (const o of Object.values(st.labels ?? {})) { checkText(ws, o.text, local); if (o.key) local.add(o.key); }
+    if (st.view === 'schematic' && !(st.frac > 0 && st.frac < 1)) err(ws, 'schematic の frac は 0 と 1 のあいだにしてください');
+    if (st.view !== 'play') continue;
+    // 実際の数値で再生：出会い（反対方向）・はじめての追いぬき（同じ方向）の時刻を、少しずつ時間を進めて確かめる
+    const speeds = (b.runners ?? []).map((r) => st.speeds?.[r.id]);
+    if (speeds.some((v) => !(v > 0))) { err(ws, 'play には全員の speeds（正の数）が必要です'); continue; }
+    if (st.mode === 'same' && !(speeds[0] > speeds[1])) err(ws, '同じ方向で追いぬくのは1人目なので、1人目の方を速くしてください');
+    const dirs = dirsOf(st.mode);
+    const t = firstCoincidence({ length: b.length, runners: speeds.map((speed, i) => ({ speed, dir: dirs[i] })) });
+    if (t === null || Math.abs(t - st.until) > 0.01) err(ws, `再生では ${t} ${st.timeUnit ?? ''}後に出会う（追いぬく）計算になり、until（${st.until}）と一致しません`);
+    if (!(st.secondsPerUnit > 0)) err(ws, 'secondsPerUnit を正の数で指定してください');
+  }
+}
+
+// 図の数値と正答の対応（vars：どの文字の値か）
+function verifyMotion(w, b, sol) {
+  if (b.type === 'route') {
+    for (const st of b.states ?? []) {
+      (st.motion?.legs ?? []).forEach((l, i) => {
+        if (l.distanceVar && !near(l.distance, sol[l.distanceVar])) err(`${w} state:${st.id}`, `区間${i + 1}の道のり ${l.distance} が ${l.distanceVar}=${sol[l.distanceVar]} と一致しません`);
+        if (l.timeVar && !near(l.distance / l.speed, sol[l.timeVar])) err(`${w} state:${st.id}`, `区間${i + 1}の時間 ${l.distance / l.speed} が ${l.timeVar}=${sol[l.timeVar]} と一致しません`);
+      });
+    }
+  }
+  if (b.type === 'circle') {
+    for (const st of b.states ?? []) {
+      for (const [id, v] of Object.entries(st.vars ?? {})) {
+        if (!near(st.speeds?.[id], sol[v])) err(`${w} state:${st.id}`, `${id} の速さ ${st.speeds?.[id]} が ${v}=${sol[v]} と一致しません`);
+      }
+    }
+  }
 }
 
 // ---- 数値検算 ----
@@ -294,6 +379,7 @@ function verifyBlock(where, b, sol) {
       .replace(/\\begin\{array\}\{[^}]*\}|\\begin\{(cases|aligned)\}|\\end\{(array|cases|aligned)\}|\\hline/g, '');
     for (const row of body.split('\\\\')) verifyRow(w, row.replace(/&/g, ''), sol);
   }
+  verifyMotion(w, b, sol);
   // 位取り表：状態ごとの式（A=10a+b、A=74 など）を検算する
   if (b.type === 'place') for (const st of b.states ?? []) if (st.tex) verifyRow(`${w} state:${st.id}`, st.tex, sol);
   if (b.type === 'calc') {

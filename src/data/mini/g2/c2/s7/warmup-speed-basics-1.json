@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "id": "warmup-speed-basics-1",
+  "type": "choice3",
+  "title": "速さ・道のり・時間を思い出そう！",
+  "description": "道のり＝速さ×時間、時間＝道のり÷速さ を3問で確認し、速さの文章題に進みます。",
+  "unit": { "grade": "g2", "chapter": "c2", "section": "s7" },
+  "minutes": 5,
+  "difficulty": 1,
+  "status": "draft",
+  "teacher": {
+    "aim": "速さ・道のり・時間の関係（道のり＝速さ×時間，時間＝道のり÷速さ）と単位を確認する。",
+    "notes": ["「は・じ・き」などの覚え方より，「1時間に60km進むなら2時間では？」と意味で考えさせる。"]
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "prompt": "時速60kmで2時間進むと，道のりは？",
+      "choices": [
+        { "id": "a", "text": "$30$ km" },
+        { "id": "b", "text": "$120$ km" },
+        { "id": "c", "text": "$62$ km" }
+      ],
+      "answer": "b",
+      "explanation": "道のり ＝ 速さ × 時間 なので，$60\\times2=120$（km）。",
+      "check": { "identities": ["60*2=120"] },
+      "teacherNote": "①の $30$ は $60\\div2$，③の $62$ は $60+2$ の誤り。"
+    },
+    {
+      "id": "q2",
+      "prompt": "道のり120kmを時速40kmで進むと，何時間かかる？",
+      "choices": [
+        { "id": "a", "text": "$3$ 時間" },
+        { "id": "b", "text": "$4$ 時間" },
+        { "id": "c", "text": "$80$ 時間" }
+      ],
+      "answer": "a",
+      "explanation": "時間 ＝ 道のり ÷ 速さ なので，$120\\div40=3$（時間）。",
+      "check": { "identities": ["120/40=3"] },
+      "teacherNote": "③の $80$ は $120-40$ の誤り。「1時間に40km進むと，何時間で120km？」と考えさせる。"
+    },
+    {
+      "id": "q3",
+      "prompt": "分速80mで5分歩くと，何m進む？",
+      "choices": [
+        { "id": "a", "text": "$16$ m" },
+        { "id": "b", "text": "$85$ m" },
+        { "id": "c", "text": "$400$ m" }
+      ],
+      "answer": "c",
+      "explanation": "道のり ＝ 速さ × 時間 なので，$80\\times5=400$（m）。",
+      "check": { "identities": ["80*5=400"] },
+      "teacherNote": "①の $16$ は $80\\div5$，②の $85$ は $80+5$ の誤り。"
+    }
+  ]
+}

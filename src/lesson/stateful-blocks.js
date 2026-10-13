@@ -3,6 +3,7 @@
 // 状態は computeView がステップ0から順に求めるので、戻る・全解答・問題モードでも正しい表示になる。
 // 進む方向の切りかえのときだけアニメーションする（数字カードの移動・ブロックの長さの変化）。
 import { texToHtml, inlineToHtml } from '../math/render.js';
+import { MOTION_BLOCKS } from './motion-blocks.js';
 
 export const stateOf = (b, id) => b.states.find((s) => s.id === id) ?? b.states[0];
 export const initialState = (b) => b.state ?? b.states[0].id;
@@ -98,4 +99,5 @@ function applyBars(el, b, st, play) {
 export const STATEFUL = {
   place: { build: buildPlace, apply: applyPlace },
   bars: { build: buildBars, apply: applyBars },
+  ...MOTION_BLOCKS, // 線分図 route・円周移動図 circle（motion-blocks.js）
 };

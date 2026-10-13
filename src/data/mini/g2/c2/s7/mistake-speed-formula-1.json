@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "id": "mistake-speed-formula-1",
+  "type": "mistake",
+  "title": "速さの式の間違いを探せ！",
+  "description": "時間・道のりを求める式で、わる数とわられる数、かけ算とわり算を取りちがえるミスを見破ります。",
+  "unit": { "grade": "g2", "chapter": "c2", "section": "s7" },
+  "minutes": 6,
+  "difficulty": 1,
+  "status": "draft",
+  "teacher": {
+    "aim": "時間＝道のり÷速さ、道のり＝速さ×時間 の使い方のまちがいに気づき、単位や具体的な数で確かめる習慣をつける。",
+    "notes": ["式を見たら「答えの単位は何？」「その答えは大きすぎ・小さすぎない？」と確認させる。"]
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "prompt": "道のり10kmを時速5kmで進むときの時間を求めました。どこでまちがえたでしょう？",
+      "wrong": {
+        "label": "まちがいのある式",
+        "align": ["l", "c", "l", "l"],
+        "rows": [{ "cells": [{ "text": "時間", "value": "t" }, "=", "\\hl{e1}{5\\div10}", { "text": "（時間）" }] }]
+      },
+      "errorKeys": ["e1"],
+      "errorType": "formula",
+      "errorLabel": "わる数とわられる数が逆",
+      "correct": {
+        "label": "正しい式",
+        "align": ["l", "c", "l", "c", "l", "l"],
+        "rows": [{ "cells": [{ "text": "時間", "value": "t" }, "=", "\\hl{f1}{10\\div5}", "=", "2", { "text": "（時間）" }] }]
+      },
+      "correctKeys": ["f1"],
+      "reason": "時間 ＝ 道のり ÷ 速さ。道のり（10km）を速さ（時速5km）でわる。$5\\div10$ は速さを道のりでわっている。",
+      "note": "1時間に5km進むので，10km進むには2時間。$5\\div10=0.5$ 時間では5kmの半分（2.5km）しか進めない。",
+      "check": { "solution": { "t": 2 }, "identities": ["10/5=2"] },
+      "teacherNote": "「1時間に5km進む。10kmなら何時間？」と言葉で考えさせると，わり算の向きがわかる。"
+    },
+    {
+      "id": "q2",
+      "prompt": "分速120mで $x$ 分走ったときの道のりを式で表しました。どこでまちがえたでしょう？",
+      "wrong": {
+        "label": "まちがいのある式",
+        "align": ["l", "c", "l", "l"],
+        "rows": [{ "cells": [{ "text": "道のり", "value": "120x" }, "=", "120\\hl{e1}{\\div} x", { "text": "（m）" }] }]
+      },
+      "errorKeys": ["e1"],
+      "errorType": "formula",
+      "errorLabel": "かけ算をわり算にしている",
+      "correct": {
+        "label": "正しい式",
+        "align": ["l", "c", "l", "c", "l", "l"],
+        "rows": [{ "cells": [{ "text": "道のり", "value": "120x" }, "=", "120\\hl{f1}{\\times} x", "=", "120x", { "text": "（m）" }] }]
+      },
+      "correctKeys": ["f1"],
+      "reason": "道のり ＝ 速さ × 時間。1分に120m進むので，$x$ 分では $120\\times x=120x$（m）。",
+      "note": "たとえば2分なら $120\\times2=240$（m）。$120\\div2=60$（m）では1分に進む道のりより短くなってしまう。",
+      "check": { "identity": true, "vars": ["x"], "identities": ["120*2=240"] },
+      "teacherNote": "$x$ に 2 や 3 を入れて，道のりとして正しいか確かめさせる。"
+    }
+  ]
+}

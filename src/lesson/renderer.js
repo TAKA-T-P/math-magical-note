@@ -16,6 +16,8 @@ const BLOCK_BUILDERS = {
   // 状態を持つブロック（stateful-blocks.js）。中身は update() で状態に合わせて描く
   place: (b) => STATEFUL.place.build(b),
   bars: (b) => STATEFUL.bars.build(b),
+  route: (b) => STATEFUL.route.build(b),
+  circle: (b) => STATEFUL.circle.build(b),
   // 画像は public/ 以下に置き、相対パスで指定する（GitHub Pages のサブパスでも動くよう先頭に ./ を付ける）
   image: (b) =>
     `<figure><img src="./${encodeURI(b.src)}" alt="${(b.alt ?? '').replace(/"/g, '&quot;')}"${b.height ? ` style="height:${Number(b.height)}px"` : ''}>${

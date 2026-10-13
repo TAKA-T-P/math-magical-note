@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "id": "intro-two-runners-1",
+  "type": "introduction",
+  "title": "速さが違う2人が走ると、どうなる？",
+  "description": "1周600mのコースで、反対方向と同じ方向に走る2人を動かし、出会い・追いぬきが「速さの和・差」で決まることを体験します。",
+  "unit": { "grade": "g2", "chapter": "c2", "section": "s7" },
+  "minutes": 7,
+  "status": "draft",
+  "teacher": {
+    "aim": "反対方向に走ると2人の道のりの和が1周で出会い、同じ方向では道のりの差が1周で追いぬくことを、動く図で予想・確認し、↗問7.3 につなげる。",
+    "notes": [
+      "コースの長さ・速さは授業導入用の設定（1周600m，Aさん分速100m，Bさん分速50m）。↗問7.3 の数値は使っていない。",
+      "再生する前に「何分後に出会う？」と予想させる。"
+    ]
+  },
+  "slides": [
+    {
+      "id": "s1",
+      "title": "2人が同じ場所から出発",
+      "blocks": [
+        { "id": "t1", "type": "text", "area": "top", "text": "1周600mのコースを，**Aさん（分速100m）** と **Bさん（分速50m）** が，同じ場所から同時に走り出す。" },
+        { "id": "t2", "type": "text", "area": "left", "text": "① 反対方向に走ると，何分後に出会う？\n② 同じ方向に走ると，何分後にAさんがBさんを追いぬく？" }
+      ],
+      "steps": [{ "id": "guess", "title": "予想しよう", "comment": "まずは予想してみよう。速さのちがう2人の動きを想像して。" }],
+      "teacher": { "questions": ["反対方向と同じ方向，どちらが先に会える？"] }
+    },
+    {
+      "id": "s2",
+      "title": "反対方向に走ると？",
+      "blocks": [
+        {
+          "id": "c1", "type": "circle", "area": "left", "size": 260, "length": 600, "center": "コース",
+          "lengthLabel": { "text": "1周 600m" },
+          "runners": [{ "id": "a", "name": "A", "color": "blue" }, { "id": "b", "name": "B", "color": "orange" }],
+          "states": [{ "id": "play", "mode": "opposite", "view": "play", "speeds": { "a": 100, "b": 50 }, "until": 4, "unit": "m", "timeUnit": "分", "secondsPerUnit": 0.8, "caption": "● 反対方向（1分＝0.8秒）" }]
+        },
+        { "id": "k", "type": "callout", "area": "right", "tone": "point", "hide": ["k1"], "text": "2人で合わせて **1周（600m）** 走ったとき出会う。\n[[k1|1分間に2人で $100+50=150$m ずつ近づく\n→ $600\\div150=4$（分後）]]" }
+      ],
+      "steps": [
+        { "id": "play", "title": "動かしてみよう", "comment": "▶ 再生して確かめよう。2人の道のりの和に注目。" },
+        { "id": "why", "title": "なぜ4分？", "reveal": ["k1"], "comment": "反対方向では，**速さの和** で近づいていく。" }
+      ],
+      "check": { "identities": ["600/(100+50)=4", "100*4+50*4=600"] },
+      "teacher": { "questions": ["出会ったとき，2人の道のりを合わせると何m？"] }
+    },
+    {
+      "id": "s3",
+      "title": "同じ方向に走ると？",
+      "blocks": [
+        {
+          "id": "c2", "type": "circle", "area": "left", "size": 260, "length": 600, "center": "コース",
+          "lengthLabel": { "text": "1周 600m" },
+          "runners": [{ "id": "a", "name": "A", "color": "blue" }, { "id": "b", "name": "B", "color": "orange" }],
+          "states": [{ "id": "play", "mode": "same", "view": "play", "speeds": { "a": 100, "b": 50 }, "until": 12, "unit": "m", "timeUnit": "分", "secondsPerUnit": 0.4, "caption": "● 同じ方向（1分＝0.4秒）" }]
+        },
+        { "id": "k", "type": "callout", "area": "right", "tone": "point", "hide": ["k1"], "text": "AさんがBさんより **1周（600m）多く** 走ったとき追いぬく。\n[[k1|1分間に $100-50=50$m ずつ差が開く\n→ $600\\div50=12$（分後）]]" }
+      ],
+      "steps": [
+        { "id": "play", "title": "動かしてみよう", "comment": "▶ 再生して確かめよう。2人の道のりの差に注目。" },
+        { "id": "why", "title": "なぜ12分？", "reveal": ["k1"], "comment": "同じ方向では，**速さの差** で差が開いていく。" }
+      ],
+      "check": { "identities": ["600/(100-50)=12", "100*12-50*12=600"] },
+      "teacher": { "questions": ["追いぬくとき，AさんはBさんより何m多く走っている？"] }
+    },
+    {
+      "id": "s4",
+      "title": "速さの和と差",
+      "blocks": [
+        {
+          "id": "tbl", "type": "table", "area": "top", "hide": ["r2"],
+          "head": ["", "反対方向", "同じ方向"],
+          "rows": [
+            { "cells": ["起こること", "出会う", "追いぬく"] },
+            { "cells": ["2人の道のり", "**和** が1周", "**差** が1周"] },
+            { "key": "r2", "cells": ["考える速さ", "速さの **和**", "速さの **差**"] }
+          ]
+        }
+      ],
+      "steps": [{ "id": "speed", "title": "速さの和・差", "reveal": ["r2"], "comment": "反対方向は速さの和，同じ方向は速さの差で考える。" }],
+      "teacher": { "notes": ["本編 p.35 の図の「（2人の道のりの和）＝（1周）」「（2人の道のりの差）＝（1周）」につなげる。"] }
+    },
+    {
+      "id": "s5",
+      "title": "今日の問題へ",
+      "blocks": [
+        { "id": "m", "type": "callout", "area": "top", "tone": "point", "text": "速さがわからない2人でも，\n「和が1周」「差が1周」を式にすれば連立方程式がつくれる！" },
+        { "id": "m2", "type": "text", "area": "top", "text": "→ ↗問7.3（池の周りを走る兄と妹）に挑戦しよう。" }
+      ],
+      "teacher": { "notes": ["↗問7.3 の答え（分速220m・180m）はここでは扱わない。"] }
+    }
+  ]
+}

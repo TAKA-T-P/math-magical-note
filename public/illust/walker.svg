@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 80">
+  <!-- 速さの図用の自作アイコン（歩く人）。外部素材は使用していない -->
+  <circle cx="32" cy="10" r="8" fill="#1d2433"/>
+  <path d="M31 20 L27 46 M30 26 L18 38 M30 26 L42 36 M27 46 L18 72 M27 46 L38 60 L40 74" fill="none" stroke="#1d2433" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
