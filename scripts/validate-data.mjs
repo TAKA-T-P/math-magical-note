@@ -16,7 +16,7 @@ import { KATEX_OPTIONS, keysInTex } from '../src/math/katex-config.js';
 import { routeTimeline, firstCoincidence, dirsOf } from '../src/lesson/motion.js';
 
 const DATA_DIR = new URL('../src/data/', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
-const BLOCK_TYPES = new Set(['text', 'math', 'callout', 'answer', 'pointbox', 'title-card', 'calc', 'image', 'table', 'illust', 'place', 'bars', 'route', 'circle']);
+const BLOCK_TYPES = new Set(['text', 'math', 'callout', 'answer', 'pointbox', 'title-card', 'calc', 'image', 'table', 'illust', 'place', 'bars', 'route', 'circle', 'ratio', 'beakers']);
 const PUBLIC_DIR = new URL('../public/', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
 const CONTENT_TYPES = new Set(['title', 'point', 'exercise', 'similar', 'advanced', 'lab']);
 const EMPHASIS_STYLES = new Set(['color', 'box', 'marker', 'strike', 'dim']);
@@ -106,7 +106,7 @@ function checkBlock(where, b, keys, blockIds) {
     }
   }
   if (b.states !== undefined) {
-    if (!['place', 'bars', 'route', 'circle'].includes(b.type)) err(w, `states を持てるのは place / bars / route / circle ブロックだけです`);
+    if (!['place', 'bars', 'route', 'circle', 'ratio', 'beakers'].includes(b.type)) err(w, `states を持てるのは place / bars / route / circle / ratio / beakers ブロックだけです`);
     if (!Array.isArray(b.states) || !b.states.length) err(w, 'states が空です');
     const sids = new Set();
     for (const st of b.states ?? []) {
@@ -174,6 +174,8 @@ function checkBlock(where, b, keys, blockIds) {
   }
   if (b.type === 'route') checkRoute(w, b, local);
   if (b.type === 'circle') checkCircle(w, b, local);
+  if (b.type === 'ratio') checkRatio(w, b, local);
+  if (b.type === 'beakers') checkBeakers(w, b, local);
   if (b.type === 'table') {
     if (!Array.isArray(b.rows) || !b.rows.length) err(w, 'table には rows が必要です');
     const width = b.head?.length ?? b.rows?.[0]?.cells?.length;
@@ -271,6 +273,70 @@ function checkCircle(w, b, local) {
   }
 }
 
+// ---- 割合の図（帯グラフ ratio・ビーカー図 beakers） ----
+function checkRatio(w, b, local) {
+  const max = Number(b.max ?? 120);
+  if (!(max >= 100)) err(w, 'ratio の max（目盛りの最大％）は100以上にしてください');
+  const ids = new Set();
+  for (const r of b.rows ?? []) {
+    if (!r.id || ids.has(r.id)) err(w, `帯の id がないか重複しています: ${r.id}`);
+    ids.add(r.id);
+    if (r.label) { checkText(w, r.label.text, local); if (r.label.key) local.add(r.label.key); }
+    if (r.color && !COLORS.has(r.color)) err(w, `不明な色: ${r.color}`);
+  }
+  if (!b.states) err(w, 'ratio には states が必要です');
+  if (b.note) checkText(w, b.note, local);
+  for (const st of b.states ?? []) {
+    const ws = `${w} state:${st.id}`;
+    if (st.note) checkText(ws, st.note, local);
+    for (const [id, s] of Object.entries(st.rows ?? {})) {
+      if (!ids.has(id)) err(ws, `帯 "${id}" がありません`);
+      const pct = Number(s.pct ?? 100);
+      if (!(pct > 0 && pct <= max)) err(ws, `帯 "${id}" の割合 ${s.pct}％ が 0〜${max}％ の外です`);
+      // 増減の割合 rate と、増減後の割合 pct の対応（8％増 → 108％）
+      if (s.rate !== undefined && !near(pct, 100 * (1 + s.rate))) err(ws, `帯 "${id}"：rate ${s.rate} なら ${100 * (1 + s.rate)}％ のはずですが ${pct}％ です`);
+      // 実際の量（before → after）があれば、after ＝ before × 割合
+      if (s.before !== undefined && s.after !== undefined && !near(s.after, (s.before * pct) / 100)) err(ws, `帯 "${id}"：${s.before} の ${pct}％ は ${(s.before * pct) / 100} ですが after は ${s.after} です`);
+      for (const o of [s.base, s.delta, s.result].filter(Boolean)) { checkText(ws, o.text, local); if (o.key) local.add(o.key); }
+    }
+  }
+}
+
+function checkBeakers(w, b, local) {
+  const ids = new Set((b.items ?? []).map((it) => it.id));
+  if (ids.size !== (b.items ?? []).length || !ids.size) err(w, 'beakers の items の id がないか重複しています');
+  for (const it of b.items ?? []) {
+    if (!it.name) err(w, 'ビーカーには name が必要です'); else checkText(w, it.name, local);
+    if (it.color && !COLORS.has(it.color)) err(w, `不明な色: ${it.color}`);
+  }
+  if (b.note) checkText(w, b.note, local);
+  if (!(Number(b.capacity ?? 600) > 0)) err(w, 'capacity は正の数にしてください');
+  if (!b.states) err(w, 'beakers には states が必要です');
+  for (const st of b.states ?? []) {
+    const ws = `${w} state:${st.id}`;
+    const S = st.items ?? {};
+    for (const [id, s] of Object.entries(S)) {
+      if (!ids.has(id)) err(ws, `ビーカー "${id}" がありません`);
+      for (const o of [s.conc, s.water, s.saltText].filter(Boolean)) { checkText(ws, o.text, local); if (o.key) local.add(o.key); }
+      if (s.pct !== undefined && !(s.pct > 0 && s.pct < 100)) err(ws, `濃度は 0〜100（％）で指定してください: ${s.pct}`);
+      if (s.amount !== undefined && !(s.amount > 0)) err(ws, `食塩水の量は正の数にしてください: ${s.amount}`);
+      if (s.amount !== undefined && s.amount > Number(b.capacity ?? 600)) err(ws, `食塩水の量 ${s.amount} がビーカーの目盛り capacity をこえています`);
+      // 食塩 ＝ 食塩水 × 濃度
+      if ([s.amount, s.pct, s.salt].every((v) => v !== undefined) && !near(s.salt, (s.amount * s.pct) / 100)) err(ws, `ビーカー "${id}"：${s.amount}g の ${s.pct}％ は ${(s.amount * s.pct) / 100}g ですが salt は ${s.salt} です`);
+    }
+    if (st.mix) {
+      // 混ぜる前後で、食塩水の量・食塩の量の合計が変わらないこと。混ぜた後の濃度 ＝ 食塩 ÷ 食塩水
+      const { from = [], to } = st.mix;
+      if (![...from, to].every((id) => S[id]?.amount !== undefined && S[id]?.salt !== undefined)) { err(ws, 'mix の再生には、混ぜる前後すべてのビーカーの amount と salt が必要です'); continue; }
+      const water = from.reduce((a, id) => a + S[id].amount, 0);
+      const salt = from.reduce((a, id) => a + S[id].salt, 0);
+      if (!near(water, S[to].amount)) err(ws, `食塩水の量の合計 ${water}g が混ぜた後の ${S[to].amount}g と一致しません`);
+      if (!near(salt, S[to].salt)) err(ws, `食塩の量の合計 ${salt}g が混ぜた後の ${S[to].salt}g と一致しません`);
+      if (S[to].pct !== undefined && !near(S[to].pct, (S[to].salt / S[to].amount) * 100)) err(ws, `混ぜた後の濃度 ${S[to].pct}％ が 食塩÷食塩水 ＝ ${(S[to].salt / S[to].amount) * 100}％ と一致しません`);
+    }
+  }
+}
+
 // 図の数値と正答の対応（vars：どの文字の値か）
 function verifyMotion(w, b, sol) {
   if (b.type === 'route') {
@@ -279,6 +345,20 @@ function verifyMotion(w, b, sol) {
         if (l.distanceVar && !near(l.distance, sol[l.distanceVar])) err(`${w} state:${st.id}`, `区間${i + 1}の道のり ${l.distance} が ${l.distanceVar}=${sol[l.distanceVar]} と一致しません`);
         if (l.timeVar && !near(l.distance / l.speed, sol[l.timeVar])) err(`${w} state:${st.id}`, `区間${i + 1}の時間 ${l.distance / l.speed} が ${l.timeVar}=${sol[l.timeVar]} と一致しません`);
       });
+    }
+  }
+  if (b.type === 'beakers') {
+    for (const st of b.states ?? []) {
+      for (const [id, s] of Object.entries(st.items ?? {})) {
+        if (s.amountVar && !near(s.amount, sol[s.amountVar])) err(`${w} state:${st.id}`, `ビーカー "${id}" の量 ${s.amount} が ${s.amountVar}=${sol[s.amountVar]} と一致しません`);
+      }
+    }
+  }
+  if (b.type === 'ratio') {
+    for (const st of b.states ?? []) {
+      for (const [id, s] of Object.entries(st.rows ?? {})) {
+        if (s.beforeVar && !near(s.before, sol[s.beforeVar])) err(`${w} state:${st.id}`, `帯 "${id}" の before ${s.before} が ${s.beforeVar}=${sol[s.beforeVar]} と一致しません`);
+      }
     }
   }
   if (b.type === 'circle') {

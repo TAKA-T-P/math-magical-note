@@ -8,13 +8,14 @@ import { routeTimeline, routeDistanceAt, circleAt, dirsOf } from './motion.js';
 
 const SVG = 'http://www.w3.org/2000/svg';
 const list = (v) => (v == null ? [] : Array.isArray(v) ? v : [v]);
-const label = (o, cls, style) =>
+export const label = (o, cls, style) =>
   o ? `<div class="mv-label ${cls}${o.key ? ' k-' + o.key : ''}" style="${style}">${inlineToHtml(o.text)}</div>` : '';
-const fmt = (v) => (Math.abs(v - Math.round(v)) < 1e-9 ? String(Math.round(v)) : v.toFixed(1));
+export const fmt = (v) => (Math.abs(v - Math.round(v)) < 1e-9 ? String(Math.round(v)) : v.toFixed(1));
 
 // ---- 再生の共通部品（▶ 再生 / ⏸ 一時停止 / ⟲ 最初から） ----
 // duration：再生する時間（問題の単位。例 4 時間）、secondsPerUnit：その1単位を何秒で再生するか
-function attachPlayer(el, { duration, secondsPerUnit, timeUnit, draw }) {
+// clock：経過の表示を変えたいとき（食塩水を混ぜる割合など）。省略時は「経過時間 t 単位」
+export function attachPlayer(el, { duration, secondsPerUnit, timeUnit, draw, clock: clockText }) {
   const ctrl = el.querySelector('.mv-ctrl');
   const btn = ctrl.querySelector('[data-mv=play]');
   const clock = ctrl.querySelector('.mv-clock');
@@ -23,7 +24,7 @@ function attachPlayer(el, { duration, secondsPerUnit, timeUnit, draw }) {
   let last = 0;
   const show = () => {
     draw(t);
-    clock.textContent = `経過時間 ${fmt(t)} ${timeUnit}`;
+    clock.textContent = clockText ? clockText(t) : `経過時間 ${fmt(t)} ${timeUnit}`;
     btn.textContent = running ? '⏸ 一時停止' : t >= duration ? '▶ もう一度' : t > 0 ? '▶ 続きから' : '▶ 再生';
   };
   const tick = (now) => {
@@ -57,7 +58,7 @@ function attachPlayer(el, { duration, secondsPerUnit, timeUnit, draw }) {
   show();
 }
 
-const controls = (scale) => `<div class="mv-ctrl">
+export const controls = (scale) => `<div class="mv-ctrl">
   <button type="button" class="mv-btn" data-mv="play"></button>
   <button type="button" class="mv-btn" data-mv="reset">⟲ 最初から</button>
   <span class="mv-clock"></span><span class="mv-scale">${scale}</span></div>`;

@@ -4,6 +4,7 @@
 // 進む方向の切りかえのときだけアニメーションする（数字カードの移動・ブロックの長さの変化）。
 import { texToHtml, inlineToHtml } from '../math/render.js';
 import { MOTION_BLOCKS } from './motion-blocks.js';
+import { RATIO_BLOCKS } from './ratio-blocks.js';
 
 export const stateOf = (b, id) => b.states.find((s) => s.id === id) ?? b.states[0];
 export const initialState = (b) => b.state ?? b.states[0].id;
@@ -100,4 +101,5 @@ export const STATEFUL = {
   place: { build: buildPlace, apply: applyPlace },
   bars: { build: buildBars, apply: applyBars },
   ...MOTION_BLOCKS, // 線分図 route・円周移動図 circle（motion-blocks.js）
+  ...RATIO_BLOCKS, // 割合の帯グラフ ratio・食塩水のビーカー図 beakers（ratio-blocks.js）
 };

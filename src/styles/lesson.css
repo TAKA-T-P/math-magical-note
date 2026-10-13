@@ -672,3 +672,53 @@
 .blk-circle .mv-btn { min-width: 0; height: 36px; padding: 0 10px; }
 .blk-circle .mv-clock { min-width: 0; }
 .blk-circle .mv-scale { display: none; }
+
+/* 割合の帯グラフ（ratio ブロック）：すべての行で同じ目盛り。100％の位置に基準線 */
+.rt { display: grid; gap: 14px; }
+.rt-row { display: grid; grid-template-columns: 96px 1fr 190px; align-items: center; gap: 10px; }
+.rt-label { font-weight: 800; font-size: 0.85em; }
+.rt-name.c-blue { color: var(--c-blue); }
+.rt-name.c-orange { color: var(--c-orange); }
+.rt-name.c-green { color: var(--c-green); }
+.rt-track { position: relative; height: 58px; }
+.rt-ref { position: absolute; top: -8px; bottom: -8px; border-left: 3px dashed #4a5363; z-index: 2; }
+.rt-base, .rt-inc, .rt-dec { position: absolute; top: 0; bottom: 0; display: grid; place-items: center; overflow: visible; white-space: nowrap; }
+.rt-base { left: 0; border: 3px solid var(--ic, #4a5363); background: color-mix(in srgb, var(--ic, #4a5363) 18%, #fff); border-radius: 8px 0 0 8px; }
+.rt-base.c-blue { --ic: var(--c-blue); }
+.rt-base.c-orange { --ic: var(--c-orange); }
+.rt-base.c-green { --ic: var(--c-green); }
+.rt-inc { background: repeating-linear-gradient(45deg, #b8e5c4 0 8px, #8fd3a3 8px 16px); border: 3px solid var(--c-green); border-left: none; border-radius: 0 8px 8px 0; }
+.rt-dec { border: 3px dashed var(--c-red); border-left: none; border-radius: 0 8px 8px 0; background: rgba(224, 38, 43, 0.06); }
+.rt-base, .rt-inc, .rt-dec { transition: width calc(var(--anim) * 2.5) ease-in-out, left calc(var(--anim) * 2.5) ease-in-out; }
+.rt-instant .rt-base, .rt-instant .rt-inc, .rt-instant .rt-dec { transition: none; }
+.rt-in { font-size: 0.7em; font-weight: 700; }
+.rt-inc .rt-in, .rt-dec .rt-in { position: absolute; top: 100%; left: 50%; transform: translate(-50%, 2px); font-size: 0.62em; }
+.rt-inc .rt-in { color: var(--c-green); }
+.rt-dec .rt-in { color: var(--c-red); }
+.rt-row:has(.rt-inc .rt-t, .rt-dec .rt-t) { margin-bottom: 18px; }
+.rt-result { font-size: 0.8em; font-weight: 800; white-space: nowrap; }
+.rt-axis { position: relative; height: 1.2em; margin-left: 106px; margin-right: 200px; font-size: 0.55em; color: var(--muted); }
+.rt-axis span { position: absolute; transform: translateX(-50%); }
+.rt-note { margin-top: 2px; font-size: 0.58em; color: var(--muted); }
+
+/* 食塩水のビーカー図（beakers ブロック） */
+.bk-row { display: flex; align-items: flex-start; gap: 6px; }
+.bk-item { display: grid; justify-items: center; width: 168px; }
+.bk-op { align-self: center; margin-top: -60px; font-size: 1.3em; font-weight: 800; }
+.bk-glass { fill: none; stroke: #4a5363; stroke-width: 4; stroke-linejoin: round; }
+.bk-liquid.c-blue { fill: #7fb4ec; }
+.bk-liquid.c-orange { fill: #f5b26b; }
+.bk-liquid.c-green { fill: #8fd3a3; }
+.bk-item.is-ghost .bk-glass { stroke-dasharray: 8 6; opacity: 0.6; }
+.bk-name { padding: 0 12px; border-radius: 99px; color: #fff; font-weight: 800; font-size: 0.7em; background: #4a5363; }
+.bk-name.c-blue { background: var(--c-blue); }
+.bk-name.c-orange { background: var(--c-orange); }
+.bk-name.c-green { background: var(--c-green); }
+.bk-line { min-height: 1.4em; font-size: 0.68em; font-weight: 700; line-height: 1.45; white-space: nowrap; }
+.bk-conc { color: var(--c-red); }
+.bk-saltline { display: flex; align-items: center; gap: 4px; }
+
+.bk-note { font-size: 0.55em; color: var(--muted); margin-top: 2px; }
+.bk-read { display: grid; gap: 0; font-size: 0.6em; font-weight: 700; margin-top: 4px; }
+.bk-read b { color: var(--c-red); }
+.bk-line:empty { display: none; }

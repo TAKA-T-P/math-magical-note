@@ -18,6 +18,8 @@ const BLOCK_BUILDERS = {
   bars: (b) => STATEFUL.bars.build(b),
   route: (b) => STATEFUL.route.build(b),
   circle: (b) => STATEFUL.circle.build(b),
+  ratio: (b) => STATEFUL.ratio.build(b),
+  beakers: (b) => STATEFUL.beakers.build(b),
   // 画像は public/ 以下に置き、相対パスで指定する（GitHub Pages のサブパスでも動くよう先頭に ./ を付ける）
   image: (b) =>
     `<figure><img src="./${encodeURI(b.src)}" alt="${(b.alt ?? '').replace(/"/g, '&quot;')}"${b.height ? ` style="height:${Number(b.height)}px"` : ''}>${
@@ -172,7 +174,11 @@ export class LessonRenderer {
     for (const [area, els] of Object.entries(perArea)) {
       const host = this.areas[area];
       const anchor = area === 'bottom' ? this.hintPanel : null;
-      els.forEach((el) => host.insertBefore(el, anchor));
+      // すでに正しい位置にある要素は動かさない（入れ直すと CSS の transition の始点が失われる）
+      els.forEach((el, i) => {
+        const at = host.children[i];
+        if (at !== el) host.insertBefore(el, at && at !== anchor ? at : anchor);
+      });
     }
     // 状態を持つブロック：ステップの set で指定された状態で描く（キーの処理より前に行う）
     for (const [id, { block }] of view.blocks) {
