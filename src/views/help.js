@@ -3,8 +3,8 @@ import { icon } from '../ui/icons.js';
 const TIMER_LABEL = '10秒';
 
 const KEYS = [
-  ['→ / Space / PageDown', '次のステップ'],
-  ['← / PageUp', '前のステップ'],
+  ['→ / Space / PageDown', '次のステップ（最後のページでは次の問題へ）'],
+  ['← / PageUp', '前のステップ（最初のページでは前の問題の最後のページへ）'],
   ['Home', '問題の最初へ'],
   ['End', '全解答を表示'],
   ['F', '全画面の切り替え'],

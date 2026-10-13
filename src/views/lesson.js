@@ -1,7 +1,7 @@
 import { getGrade, getChapter, getSection, loadSection, contentLabel } from '../app/catalog.js';
 import { getSettings, updateSettings, recordOpened } from '../app/settings.js';
 import { navigate } from '../app/router.js';
-import { saveLessonState, loadLessonState, consumeResume, launchFromLesson } from '../app/session.js';
+import { saveLessonState, loadLessonState, consumeResume, launchFromLesson, enterAtEnd, consumeEnterAtEnd } from '../app/session.js';
 import { inlineToHtml } from '../math/render.js';
 import { icon } from '../ui/icons.js';
 import { choose } from '../ui/dialog.js';
@@ -167,6 +167,20 @@ export async function mountLesson(root, params) {
     if (saved && MODES.includes(saved.mode) && saved.step <= content.steps.length && saved.hint <= (content.hints ?? []).length) {
       st = { ...st, ...saved };
     }
+  } else if (consumeEnterAtEnd(path) && content.steps.length) {
+    // 次の問題の最初のページから「前の問題へ」で戻ってきたときは、最後のページから続ける
+    st = { ...st, mode: 'explain', step: content.steps.length };
+  }
+
+  // 最初・最後のページでは「前へ」「次へ」が前後の問題への移動になる（← → キーも同じ）
+  const pathOf = (c) => `${params.grade}/${params.chapter}/${c.sectionId}/${encodeURIComponent(c.id)}`;
+  const crossTo = (act) => (canGo(content, st, act) ? null : act === 'next' ? nextContent : act === 'prev' ? prevContent : null);
+  function goContent(act) {
+    const c = crossTo(act);
+    if (!c) return false;
+    if (act === 'prev') enterAtEnd(pathOf(c).replace(/%2F/gi, '/'));
+    navigate('/lesson/' + pathOf(c));
+    return true;
   }
 
   function update(forward) {
@@ -179,7 +193,17 @@ export async function mountLesson(root, params) {
       st.mode === 'explain' ? `${st.step} / ${N}` : st.mode === 'hint' ? `ヒント ${st.hint}/${content.hints.length}` : MODE_LABELS[st.mode] ?? '';
     $('.step-title').innerHTML =
       st.mode === 'explain' ? (view.current ? inlineToHtml(view.current.title) : '問題') : st.mode === 'all' ? 'すべての解説' : '';
-    for (const act of ['first', 'prev', 'next']) toolbar.querySelector(`[data-act="${act}"]`).disabled = !canGo(content, st, act);
+    toolbar.querySelector('[data-act="first"]').disabled = !canGo(content, st, 'first');
+    for (const act of ['prev', 'next']) {
+      const btn = toolbar.querySelector(`[data-act="${act}"]`);
+      const cross = crossTo(act);
+      btn.disabled = !canGo(content, st, act) && !cross;
+      btn.classList.toggle('is-cross', !!cross);
+      btn.querySelector('span').textContent = cross ? (act === 'next' ? '次の問題へ' : '前の問題へ') : act === 'next' ? '次へ' : '前へ';
+      btn.title = cross
+        ? `${act === 'next' ? '次' : '前'}の問題へ：${navTitle(cross).replace(/\$/g, '')}（${act === 'next' ? '→' : '←'}）`
+        : act === 'next' ? '次のステップ (→ / Space)' : '前のステップ (←)';
+    }
     for (const tab of toolbar.querySelectorAll('[data-mode]')) {
       const on = tab.dataset.mode === st.mode;
       tab.classList.toggle('is-active', on);
@@ -193,7 +217,7 @@ export async function mountLesson(root, params) {
 
   function dispatch(action) {
     const next = reduce(content, st, action);
-    if (next === st) return;
+    if (next === st) return void goContent(action);
     const forward = progressOf(content, next) > progressOf(content, st);
     st = next;
     update(forward);

@@ -51,3 +51,14 @@ export function returnFor(miniPath) {
 export function markResume(lessonPath) {
   set('mmn.resume', lessonPath);
 }
+
+// 授業画面の「前の問題へ」で移るとき、移り先を最後のページ（全ステップを表示した状態）で開くための合図（1回で消える）
+export function enterAtEnd(lessonPath) {
+  set('mmn.enterEnd', lessonPath);
+}
+
+export function consumeEnterAtEnd(lessonPath) {
+  const r = get('mmn.enterEnd');
+  set('mmn.enterEnd', null);
+  return r === lessonPath;
+}

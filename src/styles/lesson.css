@@ -505,6 +505,10 @@
 .tbtn.is-active:hover:not(:disabled),
 .tbtn-next:hover:not(:disabled) { background: var(--navy-dark); }
 .tbtn-next { min-width: 120px; }
+/* 最初・最後のページでは「前の問題へ」「次の問題へ」になる（ステップのない項目でも表示する） */
+.tbtn.is-cross { background: var(--c-orange); color: #fff; min-width: 120px; }
+.tbtn.is-cross:hover:not(:disabled) { background: #d26d00; }
+.no-steps [data-act].is-cross { visibility: visible; }
 .no-steps [data-act],
 .no-steps .step-info,
 .no-steps .mode-tabs { visibility: hidden; }
