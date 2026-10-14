@@ -244,9 +244,42 @@ export class LessonRenderer {
 
     this.pendingArrows = { arrows: view.arrows, play };
     requestAnimationFrame(() => {
+      this.drawRowBoxes(play);
       this.drawArrows();
       this.checkOverflow();
     });
+  }
+
+  // 筆算・表（calc）の行全体の囲み枠：セルごとに囲むと「左辺」「＝」「右辺」がばらばらの四角になるため、
+  // 行の空でないセル（ラベルを除く）をまとめて1つの四角で囲む。セル自身の枠は CSS で消し、色だけ残す
+  drawRowBoxes(play) {
+    for (const grid of this.body.querySelectorAll('.calc-grid')) {
+      grid.querySelectorAll(':scope > .calc-rowbox').forEach((b) => b.remove());
+      const rows = new Map();
+      for (const c of grid.querySelectorAll(':scope > .em-box:not(.calc-label)')) {
+        if (!c.textContent.trim()) continue;
+        const k = keyClasses(c)[0];
+        if (!rows.has(k)) rows.set(k, []);
+        rows.get(k).push(c);
+      }
+      // 画面全体が transform で拡大縮小されているので、画面上の座標を格子内の座標に直す
+      const g = grid.getBoundingClientRect();
+      const scale = g.width / grid.offsetWidth || 1;
+      const range = document.createRange();
+      for (const cells of rows.values()) {
+        // 左右は式の文字の範囲（右寄せのセルの空白を含めない）、上下はセルの範囲（上下の行の枠と重ならないよう少し詰める）
+        const xs = cells.map((c) => (range.selectNodeContents(c), range.getBoundingClientRect()));
+        const left = (Math.min(...xs.map((r) => r.left)) - g.left) / scale - 4;
+        const right = (Math.max(...xs.map((r) => r.right)) - g.left) / scale + 4;
+        const top = Math.min(...cells.map((c) => c.offsetTop)) + 3;
+        const bottom = Math.max(...cells.map((c) => c.offsetTop + c.offsetHeight)) - 3;
+        const box = document.createElement('div');
+        box.className = 'calc-rowbox' + (cells.some((c) => c.classList.contains('em-anim')) && play ? ' em-anim' : '');
+        box.style.cssText = `left:${left}px;top:${top}px;width:${right - left}px;height:${bottom - top}px;` +
+          `--em:${cells[0].style.getPropertyValue('--em')}`;
+        grid.append(box);
+      }
+    }
   }
 
   // 16:9 の画面からはみ出していないか（教材データ作成時の確認用）

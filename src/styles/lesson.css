@@ -131,7 +131,17 @@
 /* 行全体のマーカーがセルの境目で重ならないようにする */
 .calc-grid > .em-marker::before { inset: 0; border-radius: 0; }
 .calc-grid > .em-marker:empty::before,
-.calc-grid > .em-box:empty::after { display: none; }
+.calc-grid > .em-box::after { display: none; }
+/* 行全体の囲み枠は、行のセルをまとめた1つの四角（renderer の drawRowBoxes）で描く */
+.calc-grid { position: relative; }
+.calc-rowbox {
+  position: absolute;
+  outline: 3.5px solid var(--em);
+  outline-offset: 2px;
+  border-radius: 6px;
+  pointer-events: none;
+}
+.calc-rowbox.em-anim { animation: em-box-in var(--anim) ease-out; }
 .calc-grid .is-note { font-size: 0.7em; color: var(--c-orange); font-weight: 700; text-align: center; }
 .calc-grid .is-note .katex { font-size: 1.1em; }
 .calc-grid .is-head { font-size: 0.7em; font-weight: 700; color: #555; text-align: center; align-self: end; }
